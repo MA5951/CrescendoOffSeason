@@ -32,10 +32,12 @@ public abstract class SubsystemStateMeachin {
                         break;
                 
                     default:
+                        //System Disable
                         break;
                 }
                 break;
             default:
+                //Robot Disable
                 break;
         }
     }
