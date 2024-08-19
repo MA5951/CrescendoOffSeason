@@ -9,6 +9,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.util.Units;
 import frc.robot.PortMap;
@@ -22,6 +24,11 @@ public class IntakeIOReal implements IntakeIO {
     private StatusSignal<Double> velocity;
     private StatusSignal<Double> motorTemp;
     private StatusSignal<Double> appliedVolts;
+
+    private LoggedDouble motorTempLog;
+    private LoggedDouble appliedVoltsLog;
+    private LoggedDouble velocityLog;
+    private LoggedDouble currentDrawLog;
 
     public IntakeIOReal() {
         intakeMotor = new TalonFX(PortMap.Intake.KrakenIntakeMotor);
@@ -52,7 +59,7 @@ public class IntakeIOReal implements IntakeIO {
     }
 
     public double getVelocity() {
-        return Units.rps;
+        return ConvUtil.RPStoRPM(velocity.getValueAsDouble());
     }
 
     public double getMotorTemp() {
