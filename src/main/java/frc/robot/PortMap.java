@@ -24,7 +24,7 @@ public class PortMap {
     }
 
     public class Arm {
-        
+        public static final int KrakenArmMotor  = 15;
     }
 
     public class Vision {

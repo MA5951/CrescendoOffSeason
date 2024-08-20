@@ -19,7 +19,7 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 public class IntakeIOReal implements IntakeIO {
 
     private TalonFX intakeMotor;
-    private TalonFXConfiguration motorConfig;
+    private TalonFXConfiguration motorConfig = new TalonFXConfiguration();
     private StatusSignal<Double> currentDraw;
     private StatusSignal<Double> velocity;
     private StatusSignal<Double> motorTemp;
@@ -33,7 +33,7 @@ public class IntakeIOReal implements IntakeIO {
     public IntakeIOReal() {
         intakeMotor = new TalonFX(PortMap.Intake.KrakenIntakeMotor);
 
-        motorConfig = new TalonFXConfiguration();
+        
         currentDraw = intakeMotor.getStatorCurrent();
         velocity = intakeMotor.getVelocity();
         motorTemp = intakeMotor.getDeviceTemp();
