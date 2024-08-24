@@ -10,6 +10,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
 
 import frc.robot.PortMap;
@@ -26,15 +27,29 @@ public class ArmIOReal implements ArmIO {
     private StatusSignal<Double> motorTemp;
     private StatusSignal<Double> appliedVolts;
     private StatusSignal<Double> position;
+
+    private LoggedDouble motorTempLog;
+    private LoggedDouble appliedVoltsLog;
+    private LoggedDouble velocityLog;
+    private LoggedDouble currentDrawLog;
+    private LoggedDouble positionLog;
     
     public ArmIOReal() {
         armMotor = new TalonFX(PortMap.Arm.KrakenArmMotor);
+
+
+        motorTempLog = new LoggedDouble("/Subsystems/Arm/Real/Motor Temp");
+        appliedVoltsLog = new LoggedDouble("/Subsystems/Arm/Real/Applied Voltage");
+        velocityLog = new LoggedDouble("/Subsystems/Arm/Real/Velocity");
+        currentDrawLog = new LoggedDouble("/Subsystems/Arm/Real/Motor Current");
+        positionLog = new LoggedDouble("/Subsystems/Arm/Real/Position");
 
         currentDraw = armMotor.getStatorCurrent();
         velocity = armMotor.getVelocity();
         motorTemp = armMotor.getDeviceTemp();
         appliedVolts = armMotor.getMotorVoltage();
         position = armMotor.getPosition();
+    
     }
 
     public void configMotor() {
@@ -49,7 +64,7 @@ public class ArmIOReal implements ArmIO {
         motorConfig.Slot0.kS = ArmConstants.kS;
         motorConfig.Slot0.kA = ArmConstants.kA;
         motorConfig.Slot0.kV = ArmConstants.kV;
-
+        
         motorConfig.MotionMagic.MotionMagicAcceleration = ArmConstants.kACCELERATION;
         motorConfig.MotionMagic.MotionMagicCruiseVelocity = ArmConstants.kCRUSIE_VELOCITY;
         motorConfig.MotionMagic.MotionMagicJerk = ArmConstants.kJERK;
@@ -60,6 +75,15 @@ public class ArmIOReal implements ArmIO {
         motorConfig.CurrentLimits.SupplyTimeThreshold = ArmConstants.PeakCurrentTime;
 
         armMotor.getConfigurator().apply(motorConfig);
+    }
+//TODO
+//Cheack directions
+    public boolean getForwardLimit() {
+        return getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT;
+    }
+
+    public boolean getReversLimit() {
+        return getPosition() >= ArmConstants.ANGLE_LIMIT;
     }
 
     public double getCurrentDraw() {
@@ -98,6 +122,8 @@ public class ArmIOReal implements ArmIO {
     
     public void setAngleSetPoint(double angleSetPoint) {
         armMotor.setControl(motionMagicControl.withPosition(angleSetPoint).withSlot(ArmConstants.CONTROL_SLOT)
+        .withLimitForwardMotion(getForwardLimit())
+        .withLimitReverseMotion(getReversLimit())
         );
     }
 
@@ -112,5 +138,11 @@ public class ArmIOReal implements ArmIO {
         motorTemp.refresh();
         appliedVolts.refresh();
         position.refresh();
+
+        motorTempLog.update(getMotorTemp());
+        appliedVoltsLog.update(getAppliedVolts());
+        velocityLog.update(getVelocity());
+        currentDrawLog.update(getCurrentDraw());
+        positionLog.update(getPosition());
     }
 }

@@ -38,10 +38,10 @@ public class IntakeIOReal implements IntakeIO {
         motorTemp = intakeMotor.getDeviceTemp();
         appliedVolts = intakeMotor.getMotorVoltage();
 
-        motorTempLog = new LoggedDouble("/Intake/Real/Motor Temp");
-        appliedVoltsLog = new LoggedDouble("/Intake/Real/Applied Voltage");
-        velocityLog = new LoggedDouble("/Intake/Real/Intake Velocity");
-        currentDrawLog = new LoggedDouble("/Intake/Real/Motor Current");
+        motorTempLog = new LoggedDouble("/Subsystems/Intake/Real/Motor Temp");
+        appliedVoltsLog = new LoggedDouble("/Subsystems/Intake/Real/Applied Voltage");
+        velocityLog = new LoggedDouble("/Subsystems/Intake/Real/Intake Velocity");
+        currentDrawLog = new LoggedDouble("/Subsystems/Intake/Real/Motor Current");
     }
 
     public void configTalonFX() {

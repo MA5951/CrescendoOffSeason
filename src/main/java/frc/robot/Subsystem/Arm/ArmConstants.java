@@ -4,6 +4,11 @@
 
 package frc.robot.Subsystem.Arm;
 
+import frc.robot.Robot;
+import frc.robot.Subsystem.Arm.IOs.ArmIO;
+import frc.robot.Subsystem.Arm.IOs.ArmIOReal;
+import frc.robot.Subsystem.Arm.IOs.ArmIOSim;
+
 /** Add your docs here. */
 public class ArmConstants {
     public static final double OGGSET = 0;
@@ -30,8 +35,23 @@ public class ArmConstants {
     public static final double kTOLORANCE = 0;
     public static final double GEAR = 109.89;
 
+    public static final double SIM_kP = 0;
+    public static final double SIM_kD = 0;
+    public static final double SIM_kI = 0;
+
+    public static final double HOME_CURRENTLIMIT = 0;
+    public static final double ANGLE_LIMIT = 0;
+
     public static final double PeakCurrentLimit = 0; 
     public static final double ContinuesCurrentLimit = 0; 
     public static final double PeakCurrentTime = 0; 
     public static final boolean IsCurrentLimitEnabled = true; 
+
+    public static final ArmIO getArmIO() {
+        if (Robot.isReal()) {
+            return new ArmIOReal();
+        } else { 
+            return new ArmIOSim();
+        }
+    }
 }

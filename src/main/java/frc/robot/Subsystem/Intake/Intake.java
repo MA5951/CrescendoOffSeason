@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
         intake = new Intake();  
     }
     return intake;
-}
+  }
 
   @Override
   public void periodic() {
