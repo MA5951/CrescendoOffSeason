@@ -12,7 +12,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
 
-import edu.wpi.first.math.util.Units;
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 
@@ -38,6 +37,11 @@ public class IntakeIOReal implements IntakeIO {
         velocity = intakeMotor.getVelocity();
         motorTemp = intakeMotor.getDeviceTemp();
         appliedVolts = intakeMotor.getMotorVoltage();
+
+        motorTempLog = new LoggedDouble("/Intake/Real/Motor Temp");
+        appliedVoltsLog = new LoggedDouble("/Intake/Real/Applied Voltage");
+        velocityLog = new LoggedDouble("/Intake/Real/Intake Velocity");
+        currentDrawLog = new LoggedDouble("/Intake/Real/Motor Current");
     }
 
     public void configTalonFX() {
@@ -88,6 +92,11 @@ public class IntakeIOReal implements IntakeIO {
         velocity.refresh();
         motorTemp.refresh();
         appliedVolts.refresh();
+
+        motorTempLog.update(getMotorTemp());
+        appliedVoltsLog.update(getAppliedVolts());
+        velocityLog.update(getVelocity());
+        currentDrawLog.update(getCurrentDraw());
     }
 
 

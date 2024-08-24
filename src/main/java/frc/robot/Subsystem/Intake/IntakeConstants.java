@@ -15,7 +15,7 @@ public class IntakeConstants {
     public static final double INTAKE_POWER = 0; //TODO
     public static final double EJECT_POWER = 0; //TODO
     
-    public static final double Gear = 0; //TODO
+    public static final double Gear = 0.333; //TODO
     
     
     public static final double PeakCurrentLimit = 0; //TODO

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystem.Intake.IOs.IntakeIO;
 
 public class Intake extends SubsystemBase {
+  private static Intake intake;
 
   private IntakeIO intakeIO =  IntakeConstants.getIntakeIO();
 
@@ -34,6 +35,13 @@ public class Intake extends SubsystemBase {
   public void setPower(double power) {
     intakeIO.setVoltage(power * 12);
   }
+
+  public static Intake getInstance() {
+    if (intake == null) {
+        intake = new Intake();  
+    }
+    return intake;
+}
 
   @Override
   public void periodic() {

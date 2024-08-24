@@ -12,12 +12,9 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ma5951.utils.Utils.ConvUtil;
 
-import edu.wpi.first.hal.simulation.DIODataJNI;
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Arm.ArmConstants;
-import frc.robot.Subsystem.Intake.IntakeConstants;
 
-/** Add your docs here. */
 public class ArmIOReal implements ArmIO {
 
     private TalonFX armMotor;

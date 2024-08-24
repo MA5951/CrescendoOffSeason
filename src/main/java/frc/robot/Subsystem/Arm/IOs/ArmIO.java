@@ -23,7 +23,7 @@ public interface ArmIO {
 
     void setAngleSetPoint(double angleSetPoint);
 
-    void setVoltage();
+    void setVoltage(double volt);
 
     void updatePeriodic();
 }
