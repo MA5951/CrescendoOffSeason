@@ -6,8 +6,35 @@ package frc.robot;
 
 public class PortMap {
 
-    public class Swerve {
+    public static class CanBus {
+        public static final String CANivoreBus = "Swerve";
+        public static final String RioBus = "rio";
+    }
+    
+    public static class Controllers {
+        public static final int driveID = 0;
+        public static final int operatorID = 1;    
+    }
+    
 
+    public class Swerve {
+        public static final int leftFrontAbsoluteEncoder = 22;
+        public static final int leftFrontDriveID = 8;
+        public static final int leftFrontTurningID = 5;
+
+        public static final int leftBackAbsoluteEncoder = 21;
+        public static final int leftBackDriveID = 4;
+        public static final int leftBackTurningID = 9;
+
+        public static final int rightFrontAbsoluteEncoder = 23;
+        public static final int rightFrontDriveID = 7;
+        public static final int rightFrontTurningID = 6;
+
+        public static final int rightBackAbsoluteEncoder = 24;
+        public static final int rightBackDriveID = 2;
+        public static final int rightBackTurningID = 3;
+
+        public static final int Pigeon2ID = 12;
     }
 
     public class Intake {
@@ -20,7 +47,9 @@ public class PortMap {
     }
 
     public class Shooter {
-        
+        public static final int FalconLeftMotor = 0;
+        public static final int FalconRightMotor = 0;
+        public static final int FalconFeederMotor = 0;
     }
 
     public class Arm {
@@ -32,6 +61,6 @@ public class PortMap {
     }
 
     public class Leds {
-
+        public static final int ledPort = 9; 
     }
 }

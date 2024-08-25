@@ -10,7 +10,7 @@ import frc.robot.Subsystem.Arm.IOs.ArmIO;
 public class Arm extends SubsystemBase {
   private static Arm arm;
 
-  private ArmIO armIO =  ArmConstants.getArmIO();
+  private ArmIO armIO = ArmConstants.getArmIO();
   private double setPoint = 0;
 
   public Arm() {
@@ -39,12 +39,9 @@ public class Arm extends SubsystemBase {
   }
 
   public static Arm getInstance() {
-    System.out.println("GGGGGGGGGGGGGGGGGGGGGGGGGGG");
     if (arm == null) {
-      System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhh");  
       arm = new Arm();  
     }
-    System.out.println("llllllllllllllllllllllllllllllll");
     return arm;
   }
 

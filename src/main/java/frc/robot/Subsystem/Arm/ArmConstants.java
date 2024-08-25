@@ -11,12 +11,9 @@ import frc.robot.Subsystem.Arm.IOs.ArmIOSim;
 
 /** Add your docs here. */
 public class ArmConstants {
-    public static final double OGGSET = 0;
+    public static final double OFFSET = 0;
     public static final double INTAKE_POSE = 0;
     public static final double ARM_POSE = 0;
-    public static final double SUBOFFER_POSE = 0;
-    public static final double PODIOM_POSE = 0;
-    public static final double FEED_POSE = 0;
     public static final double SOURCE_INTAKE_POSE = 0;
 
     public static final double ARM_LENGTH = 0;
@@ -35,7 +32,7 @@ public class ArmConstants {
     public static final double kTOLORANCE = 0;
     public static final double GEAR = 109.89;
 
-    public static final double SIM_kP = 0;
+    public static final double SIM_kP = 0.001;
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 

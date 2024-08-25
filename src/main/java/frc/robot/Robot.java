@@ -21,8 +21,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     Intake.getInstance();
-    System.out.println("YYYYYYYYYYYYYYYYYYYYYYY");
-    Arm.getInstance().setPower(0);;
+    Arm.getInstance();
   }
 
   @Override
@@ -31,7 +30,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    Arm.getInstance().setSetPoint(0);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -52,8 +53,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+      }
     }
-  }
 
   @Override
   public void teleopPeriodic() {}
