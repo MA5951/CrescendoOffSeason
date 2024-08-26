@@ -11,16 +11,22 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class ArmIOSim implements ArmIO{
 
-    private DCMotorSim  motor;
+    
+    private double appliedVolts = 0;
     private PIDController pidController = 
         new PIDController(ArmConstants.SIM_kP , ArmConstants.SIM_kI, ArmConstants.SIM_kD, frc.robot.RobotConstants.kDELTA_TIME);
-    private double appliedVolts = 0;
 
+    private Mechanism2d armMechanism;
+
+    private SingleJointedArmSim armSim;
     private LoggedDouble motorTempLog;
     private LoggedDouble appliedVoltsLog;
     private LoggedDouble velocityLog;
@@ -28,8 +34,12 @@ public class ArmIOSim implements ArmIO{
     private LoggedDouble positionLog;
 
     public ArmIOSim() {
-        motor = new DCMotorSim(DCMotor.getKrakenX60(1), ArmConstants.GEAR, 0.025);
+        armSim = new SingleJointedArmSim(DCMotor.getKrakenX60(1), ArmConstants.GEAR, SingleJointedArmSim.estimateMOI(0.38, 8.5), 0.38
+        , ConvUtil.DegreesToRadians(ArmConstants.INTAKE_POSE), ConvUtil.DegreesToRadians(ArmConstants.AMP_POSE)
+        , true, ConvUtil.DegreesToRadians(ArmConstants.INTAKE_POSE));
 
+        armMechanism = new Mechanism2d(20, 380);
+        
         motorTempLog = new LoggedDouble("/Subsystems/Arm/Sim/Motor Temp");
         appliedVoltsLog = new LoggedDouble("/Subsystems/Arm/Sim/Applied Voltage");
         velocityLog = new LoggedDouble("/Subsystems/Arm/Sim/Velocity");
@@ -38,11 +48,11 @@ public class ArmIOSim implements ArmIO{
     }
 
     public double getCurrentDraw() {
-        return motor.getCurrentDrawAmps();
+        return armSim.getCurrentDrawAmps();
     }
 
     public double getVelocity() {
-        return motor.getAngularVelocityRPM();
+        return 0;
     }
 
     public double getMotorTemp() {
@@ -54,12 +64,12 @@ public class ArmIOSim implements ArmIO{
     }
 
     public double getPosition() {
-        return ConvUtil.RotationsToDegrees(motor.getAngularPositionRotations());
+        return ConvUtil.RadiansToDegrees(armSim.getAngleRads());
     }
 
 
     public void resetPosition(double newAngle) {
-        motor.setState(0 , 0);
+        armSim.setState(0 , 0);
     }
 
     public void setNutralMode(boolean isBrake) {
@@ -73,7 +83,8 @@ public class ArmIOSim implements ArmIO{
     
     public void setVoltage(double volt) {
         appliedVolts = volt;
-        motor.setInputVoltage(volt);
+        armSim.setInputVoltage(volt);
+        
     }
     
     public void updatePeriodic() {
@@ -81,7 +92,7 @@ public class ArmIOSim implements ArmIO{
             setVoltage(0);
         }
         
-        motor.update(RobotConstants.kDELTA_TIME);
+        armSim.update(RobotConstants.kDELTA_TIME);
 
         motorTempLog.update(getMotorTemp());
         appliedVoltsLog.update(getAppliedVolts());

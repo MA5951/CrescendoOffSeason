@@ -14,6 +14,7 @@ import com.ma5951.utils.Utils.ConvUtil;
 
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.Utils.ShootingParameters;
 
 /** Add your docs here. */
 public class ShooterIOReal implements ShooterIO{
@@ -149,6 +150,16 @@ public class ShooterIOReal implements ShooterIO{
 
     public void setRightVoltage(double volt) {
         motorRight.setVoltage(volt);
+    }
+
+    public void setShooterNutralMode(boolean isBrake) {
+        setLeftNutralMode(isBrake);
+        setRightNutralMode(isBrake);
+    }    
+
+    public void setShootingParameterSpeeds(ShootingParameters parameters) {
+        setRightSpeedSetPoint(parameters.getRightSpeed());
+        setLeftSpeedSetPoint(parameters.getLeftSpeed());
     }
 
     public void updatePeriodic() {

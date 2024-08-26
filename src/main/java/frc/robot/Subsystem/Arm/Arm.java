@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystem.Arm;
 
+import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.Logger.LoggedDouble;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 
@@ -13,7 +16,14 @@ public class Arm extends SubsystemBase {
   private ArmIO armIO = ArmConstants.getArmIO();
   private double setPoint = 0;
 
+  private LoggedBool atPointLog;
+  private LoggedDouble setPointLog;
+  private LoggedDouble armAngleLog;
+
   public Arm() {
+    atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
+    setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");
+    armAngleLog = new LoggedDouble("/Subsystems/Arm/Arm Angle");
     armIO.setNutralMode(true);
   }
 
@@ -23,6 +33,10 @@ public class Arm extends SubsystemBase {
 
   public double getArmPosition() {
     return armIO.getPosition();
+  }
+
+  public double getSetPoint() {
+    return setPoint;
   }
 
   public void setSetPoint(double setPoint) {
@@ -48,5 +62,8 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     armIO.updatePeriodic();
+    atPointLog.update(atPoint());
+    setPointLog.update(getSetPoint());
+    armAngleLog.update(getArmPosition());
   }
 }

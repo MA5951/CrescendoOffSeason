@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystem.Shooter.IOs;
 
+import frc.robot.Utils.ShootingParameters;
+
 public interface ShooterIO {
 
     double getLeftCurrentDraw(); //Return Current Draw In Amp
@@ -38,4 +40,7 @@ public interface ShooterIO {
 
     void updatePeriodic(); //Update Periodic
 
+    void setShootingParameterSpeeds(ShootingParameters parameters);
+
+    void setShooterNutralMode(boolean isBrake);
 }

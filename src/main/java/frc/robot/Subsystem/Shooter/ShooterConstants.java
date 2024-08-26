@@ -4,6 +4,11 @@
 
 package frc.robot.Subsystem.Shooter;
 
+import frc.robot.Robot;
+import frc.robot.Subsystem.Shooter.IOs.ShooterIO;
+import frc.robot.Subsystem.Shooter.IOs.ShooterIOReal;
+import frc.robot.Subsystem.Shooter.IOs.ShooterIOSim;
+
 public class ShooterConstants {
 
     public static final int CONTROL_SLOT = 0;
@@ -24,4 +29,12 @@ public class ShooterConstants {
     public static final double PeakCurrentTime = 0; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
+
+    public static final ShooterIO getShooterIO() {
+        if (Robot.isReal()) {
+            return new ShooterIOReal();
+        } else {
+            return new ShooterIOSim();
+        }
+    }
 }
