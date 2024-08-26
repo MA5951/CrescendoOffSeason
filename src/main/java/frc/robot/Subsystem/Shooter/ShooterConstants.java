@@ -18,9 +18,9 @@ public class ShooterConstants {
     public static final double kS = 0;
     public static final double kV = 0;
     public static final double kTOLORANCE = 0;
-    public static final double GEAR = 109.89;
+    public static final double GEAR = 0.5;
 
-    public static final double SIM_kP = 0.001;
+    public static final double SIM_kP = 0.1;
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 

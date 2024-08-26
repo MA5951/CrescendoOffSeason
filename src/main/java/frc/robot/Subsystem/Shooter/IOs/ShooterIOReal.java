@@ -157,11 +157,6 @@ public class ShooterIOReal implements ShooterIO{
         setRightNutralMode(isBrake);
     }    
 
-    public void setShootingParameterSpeeds(ShootingParameters parameters) {
-        setRightSpeedSetPoint(parameters.getRightSpeed());
-        setLeftSpeedSetPoint(parameters.getLeftSpeed());
-    }
-
     public void updatePeriodic() {
         leftcurrentDraw.refresh();
         leftvelocity.refresh();

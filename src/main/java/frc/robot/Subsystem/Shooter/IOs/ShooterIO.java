@@ -40,7 +40,5 @@ public interface ShooterIO {
 
     void updatePeriodic(); //Update Periodic
 
-    void setShootingParameterSpeeds(ShootingParameters parameters);
-
     void setShooterNutralMode(boolean isBrake);
 }

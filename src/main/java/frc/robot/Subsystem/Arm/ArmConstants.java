@@ -29,10 +29,10 @@ public class ArmConstants {
     public static final double kCRUSIE_VELOCITY = 0;
     public static final double kACCELERATION = 0;
     public static final double kJERK = 0;
-    public static final double kTOLORANCE = 0;
+    public static final double kTOLORANCE = 1;
     public static final double GEAR = 109.89;
 
-    public static final double SIM_kP = 1;
+    public static final double SIM_kP = 1.1;
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 

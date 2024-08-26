@@ -18,8 +18,8 @@ public class ShooterIOSim implements ShooterIO{
 
     private DCMotorSim leftMotor;
     private DCMotorSim rightMotor;
-    private PIDController leftPidController = new PIDController(ShooterConstants.SIM_kP, ShooterConstants.SIM_kI, ShooterConstants.SIM_kD);
-    private PIDController rightPidController = new PIDController(ShooterConstants.SIM_kP, ShooterConstants.SIM_kI, ShooterConstants.SIM_kD);
+    private PIDController leftPidController = new PIDController(0.1, 0, 0);
+    private PIDController rightPidController = new PIDController(0.1, 0, 0);
     private double LappliedVolts = 0;
     private double RappliedVolts = 0;
 
@@ -34,8 +34,8 @@ public class ShooterIOSim implements ShooterIO{
     private LoggedDouble RcurrentDrawLog;
 
     public ShooterIOSim() {
-        leftMotor = new DCMotorSim(DCMotor.getKrakenX60(1), ShooterConstants.GEAR, 0.025);
-        rightMotor = new DCMotorSim(DCMotor.getKrakenX60(1), ShooterConstants.GEAR, 0.025);
+        leftMotor = new DCMotorSim(DCMotor.getFalcon500(1), ShooterConstants.GEAR, 0.025);
+        rightMotor = new DCMotorSim(DCMotor.getFalcon500(1), ShooterConstants.GEAR, 0.025);
 
         LmotorTempLog = new LoggedDouble("/Subsystems/Shooter/Sim/Left Motor/Motor Temp");
         LappliedVoltsLog = new LoggedDouble("/Subsystems/Shooter/Sim/Left Motor/Motor Applied Volts");
@@ -69,7 +69,7 @@ public class ShooterIOSim implements ShooterIO{
     }
 
     public void setLeftSpeedSetPoint(double setPoint) {
-        leftMotor.setInputVoltage(leftPidController.calculate(getLeftVelocity(), setPoint));
+        setLeftVoltage(leftPidController.calculate(getLeftVelocity(), setPoint));
     }
 
     public void setLeftVoltage(double volt) {
@@ -98,7 +98,7 @@ public class ShooterIOSim implements ShooterIO{
     }
 
     public void setRightSpeedSetPoint(double setPoint) {
-        rightMotor.setInputVoltage(rightPidController.calculate(getLeftVelocity(), setPoint));
+        setRightVoltage(rightPidController.calculate(getRightVelocity(), setPoint));
     }
 
     public void setRightVoltage(double volt) {
@@ -111,11 +111,6 @@ public class ShooterIOSim implements ShooterIO{
         setRightNutralMode(isBrake);
     }    
 
-    public void setShootingParameterSpeeds(ShootingParameters parameters) {
-        setRightSpeedSetPoint(parameters.getRightSpeed());
-        setLeftSpeedSetPoint(parameters.getLeftSpeed());
-    }
-    
     public void updatePeriodic() {
         if (DriverStation.isDisabled()) {
             setRightVoltage(0);

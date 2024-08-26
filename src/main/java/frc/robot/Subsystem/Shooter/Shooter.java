@@ -60,12 +60,14 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setShooterSpeeds(double leftRPM , double rightRPM) {
+    rightSetPoint = rightRPM;
+    leftSetPoint = leftRPM;
     shooterIO.setRightSpeedSetPoint(rightRPM);
-    shooterIO.setLeftSpeedSetPoint(rightRPM);
+    shooterIO.setLeftSpeedSetPoint(leftRPM);
   }
 
   public void setShootingParameterSpeeds(ShootingParameters parameters) {
-    shooterIO.setShootingParameterSpeeds(parameters);
+    setShooterSpeeds(parameters.getLeftSpeed() , parameters.getRightSpeed());
   }
 
   public static Shooter getInstance() {
@@ -77,6 +79,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    shooterIO.updatePeriodic();
+
     leftSpeed.update(getLeftSpeed());
     rightSpeed.update(getRightSpeed());
     rightShooterAtPoint.update(rightAtPoint());

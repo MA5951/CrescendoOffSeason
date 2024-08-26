@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Intake.Intake;
+import frc.robot.Subsystem.Shooter.Shooter;
 
 
 public class Robot extends TimedRobot {
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Arm.getInstance().setSetPoint(ArmConstants.INTAKE_POSE);
+    Shooter.getInstance().setShooterSpeeds(0, 0);
   }
 
   @Override
@@ -63,6 +65,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    Shooter.getInstance().setShooterSpeeds(4000, 8000);
     Arm.getInstance().setSetPoint(60);
   }
 
