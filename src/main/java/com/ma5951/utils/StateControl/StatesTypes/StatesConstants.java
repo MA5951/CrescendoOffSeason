@@ -14,7 +14,7 @@ public class StatesConstants {
     public final static State TEST = new State("TEST");
     public final static State AUTOMATIC = new State("AUTOMATIC");
     public final static State MANUEL = new State("MANUEL");
-    public final static State SYSTEM_ENABLE = new State("SYSTEM_ENABLE");
-    public final static State SYSTEM_DISABLED = new State("SYSTEM_DISABLED");
+    public final static State CAN_MOVE = new State("CAN_MOVE");
+    public final static State CANT_MOVE = new State("CANT_MOVE");
 
 }

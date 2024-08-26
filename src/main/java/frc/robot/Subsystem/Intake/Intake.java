@@ -4,10 +4,12 @@
 
 package frc.robot.Subsystem.Intake;
 
+import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystem.Intake.IOs.IntakeIO;
 
-public class Intake extends SubsystemBase {
+public class Intake extends StateControlledSubsystem {
   private static Intake intake;
 
   private IntakeIO intakeIO =  IntakeConstants.getIntakeIO();

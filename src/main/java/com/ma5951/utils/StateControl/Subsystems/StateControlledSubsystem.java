@@ -18,7 +18,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
 
     private State[] systemStates;
     private List<State> systemStatesList;
-    private State systemEnableState = StatesConstants.SYSTEM_ENABLE;
+    private State systemEnableState = StatesConstants.CANT_MOVE;
     private State systemFunctionState = StatesConstants.AUTOMATIC;
     private State targetState;
     private State travelState;
@@ -34,6 +34,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
 
     public void setStateMeachin(SubsystemStateMeachin meachin) {
         subsystemStateMeachin = meachin;
+        subsystemStateMeachin.setSubsystem(this);
     }
 
     public SubsystemStateMeachin getStateMeachin() {
@@ -74,6 +75,10 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         } else {
             System.err.println("Can set target state for " + getSubsystem());
         }
+    }
+
+    public boolean canMove() {
+        return false;
     }
 
     public State getCurrenState() {

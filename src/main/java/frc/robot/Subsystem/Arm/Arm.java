@@ -6,11 +6,11 @@ package frc.robot.Subsystem.Arm;
 
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 
-public class Arm extends SubsystemBase {
+public class Arm extends StateControlledSubsystem {
   private static Arm arm;
 
   private ArmIO armIO = ArmConstants.getArmIO();
@@ -21,6 +21,7 @@ public class Arm extends SubsystemBase {
   private LoggedDouble armAngleLog;
 
   public Arm() {
+    setStateMeachin(new ArmStateMeachin());
     atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
     setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");
     armAngleLog = new LoggedDouble("/Subsystems/Arm/Arm Angle");

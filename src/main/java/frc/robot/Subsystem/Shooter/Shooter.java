@@ -6,13 +6,12 @@ package frc.robot.Subsystem.Shooter;
 
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Shooter.IOs.ShooterIO;
 import frc.robot.Utils.ShootingParameters;
 
-public class Shooter extends SubsystemBase {
+public class Shooter extends StateControlledSubsystem {
   private static Shooter shooter;
 
   private ShooterIO shooterIO = ShooterConstants.getShooterIO();
