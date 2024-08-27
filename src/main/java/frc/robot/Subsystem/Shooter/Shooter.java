@@ -27,6 +27,7 @@ public class Shooter extends StateControlledSubsystem {
   private LoggedBool shooterAtPoint;
 
   public Shooter() {
+    super(null);
     shooterIO.setShooterNutralMode(false);
 
     leftSpeed = new LoggedDouble("/Subsystems/Shooter/Left Speed");

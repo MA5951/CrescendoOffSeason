@@ -39,7 +39,6 @@ public class ArmIOSim implements ArmIO{
         , true, ConvUtil.DegreesToRadians(ArmConstants.INTAKE_POSE));
 
         armMechanism = new Mechanism2d(20, 380);
-        
         motorTempLog = new LoggedDouble("/Subsystems/Arm/Sim/Motor Temp");
         appliedVoltsLog = new LoggedDouble("/Subsystems/Arm/Sim/Applied Voltage");
         velocityLog = new LoggedDouble("/Subsystems/Arm/Sim/Velocity");

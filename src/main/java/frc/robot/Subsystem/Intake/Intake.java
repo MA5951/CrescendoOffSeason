@@ -15,6 +15,7 @@ public class Intake extends StateControlledSubsystem {
   private IntakeIO intakeIO =  IntakeConstants.getIntakeIO();
 
   public Intake() {
+    super(null);
     intakeIO.setNutralMode(false);
   }
 

@@ -4,9 +4,9 @@
 
 package com.ma5951.utils.StateControl.Subsystems;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
@@ -16,20 +16,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public abstract class StateControlledSubsystem extends SubsystemBase {
 
-    private State[] systemStates;
-    private List<State> systemStatesList;
-    private State systemEnableState = StatesConstants.CANT_MOVE;
+    private List systemStatesList;
+    private int systemCanMove = 1;
     private State systemFunctionState = StatesConstants.AUTOMATIC;
     private State targetState;
-    private State travelState;
-    private Supplier<Boolean> measurmentSupplier;
+    private State lastState;
     private SubsystemStateMeachin subsystemStateMeachin;
 
-    public void setSystemStates(State[] states ,State travelState ,Supplier<Boolean> supplier) {
-        systemStates = states;
-        systemStatesList = Arrays.asList(systemStates);
-        this.travelState = travelState;
-        measurmentSupplier = supplier;
+    public StateControlledSubsystem(State[] states) {
+        systemStatesList = Arrays.asList(states);
+
     }
 
     public void setStateMeachin(SubsystemStateMeachin meachin) {
@@ -41,18 +37,6 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         return subsystemStateMeachin;
     }
 
-    public void disableSystem() {
-        systemEnableState = StatesConstants.SYSTEM_DISABLED;
-    }
-
-    public void enableSystem() {
-        systemEnableState = StatesConstants.SYSTEM_ENABLE;
-    }
-
-    public State getSystemEnablState() {
-        return systemEnableState;
-    }
-
     public void setSystemFunctionState(State FunctioState) {
         systemFunctionState = FunctioState;
     }
@@ -61,32 +45,37 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         return systemFunctionState;
     }
 
-    public State[] getSystemStates() {
-        return systemStates;
-    }
+    //add get posiible states as arry
 
     public State getTargetState() {
         return targetState;
     }
 
+    public State getLastState() {
+        return lastState;
+    }
+
     public void setTargetState(State state) {
         if (systemStatesList.contains(state)) {
+            lastState = targetState;
             targetState = state;
         } else {
             System.err.println("Can set target state for " + getSubsystem());
         }
     }
 
-    public boolean canMove() {
-        return false;
+    public int canMove() {
+        return systemCanMove;
     }
 
     public State getCurrenState() {
-        if (measurmentSupplier.get()) {
-            return targetState;
-        } else {
-            return travelState;
-        }
+        return targetState;
     }
+
+   @Override
+   public void periodic() {
+       //Print States 
+       //Dashboard cahnge to manuel / automatic
+   }
 
 }

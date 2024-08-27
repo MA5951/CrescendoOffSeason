@@ -21,6 +21,7 @@ public class Arm extends StateControlledSubsystem {
   private LoggedDouble armAngleLog;
 
   public Arm() {
+    super(null); //TODO IMPLEMENT THE RIGHT CODE
     setStateMeachin(new ArmStateMeachin());
     atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
     setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");

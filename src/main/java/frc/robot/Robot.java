@@ -25,10 +25,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    Intake.getInstance();
-    Arm.getInstance();
-    Feeder.getInstance();
-    Shooter.getInstance();
+    //Intake.getInstance();
+    //Arm.getInstance();
+    //Feeder.getInstance();
+    //Shooter.getInstance();
+
+    
+
+
   }
 
   @Override

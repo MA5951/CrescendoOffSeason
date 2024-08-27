@@ -16,8 +16,8 @@ public abstract class SubsystemStateMeachin {
     public void SystemLoop() {
         switch (RobotStates.getRobotEnableState().getName()) {
             case "ROBOT_ENABLE":
-                switch (subsystem.getSystemEnablState().getName()) {
-                    case "SYSTEM_ENABLE":
+                switch (subsystem.canMove()) {
+                    case 1:
                         switch (RobotStates.getRobotFunctionState().getName()) {
                             case "TELEOP":
                                 TeleopLoop();
