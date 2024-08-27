@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -14,6 +15,8 @@ import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Shooter.Shooter;
+import frc.robot.Subsystem.Test.Test;
+import frc.robot.commands.Test.TestDeafultCommand;
 
 
 public class Robot extends TimedRobot {
@@ -25,13 +28,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    //Intake.getInstance();
-    //Arm.getInstance();
-    //Feeder.getInstance();
-    //Shooter.getInstance();
-
-    
-
+    Intake.getInstance();
+    Arm.getInstance();
+    Feeder.getInstance();
+    Shooter.getInstance();
 
   }
 
@@ -71,8 +71,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    Shooter.getInstance().setShooterSpeeds(4000, 8000);
-    Arm.getInstance().setSetPoint(60);
+
   }
 
   @Override

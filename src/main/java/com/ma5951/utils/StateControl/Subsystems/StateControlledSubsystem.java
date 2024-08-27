@@ -4,7 +4,6 @@
 
 package com.ma5951.utils.StateControl.Subsystems;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public abstract class StateControlledSubsystem extends SubsystemBase {
 
-    private List systemStatesList;
+    private List<State> systemStatesList;
     private int systemCanMove = 1;
     private State systemFunctionState = StatesConstants.AUTOMATIC;
     private State targetState;
