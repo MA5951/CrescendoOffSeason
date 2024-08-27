@@ -4,10 +4,16 @@
 
 package frc.robot.Subsystem.Shooter;
 
+import com.ma5951.utils.RobotConstantsMAUtil;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
+import frc.robot.Robot;
+import frc.robot.RobotConstants;
+import frc.robot.RobotControl.RobotState;
+import frc.robot.RobotControl.SuperStructure;
+import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Shooter.IOs.ShooterIO;
 import frc.robot.Utils.ShootingParameters;
 
@@ -27,7 +33,7 @@ public class Shooter extends StateControlledSubsystem {
   private LoggedBool shooterAtPoint;
 
   public Shooter() {
-    super(null);
+    super(ShooterConstants.SYSTEM_STATES);
     shooterIO.setShooterNutralMode(false);
 
     leftSpeed = new LoggedDouble("/Subsystems/Shooter/Left Speed");
@@ -68,6 +74,22 @@ public class Shooter extends StateControlledSubsystem {
 
   public void setShootingParameterSpeeds(ShootingParameters parameters) {
     setShooterSpeeds(parameters.getLeftSpeed() , parameters.getRightSpeed());
+  }
+
+  @Override
+  public int canMove() {
+      if ((RobotState.getInstance().getRobotState() == RobotConstants.STATIONARY_SHOOTING) ||
+          (RobotState.getInstance().getRobotState() == RobotConstants.WARMING && SuperStructure.getInstance().isInWarmUpZone()) ||
+          (RobotState.getInstance().getRobotState() == RobotConstants.FEEDING )||
+          (RobotState.getInstance().getRobotState() == RobotConstants.EJECT )||
+          (RobotState.getInstance().getRobotState() == RobotConstants.SOURCE_INTAKE ) || 
+          (RobotState.getInstance().getRobotState() == RobotConstants.PODIUM_SHOOTING )||
+          (RobotState.getInstance().getRobotState() == RobotConstants.SUBWOOPER_SHOOTING))
+          {
+        return 1;
+      } else {
+        return 0;
+      }
   }
 
   public static Shooter getInstance() {

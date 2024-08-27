@@ -15,8 +15,6 @@ import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Shooter.Shooter;
-import frc.robot.Subsystem.Test.Test;
-import frc.robot.commands.Test.TestDeafultCommand;
 
 
 public class Robot extends TimedRobot {

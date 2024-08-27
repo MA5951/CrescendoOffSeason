@@ -29,6 +29,8 @@ public class IntakeConstants {
     public static final State INTAKING = new State("INTAKING");
     public static final State EJECTING = new State("EJECTING");
 
+    public static final State[] SYSTEM_STATES = {IDLE, INTAKING, EJECTING};
+
     public static final IntakeIO getIntakeIO() {
         if (Robot.isReal()) {
             return new IntakeIOReal();

@@ -7,6 +7,11 @@ package frc.robot.Subsystem.Intake;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotConstants;
+import frc.robot.RobotControl.RobotState;
+import frc.robot.RobotControl.SuperStructure;
+import frc.robot.Subsystem.Arm.Arm;
+import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Intake.IOs.IntakeIO;
 
 public class Intake extends StateControlledSubsystem {
@@ -37,6 +42,16 @@ public class Intake extends StateControlledSubsystem {
 
   public void setPower(double power) {
     intakeIO.setVoltage(power * 12);
+  }
+
+  @Override
+  public int canMove() {
+      if ((RobotState.getInstance().getRobotState() == RobotConstants.INTAKE && Arm.getInstance().atPoint() )||
+          (RobotState.getInstance().getRobotState() == RobotConstants.EJECT)) {
+          return 1;
+      } else {
+          return 0;
+      }
   }
 
   public static Intake getInstance() {

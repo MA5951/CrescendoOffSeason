@@ -4,7 +4,7 @@
 
 package frc.robot.Subsystem.Swerve.IOs;
 
-import com.ma5951.utils.RobotConstants;
+import com.ma5951.utils.RobotConstantsMAUtil;
 import com.ma5951.utils.Logger.LoggedDouble;
 
 import edu.wpi.first.math.MathUtil;
@@ -21,9 +21,9 @@ public class SwerveModuleSim implements SwerveModule{
     private final DCMotorSim turnSim;
 
     private final PIDController driveFeedback =
-      new PIDController(38, 0.0, 0.0, RobotConstants.KDELTA_TIME);
+      new PIDController(38, 0.0, 0.0, RobotConstantsMAUtil.KDELTA_TIME);
     private final PIDController turnFeedback =
-      new PIDController(20, 0.0, 0.0, RobotConstants.KDELTA_TIME);
+      new PIDController(20, 0.0, 0.0, RobotConstantsMAUtil.KDELTA_TIME);
 
     private double driveAppliedVolts = 0.0;
     private double turnAppliedVolts = 0.0;
@@ -93,7 +93,7 @@ public class SwerveModuleSim implements SwerveModule{
 
     public double getDrivePosition() {
         //Return distance in meters
-        drivePose += driveSim.getAngularPositionRotations() * SwerveConstants.WHEEL_CIRCUMFERENCE * RobotConstants.KDELTA_TIME;
+        drivePose += driveSim.getAngularPositionRotations() * SwerveConstants.WHEEL_CIRCUMFERENCE * RobotConstantsMAUtil.KDELTA_TIME;
         return drivePose;
        
     }
@@ -157,8 +157,8 @@ public class SwerveModuleSim implements SwerveModule{
         DriveTemp.update(getDriveTemp());
         SteerTemp.update(getSteerTemp());
 
-        driveSim.update(RobotConstants.KDELTA_TIME);
-        turnSim.update(RobotConstants.KDELTA_TIME);
+        driveSim.update(RobotConstantsMAUtil.KDELTA_TIME);
+        turnSim.update(RobotConstantsMAUtil.KDELTA_TIME);
 
     }
 

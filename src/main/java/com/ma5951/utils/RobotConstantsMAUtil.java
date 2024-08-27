@@ -7,7 +7,7 @@
 
 package com.ma5951.utils;
 
-public class RobotConstants {
+public class RobotConstantsMAUtil {
     public final static int KMAX_RPM_CIM = 5330;
     public final static int KMAX_RPM_RS = 18730;
     public final static int KMAX_RPM_BAG = 13180;

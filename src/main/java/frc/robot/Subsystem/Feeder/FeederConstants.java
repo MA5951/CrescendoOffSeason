@@ -24,6 +24,7 @@ public class FeederConstants {
     public static final State FEEDING = new State("FEEDING");
     public static final State EJECTING = new State("EJECTING");
 
+    public static final State[] SYSTEM_STATES = {IDLE, FEEDING, EJECTING};
 
     public static final FeederIO getFeederIO() {
         if (Robot.isReal()) {

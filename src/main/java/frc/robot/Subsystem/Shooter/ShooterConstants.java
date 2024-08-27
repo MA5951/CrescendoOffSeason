@@ -38,6 +38,7 @@ public class ShooterConstants {
     public static final State EJECTING = new State("EJECTING");
     public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE");
 
+    public static final State[] SYSTEM_STATES = {IDLE, WARM, SHOOTING, FEEDING, EJECTING, SOURCE_INTAKE};
 
     public static final ShooterIO getShooterIO() {
         if (Robot.isReal()) {
