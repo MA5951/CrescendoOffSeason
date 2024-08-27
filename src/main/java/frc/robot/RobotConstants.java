@@ -18,8 +18,9 @@ public class RobotConstants {
     public static final State FEEDING = new State("FEEDING");
     public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE");
     public static final State STATIONARY_SHOOTING = new State("STATIONARY_SHOOTING");
-    public static final State PODIUM_SHOOTING = new State("STATIONARY_SHOOTING");
-    public static final State SUBWOOPER_SHOOTING = new State("STATIONARY_SHOOTING");
+    public static final State PODIUM_SHOOTING = new State("PODIUM_SHOOTING");
+    public static final State SUBWOOPER_SHOOTING = new State("SUBWOOPER_SHOOTING");
+    public static final State HOME = new State("HOME");
 
 
 }

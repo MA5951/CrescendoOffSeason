@@ -31,6 +31,10 @@ public class Arm extends StateControlledSubsystem {
     armIO.setNutralMode(true);
   }
 
+  public double getCurrentDraw() {
+    return armIO.getCurrentDraw();
+  }
+
   public boolean atPoint() {
     return Math.abs(getArmPosition() - setPoint) <= ArmConstants.kTOLORANCE;
   }
@@ -43,7 +47,7 @@ public class Arm extends StateControlledSubsystem {
     return setPoint;
   }
 
-  public void setSetPoint(double setPoint) {
+  public void runSetPoint(double setPoint) {
     this.setPoint = setPoint;
     armIO.setAngleSetPoint(setPoint);
   }

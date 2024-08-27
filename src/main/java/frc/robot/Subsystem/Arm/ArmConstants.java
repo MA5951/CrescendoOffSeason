@@ -38,6 +38,7 @@ public class ArmConstants {
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
+    public static final double HOME_VOLTAGE = 0;
     public static final double HOME_CURRENTLIMIT = 0;
     public static final double ANGLE_LIMIT = 0;
 

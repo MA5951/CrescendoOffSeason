@@ -7,6 +7,7 @@ package com.ma5951.utils.StateControl.Subsystems;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.StateControl.StatesTypes.State;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
@@ -21,9 +22,16 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
     private State targetState;
     private State lastState;
     private SubsystemStateMeachin subsystemStateMeachin;
+    private LoggedString currentStateLog;
+    private LoggedString systemFunctionStateLog;
+    private LoggedString targetStateLog;
 
-    public StateControlledSubsystem(State[] states) {
+
+    public StateControlledSubsystem(State[] states , String name) {
         systemStatesList = Arrays.asList(states);
+        currentStateLog = new LoggedString("/Subsystems/" + name + "/Current State");
+        systemFunctionStateLog = new LoggedString("/Subsystems/" + name + "/System Function State");
+        targetStateLog = new LoggedString("/Subsystems/" + name + "/Target State");
 
     }
 
@@ -75,6 +83,9 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
    public void periodic() {
        //Print States 
        //Dashboard cahnge to manuel / automatic
+       currentStateLog.update(getCurrenState().getName());
+       systemFunctionStateLog.update(getSystemFunctionState().getName());
+       targetStateLog.update(getTargetState().getName());
    }
 
 }
