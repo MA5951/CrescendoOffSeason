@@ -70,7 +70,29 @@ public class ArmDeafultCommand extends CanMoveCommand {
   }
 
   public void AutomaticLoop() {
-
+    switch (subsystem.getCurrenState().getName()) {
+      case "IDLE":
+        
+        break;
+      case "FOLLOW_SPEAKER":
+        
+        break;
+      case "SOURCE_INTAKE":
+        
+        break;
+      case "AMP":
+        
+        break;
+      case "INTAKE":
+        
+        break;
+      case "HOME":
+        
+        break;
+      
+      default:
+        break;
+    }
   }
 
   public void ManuelLoop() {

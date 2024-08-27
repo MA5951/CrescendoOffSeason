@@ -101,6 +101,7 @@ public class Shooter extends StateControlledSubsystem {
 
   @Override
   public void periodic() {
+    super.periodic();
     shooterIO.updatePeriodic();
 
     leftSpeed.update(getLeftSpeed());

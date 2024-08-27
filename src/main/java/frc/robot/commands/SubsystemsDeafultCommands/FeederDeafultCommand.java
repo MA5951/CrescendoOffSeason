@@ -70,7 +70,19 @@ public class FeederDeafultCommand extends CanMoveCommand {
   }
 
   public void AutomaticLoop() {
-
+    switch (subsystem.getCurrenState().getName()) {
+      case "IDLE":
+        
+        break;
+      case "FEEDING":
+        
+        break;
+      case "EJECTING":
+          
+        break;
+      default:
+        break;
+    }
   }
 
   public void ManuelLoop() {

@@ -70,7 +70,21 @@ public class IntakeDeafultCommand extends CanMoveCommand {
   }
 
   public void AutomaticLoop() {
+    switch (subsystem.getCurrenState().getName()) {
+      case "IDLE":
+        
+        break;
+      case "INTAKING":
+        
+        break;
 
+      case "EJECTING":
+        
+        break;
+      
+      default:
+        break;
+}
   }
 
   public void ManuelLoop() {

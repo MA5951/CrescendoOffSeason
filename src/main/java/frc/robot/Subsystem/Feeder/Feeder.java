@@ -55,7 +55,7 @@ public class Feeder extends StateControlledSubsystem {
            && SuperStructure.getInstance().isHeadingForFeeding() )|| 
           (RobotState.getInstance().getRobotState() == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
           && SuperStructure.getInstance().isHeadingForShooting() && !SuperStructure.getInstance().isRobotMoving() ) ||
-          (RobotState.getInstance().getRobotState() == RobotConstants.AMP) ||
+          (RobotState.getInstance().getRobotState() == RobotConstants.AMP && Arm.getInstance().atPoint()) ||
           (RobotState.getInstance().getRobotState() == RobotConstants.SUBWOOPER_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() )||
           (RobotState.getInstance().getRobotState() == RobotConstants.PODIUM_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint())){
           return 1;
@@ -73,6 +73,7 @@ public class Feeder extends StateControlledSubsystem {
 
   @Override
   public void periodic() {
+    super.periodic();
     beamBrakerLog.update(feederIO.getBeamBraker());
   }
 }
