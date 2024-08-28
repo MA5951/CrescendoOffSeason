@@ -61,11 +61,11 @@ public class Arm extends StateControlledSubsystem {
   }
 
   @Override
-  public int canMove() {
+  public boolean canMove() {
       if (RobotState.getInstance().getRobotState() != RobotConstants.IDLE || RobotState.getInstance().getRobotState() == RobotConstants.EJECT) {
-        return 1;
+        return true;
       } else {
-        return 0;
+        return false;
       }
   }
 

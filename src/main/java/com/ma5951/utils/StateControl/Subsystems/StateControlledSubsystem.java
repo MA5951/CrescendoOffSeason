@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public abstract class StateControlledSubsystem extends SubsystemBase {
 
     private List<State> systemStatesList;
-    private int systemCanMove = 1;
+    private boolean systemCanMove = true;
     private State systemFunctionState = StatesConstants.AUTOMATIC;
     private State targetState;
     private State lastState;
@@ -29,9 +29,9 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
 
     public StateControlledSubsystem(State[] states , String name) {
         systemStatesList = Arrays.asList(states);
-        currentStateLog = new LoggedString("/Subsystems/" + name + "/Current State");
-        systemFunctionStateLog = new LoggedString("/Subsystems/" + name + "/System Function State");
-        targetStateLog = new LoggedString("/Subsystems/" + name + "/Target State");
+        currentStateLog = new LoggedString("/RobotControl/" + name + "/Current State");
+        systemFunctionStateLog = new LoggedString("/RobotControl/" + name + "/System Function State");
+        targetStateLog = new LoggedString("/RobotControl/" + name + "/Target State");
 
     }
 
@@ -71,7 +71,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         }
     }
 
-    public int canMove() {
+    public boolean canMove() {
         return systemCanMove;
     }
 

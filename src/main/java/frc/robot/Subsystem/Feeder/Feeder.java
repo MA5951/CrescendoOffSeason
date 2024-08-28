@@ -48,9 +48,9 @@ public class Feeder extends StateControlledSubsystem {
   }
 
   @Override
-  public int canMove() {
+  public boolean canMove() {
       if ((RobotState.getInstance().getRobotState() == RobotConstants.INTAKE && Arm.getInstance().atPoint() )||
-          (RobotState.getInstance().getRobotState() == RobotConstants.EJECT )||
+          (RobotState.getInstance().getRobotState() == RobotConstants.EJECT &&)||
           (RobotState.getInstance().getRobotState() == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
            && SuperStructure.getInstance().isHeadingForFeeding() )|| 
           (RobotState.getInstance().getRobotState() == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
@@ -58,9 +58,9 @@ public class Feeder extends StateControlledSubsystem {
           (RobotState.getInstance().getRobotState() == RobotConstants.AMP && Arm.getInstance().atPoint()) ||
           (RobotState.getInstance().getRobotState() == RobotConstants.SUBWOOPER_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() )||
           (RobotState.getInstance().getRobotState() == RobotConstants.PODIUM_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint())){
-          return 1;
+          return true;
       } else {
-          return 0;
+          return false;
       }
   }
 

@@ -34,11 +34,19 @@ public class CanMoveCommand extends DisableEnableCommand {
     return false;
   }
 
+  public int convertCanMoveToInt(boolean canMove) {
+    if (canMove) {
+        return 1;
+    } else {
+        return 0;
+    }
+  }
+
   @Override
   public void ENABLE_LOOP() {
       super.ENABLE_LOOP();
 
-      switch (subsystem.canMove()) {
+      switch (convertCanMoveToInt(subsystem.canMove())) {
                     case 1:
                         CAN_MOVE();
                         break;
@@ -53,6 +61,7 @@ public class CanMoveCommand extends DisableEnableCommand {
   public void DISABLE_LOOP() {
       super.DISABLE_LOOP();
   }
+
 
   public void CAN_MOVE() {
 

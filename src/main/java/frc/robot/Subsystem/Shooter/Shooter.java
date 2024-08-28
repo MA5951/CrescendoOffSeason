@@ -77,7 +77,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   @Override
-  public int canMove() {
+  public boolean canMove() {
       if ((RobotState.getInstance().getRobotState() == RobotConstants.STATIONARY_SHOOTING) ||
           (RobotState.getInstance().getRobotState() == RobotConstants.WARMING && SuperStructure.getInstance().isInWarmUpZone()) ||
           (RobotState.getInstance().getRobotState() == RobotConstants.FEEDING )||
@@ -86,9 +86,9 @@ public class Shooter extends StateControlledSubsystem {
           (RobotState.getInstance().getRobotState() == RobotConstants.PODIUM_SHOOTING )||
           (RobotState.getInstance().getRobotState() == RobotConstants.SUBWOOPER_SHOOTING))
           {
-        return 1;
+        return true;
       } else {
-        return 0;
+        return false;
       }
   }
 

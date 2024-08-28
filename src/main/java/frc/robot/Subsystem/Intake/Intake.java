@@ -45,12 +45,12 @@ public class Intake extends StateControlledSubsystem {
   }
 
   @Override
-  public int canMove() {
+  public boolean canMove() {
       if ((RobotState.getInstance().getRobotState() == RobotConstants.INTAKE && Arm.getInstance().atPoint() )||
           (RobotState.getInstance().getRobotState() == RobotConstants.EJECT)) {
-          return 1;
+          return true;
       } else {
-          return 0;
+          return false;
       }
   }
 
