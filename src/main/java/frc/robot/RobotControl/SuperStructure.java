@@ -5,9 +5,19 @@
 package frc.robot.RobotControl;
 
 import frc.robot.RobotConstants;
+import frc.robot.Utils.ShootingParameters;
 
 /** Add your docs here. */
 public class SuperStructure {
+
+
+    public static ShootingParameters getShootingPrameters() {
+        return new ShootingParameters(0, 0, 0);
+    }
+
+    public static ShootingParameters getFeedingPrameters() {
+        return new ShootingParameters(0, 0, 0);
+    }
 
     public static double getRobotHeading() {
         return 0;

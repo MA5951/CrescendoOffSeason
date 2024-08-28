@@ -38,6 +38,10 @@ public class Arm extends StateControlledSubsystem {
     return armIO.getCurrentDraw();
   }
 
+  public void resetPosition(double position) {
+    armIO.resetPosition(position);
+  }
+
   public boolean atPoint() {
     return Math.abs(getArmPosition() - setPoint) <= ArmConstants.kTOLORANCE;
   }

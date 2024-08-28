@@ -6,7 +6,10 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
+import frc.robot.RobotConstants;
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Shooter.Shooter;
+import frc.robot.Subsystem.Shooter.ShooterConstants;
 
 public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   private static Shooter shooter = Shooter.getInstance();
@@ -37,22 +40,22 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
     super.AutomaticLoop();    
     switch (shooter.getCurrenState().getName()) {
       case "IDLE":
-        
+        shooter.setVoltage(0);
         break;
       case "WARM":
-        
+        shooter.setShootingParameterSpeeds(RobotConstants.WARM_SHOOTING_PARAMETERS);
         break;
       case "SHOOTING":
-        
+        shooter.setShootingParameterSpeeds(SuperStructure.getShootingPrameters());
         break;
       case "FEEDING":
-        
+        shooter.setShootingParameterSpeeds(SuperStructure.getFeedingPrameters());
         break;
       case "EJECTING":
-        
+        shooter.setVoltage(ShooterConstants.EJECTING_VOLTGE);
         break;
       case "SOURCE_INTAKE":
-        
+        shooter.setVoltage(ShooterConstants.SOURCE_INTAKE_VOLTAGE);
         break;
       default:
         break;

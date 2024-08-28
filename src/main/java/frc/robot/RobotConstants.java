@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
+import frc.robot.Utils.ShootingParameters;
+
 public class RobotConstants {
 
     public static final double kDELTA_TIME = 0.02;
@@ -19,7 +21,6 @@ public class RobotConstants {
     public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE"); //Source intake
     public static final State STATIONARY_SHOOTING = new State("STATIONARY_SHOOTING"); //Stationary auto shoot
     public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING"); //Preset shooting
-    public static final State HOME = new State("HOME"); //Home
 
 
     public static final double AngleFotShooting = 0;
@@ -27,4 +28,6 @@ public class RobotConstants {
 
     public static final double AngleForFeeding = 0;
     public static final double FeedingTolerance = 0;
+
+    public static final ShootingParameters WARM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0);
 }

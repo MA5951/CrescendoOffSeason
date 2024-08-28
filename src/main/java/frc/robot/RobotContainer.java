@@ -8,7 +8,9 @@ import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
@@ -21,12 +23,13 @@ import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
 import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
 import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
+import frc.robot.commands.Swerve.DriveController;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
   public static State lastRobotState = RobotConstants.IDLE;
 
-  public static CommandPS5Controller drivController;
+  public static CommandPS5Controller driverController = new CommandPS5Controller(PortMap.Controllers.driveID);
 
   public RobotContainer() {
     Intake.getInstance();
@@ -47,10 +50,10 @@ public class RobotContainer {
   }
 
   public void setINTAKE() {
-      currentRobotState = RobotConstants.IDLE;
+      currentRobotState = RobotConstants.INTAKE;
       Arm.getInstance().setTargetState(ArmConstants.INTAKE);
       Intake.getInstance().setTargetState(IntakeConstants.INTAKING);
-      Feeder.getInstance().setTargetState(FeederConstants.FEEDING);
+      Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
       Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
   }
 
@@ -59,7 +62,7 @@ public class RobotContainer {
     currentRobotState = RobotConstants.EJECT;
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     Intake.getInstance().setTargetState(IntakeConstants.EJECTING);
-    Feeder.getInstance().setTargetState(FeederConstants.EJECTING);
+    Feeder.getInstance().setTargetState(FeederConstants.REVERSE);
     Shooter.getInstance().setTargetState(ShooterConstants.EJECTING);
   }
 
@@ -77,7 +80,7 @@ public class RobotContainer {
     currentRobotState = RobotConstants.AMP;
     Arm.getInstance().setTargetState(ArmConstants.AMP);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.FEEDING);
+    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
     Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
   }
 
@@ -86,7 +89,7 @@ public class RobotContainer {
     currentRobotState = RobotConstants.FEEDING;
     Arm.getInstance().setTargetState(ArmConstants.FEEDING);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.FEEDING);
+    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
     Shooter.getInstance().setTargetState(ShooterConstants.FEEDING);
   }
 
@@ -95,7 +98,7 @@ public class RobotContainer {
     currentRobotState = RobotConstants.SOURCE_INTAKE;
     Arm.getInstance().setTargetState(ArmConstants.SOURCE_INTAKE);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.EJECTING);
+    Feeder.getInstance().setTargetState(FeederConstants.REVERSE);
     Shooter.getInstance().setTargetState(ShooterConstants.SOURCE_INTAKE);
   }
 
@@ -104,26 +107,17 @@ public class RobotContainer {
     currentRobotState = RobotConstants.STATIONARY_SHOOTING;
     Arm.getInstance().setTargetState(ArmConstants.FOLLOW_SPEAKER);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.FEEDING);
+    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
     Shooter.getInstance().setTargetState(ShooterConstants.SHOOTING);
   }
 
   public void setPRESET_SHOOTING() {
     lastRobotState = currentRobotState;
-    currentRobotState = RobotConstants.IDLE;
+    currentRobotState = RobotConstants.PRESET_SHOOTING;
     Arm.getInstance().setTargetState(ArmConstants.FEEDING);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.FEEDING);
+    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
     Shooter.getInstance().setTargetState(ShooterConstants.FEEDING);
-  }
-
-  public void setHOME() {
-    lastRobotState = currentRobotState;
-    currentRobotState = RobotConstants.IDLE;
-    Arm.getInstance().setTargetState(ArmConstants.HOME);
-    Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.IDLE);
-    Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
   }
 
   public State getRobotState() {
@@ -143,7 +137,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    
+    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
+    driverController.R1().onTrue(new InstantCommand(() -> setINTAKE()));
+
+    new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP).onTrue(new InstantCommand(() -> setAMP()));
   }
 
   public Command getAutonomousCommand() {

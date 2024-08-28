@@ -7,11 +7,14 @@ package frc.robot.commands.DeafultCommands;
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
 import frc.robot.RobotContainer;
+import frc.robot.RobotControl.SuperStructure;
+import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Feeder.Feeder;
 
 public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   private static Feeder feeder = Feeder.getInstance();
-  
+  private boolean releasForAmp = false;
+
   public FeederDeafultCommand() {
     super(feeder);
     addRequirements(feeder);
@@ -48,6 +51,14 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           break;
         case "NOTE_ADJUSTING":
           break;
+        case "AMP_REALES":
+          if (SuperStructure.isNote() && Arm.getInstance().atPoint() && RobotContainer.driverController.getHID().getCircleButton()) {
+            releasForAmp = true;
+          } else if (releasForAmp) {
+            if (SuperStructure.isNote())
+            feeder.turnOnFeeder();
+          } 
+          break;
         default:
           break;
       }
@@ -56,9 +67,9 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      if (RobotContainer.drivController.getHID().getPOV() == -90) {
+      if (RobotContainer.driverController.getHID().getPOV() == -90) {
         feeder.turnOnFeeder();
-      } else if (RobotContainer.drivController.getHID().getPOV() == 90) {
+      } else if (RobotContainer.driverController.getHID().getPOV() == 90) {
         feeder.turnOnEjectFeeder();
       }
   }

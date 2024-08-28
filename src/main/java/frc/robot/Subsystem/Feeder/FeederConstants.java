@@ -22,11 +22,12 @@ public class FeederConstants {
     public static final double GEAR = 2.66; //TODO
 
     public static final State IDLE = StatesConstants.IDLE;
-    public static final State FEEDING = new State("FEEDING");
-    public static final State EJECTING = new State("EJECTING_AMP");
+    public static final State FORWARD = new State("FORWARD");
+    public static final State AMP_REALES = new State("AMP_REALES");
+    public static final State REVERSE = new State("REVERSE");
     public static final State NOTE_ADJUSTING = new State("NOTE_ADJUSTING");
 
-    public static final State[] SYSTEM_STATES = {IDLE, FEEDING, EJECTING};
+    public static final State[] SYSTEM_STATES = {IDLE, FORWARD, REVERSE, AMP_REALES};
 
     public static final FeederIO getFeederIO() {
         if (Robot.isReal()) {

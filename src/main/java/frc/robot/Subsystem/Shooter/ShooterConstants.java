@@ -28,6 +28,9 @@ public class ShooterConstants {
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
+    public static final double EJECTING_VOLTGE = 0;
+    public static final double SOURCE_INTAKE_VOLTAGE = 0;
+
     public static final double PeakCurrentLimit = 0; 
     public static final double ContinuesCurrentLimit = 0; 
     public static final double PeakCurrentTime = 0; 
