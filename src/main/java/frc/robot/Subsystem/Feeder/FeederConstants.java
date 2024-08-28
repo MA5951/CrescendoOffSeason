@@ -5,6 +5,7 @@
 package frc.robot.Subsystem.Feeder;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
 import frc.robot.Robot;
 import frc.robot.Subsystem.Feeder.IOs.FeederIO;
@@ -20,12 +21,11 @@ public class FeederConstants {
 
     public static final double GEAR = 2.66; //TODO
 
-    public static final State IDLE = new State("IDLE");
-    public static final State INTAKE = new State("FEEDING");
+    public static final State IDLE = StatesConstants.IDLE;
     public static final State FEEDING = new State("FEEDING");
-    public static final State EJECTING_AMP = new State("EJECTING_AMP");
+    public static final State EJECTING = new State("EJECTING_AMP");
 
-    public static final State[] SYSTEM_STATES = {IDLE, FEEDING, EJECTING_AMP , INTAKE};
+    public static final State[] SYSTEM_STATES = {IDLE, FEEDING, EJECTING};
 
     public static final FeederIO getFeederIO() {
         if (Robot.isReal()) {

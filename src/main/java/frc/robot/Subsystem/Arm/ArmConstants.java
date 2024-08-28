@@ -5,6 +5,7 @@
 package frc.robot.Subsystem.Arm;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
 import frc.robot.Robot;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
@@ -47,18 +48,17 @@ public class ArmConstants {
     public static final double PeakCurrentTime = 0; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
-    public static final State IDLE = new State("IDLE");
+    public static final State IDLE = StatesConstants.IDLE;
     public static final State FOLLOW_SPEAKER = new State("FOLLOW_SPEAKER");
-    public static final State SUBWOOPER_SHOOTING = new State("SUBWOOPER_SHOOTING");
-    public static final State PODIUM_SHOOTING = new State("PODIUM_SHOOTING");
+    public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING");
     public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE");
     public static final State FEEDING = new State("FEEDING");
     public static final State AMP = new State("AMP");
     public static final State INTAKE = new State("INTAKE");
     public static final State HOME = new State("HOME");
 
-    public static final State[] SUBSYSTEM_STATES = {IDLE, FOLLOW_SPEAKER, SOURCE_INTAKE, AMP, INTAKE, HOME, FEEDING, PODIUM_SHOOTING
-    , SUBWOOPER_SHOOTING};
+    public static final State[] SUBSYSTEM_STATES = {IDLE, FOLLOW_SPEAKER, SOURCE_INTAKE, AMP, INTAKE, HOME, FEEDING
+    , PRESET_SHOOTING};
 
 
     public static final ArmIO getArmIO() {

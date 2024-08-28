@@ -5,17 +5,13 @@
 package frc.robot.Subsystem.Feeder;
 
 import com.ma5951.utils.Logger.LoggedBool;
-import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
-import frc.robot.RobotControl.RobotState;
+import frc.robot.RobotContainer;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Feeder.IOs.FeederIO;
-import frc.robot.Subsystem.Intake.Intake;
-import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 
 public class Feeder extends StateControlledSubsystem {
@@ -49,15 +45,15 @@ public class Feeder extends StateControlledSubsystem {
 
   @Override
   public boolean canMove() {
-      if ((RobotState.getInstance().getRobotState() == RobotConstants.INTAKE && Arm.getInstance().atPoint() )||
-          (RobotState.getInstance().getRobotState() == RobotConstants.EJECT &&)||
-          (RobotState.getInstance().getRobotState() == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
+      if ((RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() )||
+          (RobotContainer.currentRobotState == RobotConstants.EJECT )||
+          (RobotContainer.currentRobotState == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
            && SuperStructure.getInstance().isHeadingForFeeding() )|| 
-          (RobotState.getInstance().getRobotState() == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
+          (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
           && SuperStructure.getInstance().isHeadingForShooting() && !SuperStructure.getInstance().isRobotMoving() ) ||
-          (RobotState.getInstance().getRobotState() == RobotConstants.AMP && Arm.getInstance().atPoint()) ||
-          (RobotState.getInstance().getRobotState() == RobotConstants.SUBWOOPER_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() )||
-          (RobotState.getInstance().getRobotState() == RobotConstants.PODIUM_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint())){
+          (RobotContainer.currentRobotState == RobotConstants.AMP && Arm.getInstance().atPoint()) ||
+          (RobotContainer.currentRobotState == RobotConstants.SUBWOOPER_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() )||
+          (RobotContainer.currentRobotState == RobotConstants.PODIUM_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint())){
           return true;
       } else {
           return false;

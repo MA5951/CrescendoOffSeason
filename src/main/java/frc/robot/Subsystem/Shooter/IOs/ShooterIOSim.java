@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
-import frc.robot.Utils.ShootingParameters;
 
 public class ShooterIOSim implements ShooterIO{
 

@@ -4,22 +4,11 @@
 
 package frc.robot;
 
-import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
-import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.RobotControl.RobotState;
-import frc.robot.Subsystem.Arm.Arm;
-import frc.robot.Subsystem.Arm.ArmConstants;
-import frc.robot.Subsystem.Feeder.Feeder;
-import frc.robot.Subsystem.Intake.Intake;
-import frc.robot.Subsystem.Shooter.Shooter;
-import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
-import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
-import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
-import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
+
 
 
 public class Robot extends TimedRobot {
@@ -31,17 +20,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    Intake.getInstance();
-    Arm.getInstance();
-    Feeder.getInstance();
-    Shooter.getInstance();
-
-    RobotState.getInstance().setRobotState(RobotConstants.IDLE);
-
-    CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
-    CommandScheduler.getInstance().setDefaultCommand(Feeder.getInstance(), new FeederDeafultCommand());
-    CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeDeafultCommand());
-    CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
 
   }
 
@@ -52,7 +30,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    RobotState.getInstance().setRobotState(RobotConstants.IDLE);
   }
 
   @Override
@@ -76,7 +53,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
       }
       
-    RobotState.getInstance().setRobotState(RobotConstants.INTAKE);
     }
 
   @Override

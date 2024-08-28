@@ -11,6 +11,7 @@ import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.StateControl.StatesTypes.State;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -21,7 +22,6 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
     private State systemFunctionState = StatesConstants.AUTOMATIC;
     private State targetState;
     private State lastState;
-    private SubsystemStateMeachin subsystemStateMeachin;
     private LoggedString currentStateLog;
     private LoggedString systemFunctionStateLog;
     private LoggedString targetStateLog;
@@ -33,15 +33,6 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         systemFunctionStateLog = new LoggedString("/RobotControl/" + name + "/System Function State");
         targetStateLog = new LoggedString("/RobotControl/" + name + "/Target State");
 
-    }
-
-    public void setStateMeachin(SubsystemStateMeachin meachin) {
-        subsystemStateMeachin = meachin;
-        subsystemStateMeachin.setSubsystem(this);
-    }
-
-    public SubsystemStateMeachin getStateMeachin() {
-        return subsystemStateMeachin;
     }
 
     public void setSystemFunctionState(State FunctioState) {
@@ -67,7 +58,8 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
             lastState = targetState;
             targetState = state;
         } else {
-            System.err.println("Can set target state for " + getSubsystem());
+            DriverStation.reportError("Cant set target state for " + getSubsystem(), true);
+            targetState = StatesConstants.IDLE;
         }
     }
 

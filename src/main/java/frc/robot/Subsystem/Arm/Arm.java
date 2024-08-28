@@ -8,9 +8,8 @@ import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
-import frc.robot.Robot;
 import frc.robot.RobotConstants;
-import frc.robot.RobotControl.RobotState;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 
 public class Arm extends StateControlledSubsystem {
@@ -62,7 +61,7 @@ public class Arm extends StateControlledSubsystem {
 
   @Override
   public boolean canMove() {
-      if (RobotState.getInstance().getRobotState() != RobotConstants.IDLE || RobotState.getInstance().getRobotState() == RobotConstants.EJECT) {
+      if (RobotContainer.currentRobotState != RobotConstants.IDLE || RobotContainer.currentRobotState == RobotConstants.EJECT) {
         return true;
       } else {
         return false;

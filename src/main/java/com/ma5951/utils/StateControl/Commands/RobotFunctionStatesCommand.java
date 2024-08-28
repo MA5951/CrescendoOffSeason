@@ -4,8 +4,9 @@
 
 package com.ma5951.utils.StateControl.Commands;
 
-import com.ma5951.utils.StateControl.RobotState.RobotStates;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
+
+import edu.wpi.first.wpilibj.DriverStation;
 
 
 public class RobotFunctionStatesCommand extends CanMoveCommand {
@@ -41,8 +42,8 @@ public class RobotFunctionStatesCommand extends CanMoveCommand {
   @Override
   public void CAN_MOVE() {
     super.CAN_MOVE();
-    switch (RobotStates.getRobotFunctionState().getName()) {
-                            case "TELEOP":
+    switch (getRobotFunctionStateAsInt()) {
+                            case 0:
                               switch (subsystem.getSystemFunctionState().getName()) {
                                 case "AUTOMATIC":
                                     AutomaticLoop();
@@ -53,13 +54,23 @@ public class RobotFunctionStatesCommand extends CanMoveCommand {
                                     break;
                             }
                                 break;
-                            case "AUTO":
+                            case 1:
                                 AutoLoop();
                                 break;
-                            case "TEST":
+                            case 2:
                                 TestLoop();
                                 break;
     }
+  }
+
+  private int getRobotFunctionStateAsInt() {
+    if (DriverStation.isTeleop()) {
+      return 0;
+  } else if (DriverStation.isAutonomous()) {
+      return 1;
+  } else {
+      return 0;
+  }
   }
 
   @Override

@@ -4,8 +4,8 @@
 
 package com.ma5951.utils.StateControl.Commands;
 
-import com.ma5951.utils.StateControl.RobotState.RobotStates;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DisableEnableCommand extends Command {
@@ -21,15 +21,14 @@ public class DisableEnableCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch (RobotStates.getRobotEnableState().getName()) {
-            case "ROBOT_ENABLE":
+    switch (isRobotEnable()) {
+            case 1:
                 ENABLE_LOOP();
             default:
                 DISABLE_LOOP();
             break;
     }
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override
@@ -39,6 +38,14 @@ public class DisableEnableCommand extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  private int isRobotEnable() {
+    if (DriverStation.isEnabled()) {
+            return 1;
+        } else {
+            return 0;
+        }
   }
 
   public void ENABLE_LOOP() {

@@ -10,10 +10,7 @@ import com.ma5951.utils.Utils.ConvUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
@@ -24,7 +21,6 @@ public class ArmIOSim implements ArmIO{
     private PIDController pidController = 
         new PIDController(ArmConstants.SIM_kP , ArmConstants.SIM_kI, ArmConstants.SIM_kD, frc.robot.RobotConstants.kDELTA_TIME);
 
-    private Mechanism2d armMechanism;
 
     private SingleJointedArmSim armSim;
     private LoggedDouble motorTempLog;
@@ -38,7 +34,6 @@ public class ArmIOSim implements ArmIO{
         , ConvUtil.DegreesToRadians(ArmConstants.INTAKE_POSE), ConvUtil.DegreesToRadians(ArmConstants.AMP_POSE)
         , true, ConvUtil.DegreesToRadians(ArmConstants.INTAKE_POSE));
 
-        armMechanism = new Mechanism2d(20, 380);
         motorTempLog = new LoggedDouble("/Subsystems/Arm/Sim/Motor Temp");
         appliedVoltsLog = new LoggedDouble("/Subsystems/Arm/Sim/Applied Voltage");
         velocityLog = new LoggedDouble("/Subsystems/Arm/Sim/Velocity");

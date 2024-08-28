@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystem.Shooter.IOs;
 
-import frc.robot.Utils.ShootingParameters;
 
 public interface ShooterIO {
 

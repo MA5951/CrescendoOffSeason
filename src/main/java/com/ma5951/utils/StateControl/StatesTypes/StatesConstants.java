@@ -16,5 +16,6 @@ public class StatesConstants {
     public final static State MANUEL = new State("MANUEL");
     public final static State CAN_MOVE = new State("CAN_MOVE");
     public final static State CANT_MOVE = new State("CANT_MOVE");
+    public final static State IDLE = new State("IDLE");
 
 }

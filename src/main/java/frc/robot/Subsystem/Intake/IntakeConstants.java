@@ -5,6 +5,7 @@
 package frc.robot.Subsystem.Intake;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
 import frc.robot.Robot;
 import frc.robot.Subsystem.Intake.IOs.IntakeIO;
@@ -25,7 +26,7 @@ public class IntakeConstants {
     public static final double PeakCurrentTime = 0; //TODO
     public static final boolean IsCurrentLimitEnabled = true; //TODO
 
-    public static final State IDLE = new State("IDLE");
+    public static final State IDLE = StatesConstants.IDLE;
     public static final State INTAKING = new State("INTAKING");
     public static final State EJECTING = new State("EJECTING");
 

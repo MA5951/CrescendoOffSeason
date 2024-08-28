@@ -49,7 +49,7 @@ public class PortMap {
     public class Shooter {
         public static final int FalconLeftMotor = 0;
         public static final int FalconRightMotor = 0;
-        public static final int FalconFeederMotor = 0;
+        public static final int DIO_ShooterSensor = 0;
     }
 
     public class Arm {

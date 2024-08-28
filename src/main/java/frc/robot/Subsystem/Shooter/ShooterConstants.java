@@ -5,6 +5,7 @@
 package frc.robot.Subsystem.Shooter;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
 import frc.robot.Robot;
 import frc.robot.Subsystem.Shooter.IOs.ShooterIO;
@@ -31,14 +32,15 @@ public class ShooterConstants {
     public static final double PeakCurrentTime = 0; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
-    public static final State IDLE = new State("IDLE");
+    public static final State IDLE = StatesConstants.IDLE;
     public static final State WARM = new State("WARM");
     public static final State SHOOTING = new State("SHOOTING");
     public static final State FEEDING = new State("FEEDING");
     public static final State EJECTING = new State("EJECTING");
     public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE");
+    public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING");
 
-    public static final State[] SYSTEM_STATES = {IDLE, WARM, SHOOTING, FEEDING, EJECTING, SOURCE_INTAKE};
+    public static final State[] SYSTEM_STATES = {IDLE, WARM, SHOOTING, FEEDING, EJECTING, SOURCE_INTAKE , PRESET_SHOOTING};
 
     public static final ShooterIO getShooterIO() {
         if (Robot.isReal()) {

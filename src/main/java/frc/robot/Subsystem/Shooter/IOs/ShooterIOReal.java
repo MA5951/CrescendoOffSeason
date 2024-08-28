@@ -14,7 +14,6 @@ import com.ma5951.utils.Utils.ConvUtil;
 
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
-import frc.robot.Utils.ShootingParameters;
 
 /** Add your docs here. */
 public class ShooterIOReal implements ShooterIO{
