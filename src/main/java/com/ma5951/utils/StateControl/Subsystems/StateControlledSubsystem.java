@@ -28,6 +28,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
 
 
     public StateControlledSubsystem(State[] states , String name) {
+        targetState = StatesConstants.IDLE;
         systemStatesList = Arrays.asList(states);
         currentStateLog = new LoggedString("/RobotControl/" + name + "/Current State");
         systemFunctionStateLog = new LoggedString("/RobotControl/" + name + "/System Function State");

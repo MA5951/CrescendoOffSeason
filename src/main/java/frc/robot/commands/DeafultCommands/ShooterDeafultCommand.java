@@ -58,4 +58,10 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         break;
     }
   }
+
+  @Override
+  public void ManuelLoop() {
+      super.ManuelLoop();
+      shooter.setManuelMode();
+  }
 }

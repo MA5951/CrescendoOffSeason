@@ -6,6 +6,7 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Intake.Intake;
 
 public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
@@ -37,13 +38,13 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
     super.AutomaticLoop();
     switch (intake.getCurrenState().getName()) {
       case "IDLE":
-        Intake.getInstance().turnOffIntke();
+        intake.turnOffIntke();
         break;
       case "INTAKING":
-        Intake.getInstance().turnOnIntke();
+        intake.turnOnIntke();
         break;
       case "EJECTING":
-        Intake.getInstance().turnOnEjectIntake();
+        intake.turnOnEjectIntake();
         break;
       
       default:
@@ -54,12 +55,17 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
     super.ManuelLoop();
-
+    if (RobotContainer.drivController.getHID().getPOV() == 0) {
+      intake.turnOnIntke();
+    } else if (RobotContainer.drivController.getHID().getPOV() == 180) {
+      intake.turnOnEjectIntake();
+    }
   }
 
   @Override
   public void AutoLoop() {
       super.AutoLoop();
+      AutomaticLoop();
   }
 
   @Override

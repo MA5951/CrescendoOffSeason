@@ -6,6 +6,7 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 
 public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
@@ -37,13 +38,13 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
       super.AutoLoop();
       switch (feeder.getCurrenState().getName()) {
         case "IDLE":
-          Feeder.getInstance().turnOffFeeder();
+          feeder.turnOffFeeder();
           break;
         case "FEEDING":
-          Feeder.getInstance().turnOnFeeder();
+          feeder.turnOnFeeder();
           break;
         case "EJECTING":
-          Feeder.getInstance().turnOnEjectFeeder();
+          feeder.turnOnEjectFeeder();
           break;
         case "NOTE_ADJUSTING":
           break;
@@ -55,6 +56,11 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
+      if (RobotContainer.drivController.getHID().getPOV() == -90) {
+        feeder.turnOnFeeder();
+      } else if (RobotContainer.drivController.getHID().getPOV() == 90) {
+        feeder.turnOnEjectFeeder();
+      }
   }
 
   @Override

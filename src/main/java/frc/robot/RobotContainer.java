@@ -8,6 +8,7 @@ import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
@@ -25,6 +26,7 @@ public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
   public static State lastRobotState = RobotConstants.IDLE;
 
+  public static CommandPS5Controller drivController;
 
   public RobotContainer() {
     Intake.getInstance();

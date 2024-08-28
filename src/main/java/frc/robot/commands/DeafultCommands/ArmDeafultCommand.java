@@ -6,6 +6,7 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
@@ -63,5 +64,22 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       default:
         break;
     }
+  }
+
+  @Override
+  public void ManuelLoop() {
+      super.ManuelLoop();
+      double controllerMult = Math.abs(RobotContainer.drivController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.drivController.getHID().getLeftY() * -1;
+      arm.setVoltage(ArmConstants.MANUEL_VOLTAGE_LIMIT * -controllerMult);
+  }
+
+  @Override
+  public void AutoLoop() {
+      super.AutoLoop();
+  }
+
+  @Override
+  public void TestLoop() {
+      super.TestLoop();
   }
 }

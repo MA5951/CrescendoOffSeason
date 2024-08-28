@@ -38,8 +38,9 @@ public class Shooter extends StateControlledSubsystem {
     shooterIO.setShooterNutralMode(false);
 
     board = new MAShuffleboard("Shooter");
-    board.addNum("Left Speed Adust", 0);
-    board.addNum("Right Speed Adust", 0);
+    board.addNum("Left Speed Adjust", 0);
+    board.addNum("Right Speed Adjust", 0);
+    board.addBoolean("Shooter Manuel Mode", false);
 
     leftSpeed = new LoggedDouble("/Subsystems/Shooter/Left Speed");
     rightSpeed = new LoggedDouble("/Subsystems/Shooter/Right Speed");
@@ -102,7 +103,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public void setShooterSpeeds(double leftRPM , double rightRPM) {
-    setShootingParameterSpeeds(new ShootingParameters(leftRPM + board.getNum("Left Speed Adust"), + board.getNum("Right Speed Adust"), 0));
+    setShootingParameterSpeeds(new ShootingParameters(leftRPM + board.getNum("Left Speed Adjust"), + board.getNum("Right Speed Adjust"), 0));
   }
 
   public void setShootingParameterSpeeds(ShootingParameters parameters) {
@@ -110,6 +111,12 @@ public class Shooter extends StateControlledSubsystem {
     leftSetPoint = parameters.getLeftSpeed();
     shooterIO.setRightSpeedSetPoint(rightSetPoint);
     shooterIO.setLeftSpeedSetPoint(leftSetPoint);
+  }
+
+  public void setManuelMode() {
+    if (board.getBoolean("Shooter Manuel Mode")) {
+      setShooterSpeeds(board.getNum("Left Speed Adjust") , board.getNum("Right Speed Adjust"));
+    } 
   }
 
   //Can Move
@@ -158,7 +165,7 @@ public class Shooter extends StateControlledSubsystem {
     shooterAtPoint.update(atPoint());
     leftSetPointLog.update(leftSetPoint);
     rightSetPointLog.update(rightSetPoint);
-    leftSpeedAdust.update(board.getNum("Left Speed Adust"));
-    rightSpeedAdust.update(board.getNum("Right Speed Adust"));
+    leftSpeedAdust.update(board.getNum("Left Speed Adjust"));
+    rightSpeedAdust.update(board.getNum("Right Speed Adjust"));
   }
 }

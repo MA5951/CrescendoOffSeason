@@ -4,6 +4,9 @@
 
 package frc.robot.Subsystem.Intake;
 
+import com.ma5951.utils.DashBoard.MAShuffleboard;
+import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import frc.robot.RobotConstants;
@@ -17,9 +20,17 @@ public class Intake extends StateControlledSubsystem {
 
   private IntakeIO intakeIO =  IntakeConstants.getIntakeIO();
 
+  private MAShuffleboard board;
+  private LoggedDouble offsetLog;
+  
+
+
   private Intake() {
     super(IntakeConstants.SYSTEM_STATES , "Intake");
     intakeIO.setNutralMode(true);
+    board = new MAShuffleboard("Intake");
+    board.addNum("Intake Adjust" , 0);
+    offsetLog = new LoggedDouble("/Subsystems/Intake/Offset");
   }
 
   public double getCurrentDraw() {
@@ -38,8 +49,8 @@ public class Intake extends StateControlledSubsystem {
     setVoltage(0);
   }
 
-  public void setVoltage(double voltage) {
-    intakeIO.setVoltage(voltage);
+  public void setVoltage(double voltage ) {
+    intakeIO.setVoltage(voltage * board.getNum("Intake Adjust"));
   }
 
   public void setPower(double power) {
@@ -72,5 +83,6 @@ public class Intake extends StateControlledSubsystem {
   public void periodic() {
     super.periodic();
     intakeIO.updatePeriodic();
+    offsetLog.update(board.getNum("Intake Adjust"));
   }
 }

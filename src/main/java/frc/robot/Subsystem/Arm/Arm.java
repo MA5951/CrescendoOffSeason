@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystem.Arm;
 
+import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
@@ -19,13 +20,18 @@ public class Arm extends StateControlledSubsystem {
   private LoggedBool atPointLog;
   private LoggedDouble setPointLog;
   private LoggedDouble armAngleLog;
+  private LoggedDouble armOffset;
+  private MAShuffleboard board;
 
   private Arm() {
     super(ArmConstants.SUBSYSTEM_STATES , "Arm");
     atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
     setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");
     armAngleLog = new LoggedDouble("/Subsystems/Arm/Arm Angle");
+    armOffset = new LoggedDouble("/Subsystems/Arm/Angle Offset");
     armIO.setNutralMode(true);
+    board = new MAShuffleboard("Arm");
+    board.addNum("Angle Offset", 0);
   }
 
   public double getCurrentDraw() {
@@ -46,7 +52,7 @@ public class Arm extends StateControlledSubsystem {
 
   public void runSetPoint(double setPoint) {
     this.setPoint = setPoint;
-    armIO.setAngleSetPoint(setPoint);
+    armIO.setAngleSetPoint(setPoint + board.getNum("Angle Offset"));
   }
 
   public double getVoltage() {
@@ -88,5 +94,6 @@ public class Arm extends StateControlledSubsystem {
     atPointLog.update(atPoint());
     setPointLog.update(getSetPoint());
     armAngleLog.update(getArmPosition());
+    armOffset.update(board.getNum("Angle Offset"));
   }
 }

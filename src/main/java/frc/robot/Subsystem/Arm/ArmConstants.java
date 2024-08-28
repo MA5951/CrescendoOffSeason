@@ -43,6 +43,8 @@ public class ArmConstants {
     public static final double HOME_CURRENTLIMIT = 0;
     public static final double ANGLE_LIMIT = 0;
 
+    public static final double MANUEL_VOLTAGE_LIMIT = 0;
+
     public static final double PeakCurrentLimit = 0; 
     public static final double ContinuesCurrentLimit = 0; 
     public static final double PeakCurrentTime = 0; 
