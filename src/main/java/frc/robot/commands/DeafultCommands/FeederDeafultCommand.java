@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.DeafultCommands;
+package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
@@ -44,6 +44,8 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           break;
         case "EJECTING":
           Feeder.getInstance().turnOnEjectFeeder();
+          break;
+        case "NOTE_ADJUSTING":
           break;
         default:
           break;

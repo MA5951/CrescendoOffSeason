@@ -8,8 +8,6 @@ import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
-import frc.robot.RobotConstants;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 
 public class Arm extends StateControlledSubsystem {
@@ -22,7 +20,7 @@ public class Arm extends StateControlledSubsystem {
   private LoggedDouble setPointLog;
   private LoggedDouble armAngleLog;
 
-  public Arm() {
+  private Arm() {
     super(ArmConstants.SUBSYSTEM_STATES , "Arm");
     atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
     setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");
@@ -51,6 +49,10 @@ public class Arm extends StateControlledSubsystem {
     armIO.setAngleSetPoint(setPoint);
   }
 
+  public double getVoltage() {
+    return armIO.getAppliedVolts();
+  }
+
   public void setVoltage(double voltage) {
     armIO.setVoltage(voltage);
   }
@@ -59,13 +61,17 @@ public class Arm extends StateControlledSubsystem {
     armIO.setVoltage(power * 12);
   }
 
+
+  //Can Move
+  private boolean LimitsCanMove(){
+    return (getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
+     (getArmPosition() > ArmConstants.UPPER_LIMIT && getVoltage() < 0) ||
+    (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0);
+  } 
+
   @Override
   public boolean canMove() {
-      if (RobotContainer.currentRobotState != RobotConstants.IDLE || RobotContainer.currentRobotState == RobotConstants.EJECT) {
-        return true;
-      } else {
-        return false;
-      }
+    return LimitsCanMove();
   }
 
   public static Arm getInstance() {

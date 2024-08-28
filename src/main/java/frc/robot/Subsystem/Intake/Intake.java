@@ -17,9 +17,13 @@ public class Intake extends StateControlledSubsystem {
 
   private IntakeIO intakeIO =  IntakeConstants.getIntakeIO();
 
-  public Intake() {
+  private Intake() {
     super(IntakeConstants.SYSTEM_STATES , "Intake");
-    intakeIO.setNutralMode(false);
+    intakeIO.setNutralMode(true);
+  }
+
+  public double getCurrentDraw() {
+    return intakeIO.getCurrentDraw();
   }
 
   public void turnOnIntke() {
@@ -42,15 +46,19 @@ public class Intake extends StateControlledSubsystem {
     setVoltage(power * 12);
   }
 
+
+  //Can Move
+  private boolean IntakeCanMove(){
+    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !SuperStructure.isNote() ;
+  }
+
+  private boolean EjectCanMove(){
+    return RobotContainer.currentRobotState == RobotConstants.EJECT;
+  }
+
   @Override
   public boolean canMove() {
-      if ((RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() 
-      && !SuperStructure.getInstance().isNote())||
-          (RobotContainer.currentRobotState == RobotConstants.EJECT)) {
-          return true;
-      } else {
-          return false;
-      }
+      return IntakeCanMove() || EjectCanMove();
   }
 
   public static Intake getInstance() {

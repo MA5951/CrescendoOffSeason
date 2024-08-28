@@ -21,6 +21,7 @@ public class ShooterConstants {
     public static final double kS = 0;
     public static final double kV = 0;
     public static final double kTOLORANCE = 0;
+    public static final double kTOLORANCE_BETWEEN_SIDES = 0;
     public static final double GEAR = 0.5;
 
     public static final double SIM_kP = 0.1;

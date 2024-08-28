@@ -21,7 +21,7 @@ public class Feeder extends StateControlledSubsystem {
 
   private LoggedBool beamBrakerLog;
 
-  public Feeder() {
+  private Feeder() {
     super(FeederConstants.SYSTEM_STATES , "Feeder");
     feederIO.setNutralMode(true);
     beamBrakerLog = new LoggedBool("/Subsystems/Feeder/Is Note");
@@ -32,32 +32,55 @@ public class Feeder extends StateControlledSubsystem {
   }
 
   public void turnOnFeeder() {
-    feederIO.setVoltage(FeederConstants.FEEDER_POWER);
+    setVoltage(FeederConstants.FEEDER_POWER);
   }
 
   public void turnOnEjectFeeder() {
-    feederIO.setVoltage(FeederConstants.EJECT_POWER);
+    setVoltage(FeederConstants.EJECT_POWER);
   }
 
   public void turnOffFeeder() {
-    feederIO.setVoltage(0);
+    setVoltage(0);
+  }
+
+  public void setVoltage(double voltage) {
+    feederIO.setVoltage(voltage);
+  }
+
+  public void setPower(double power) {
+    setVoltage(power * 12);
+  }
+
+  //Can Move
+  private boolean IntakeCanMove(){
+    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() ;
+  }
+
+  private boolean EjectCanMove(){
+    return RobotContainer.currentRobotState == RobotConstants.EJECT;
+  }
+
+  private boolean FeedingCanMove() {
+    return RobotContainer.currentRobotState == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
+           && SuperStructure.isHeadingForFeeding() ;
+  }
+
+  private boolean StationaryShootCanMove() {
+    return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
+          && SuperStructure.isHeadingForShooting() && !SuperStructure.isRobotMoving() ;
+  }
+
+  private boolean AmpCanMove() {
+    return RobotContainer.currentRobotState == RobotConstants.AMP && Arm.getInstance().atPoint();
+  }
+
+  private boolean PresetShootingCanMove() {
+    return RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint();
   }
 
   @Override
   public boolean canMove() {
-      if ((RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() )||
-          (RobotContainer.currentRobotState == RobotConstants.EJECT )||
-          (RobotContainer.currentRobotState == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
-           && SuperStructure.getInstance().isHeadingForFeeding() )|| 
-          (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-          && SuperStructure.getInstance().isHeadingForShooting() && !SuperStructure.getInstance().isRobotMoving() ) ||
-          (RobotContainer.currentRobotState == RobotConstants.AMP && Arm.getInstance().atPoint()) ||
-          (RobotContainer.currentRobotState == RobotConstants.SUBWOOPER_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() )||
-          (RobotContainer.currentRobotState == RobotConstants.PODIUM_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint())){
-          return true;
-      } else {
-          return false;
-      }
+      return IntakeCanMove()|| EjectCanMove() || FeedingCanMove()|| StationaryShootCanMove() || AmpCanMove() || PresetShootingCanMove();
   }
 
   public static Feeder getInstance() {

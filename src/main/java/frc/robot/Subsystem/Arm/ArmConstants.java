@@ -59,6 +59,8 @@ public class ArmConstants {
 
     public static final State[] SUBSYSTEM_STATES = {IDLE, FOLLOW_SPEAKER, SOURCE_INTAKE, AMP, INTAKE, HOME, FEEDING
     , PRESET_SHOOTING};
+    public static double LOWER_LIMIT;
+    public static double UPPER_LIMIT;
 
 
     public static final ArmIO getArmIO() {

@@ -24,6 +24,7 @@ public class FeederConstants {
     public static final State IDLE = StatesConstants.IDLE;
     public static final State FEEDING = new State("FEEDING");
     public static final State EJECTING = new State("EJECTING_AMP");
+    public static final State NOTE_ADJUSTING = new State("NOTE_ADJUSTING");
 
     public static final State[] SYSTEM_STATES = {IDLE, FEEDING, EJECTING};
 

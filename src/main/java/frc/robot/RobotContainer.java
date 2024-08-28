@@ -8,10 +8,6 @@ import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Commands.DeafultCommands.ArmDeafultCommand;
-import frc.robot.Commands.DeafultCommands.FeederDeafultCommand;
-import frc.robot.Commands.DeafultCommands.IntakeDeafultCommand;
-import frc.robot.Commands.DeafultCommands.ShooterDeafultCommand;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
@@ -20,6 +16,10 @@ import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
+import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
+import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
+import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
