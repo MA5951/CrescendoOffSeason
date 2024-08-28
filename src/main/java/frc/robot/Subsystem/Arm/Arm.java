@@ -24,7 +24,7 @@ public class Arm extends StateControlledSubsystem {
   private LoggedDouble armAngleLog;
 
   public Arm() {
-    super(ArmConstants.SUBSYSTEM_STATES);
+    super(ArmConstants.SUBSYSTEM_STATES , "Arm");
     atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
     setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");
     armAngleLog = new LoggedDouble("/Subsystems/Arm/Arm Angle");

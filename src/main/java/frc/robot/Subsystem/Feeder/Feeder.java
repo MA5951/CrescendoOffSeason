@@ -26,7 +26,7 @@ public class Feeder extends StateControlledSubsystem {
   private LoggedBool beamBrakerLog;
 
   public Feeder() {
-    super(FeederConstants.SYSTEM_STATES);
+    super(FeederConstants.SYSTEM_STATES , "Feeder");
     feederIO.setNutralMode(true);
     beamBrakerLog = new LoggedBool("/Subsystems/Feeder/Is Note");
   }
