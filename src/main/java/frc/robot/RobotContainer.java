@@ -11,10 +11,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Commands.DeafultCommands.ArmDeafultCommand;
-import frc.robot.Commands.DeafultCommands.FeederDeafultCommand;
-import frc.robot.Commands.DeafultCommands.IntakeDeafultCommand;
-import frc.robot.Commands.DeafultCommands.ShooterDeafultCommand;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
@@ -24,12 +20,17 @@ import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
+import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
+import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
+import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
   public static State lastRobotState = RobotConstants.IDLE;
 
   public static CommandPS5Controller driverController = new CommandPS5Controller(PortMap.Controllers.driveID);
+  public static CommandPS5Controller oporatorController = new CommandPS5Controller(PortMap.Controllers.operatorID);
 
   public RobotContainer() {
     Intake.getInstance();
@@ -119,15 +120,6 @@ public class RobotContainer {
     Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
     Shooter.getInstance().setTargetState(ShooterConstants.FEEDING);
   }
-
-  public State getRobotState() {
-      return currentRobotState;
-  }
-
-  public State getLastRobotState() {
-      return lastRobotState;
-  }
-
   
   private void setDeafultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
@@ -137,15 +129,30 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    //Start and stop intake
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
-    driverController.R1().onTrue(new InstantCommand(() -> setINTAKE()));
+    new Trigger(() -> driverController.getHID().getL1Button() && !SuperStructure.isNote() && currentRobotState != RobotConstants.INTAKE).onTrue(new InstantCommand(() -> setINTAKE()));
 
+    //Start, stop and inturupt amp
     new Trigger(() -> currentRobotState == RobotConstants.AMP && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
     new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setAMP()));
     new Trigger(() -> currentRobotState == RobotConstants.AMP && driverController.getHID().getCircleButton() && !SuperStructure.isNote()).onTrue(new InstantCommand(() -> setIDLE()));
 
-    new Trigger(() -> SuperStructure.isInWarmUpZone() && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setWARMING()));
+    //Start and stop warm up
+    new Trigger(() -> SuperStructure.isInWarmUpZone() && SuperStructure.isNote() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setWARMING()));
     new Trigger(() -> !SuperStructure.isInWarmUpZone() && currentRobotState == RobotConstants.WARMING).onTrue(new InstantCommand(() -> setIDLE()));
+
+    //Starts Shooting 
+    new Trigger(() -> driverController.getHID().getR1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+    //Shooting turn off in feeder
+
+    new Trigger(() -> driverController.getHID().getPOV() == && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+    new Trigger(() -> driverController.getHID().getR1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+
+    //Ejecting while held
+    new Trigger(() -> driverController.getHID().getCrossButton() && currentRobotState != RobotConstants.SOURCE_INTAKE && SuperStructure.isNote())
+    .onTrue(new InstantCommand(() -> setEJECT())).whileFalse(new InstantCommand(() -> setIDLE()));
+
 
   }
 

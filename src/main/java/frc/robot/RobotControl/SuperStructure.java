@@ -10,9 +10,19 @@ import frc.robot.Utils.ShootingParameters;
 /** Add your docs here. */
 public class SuperStructure {
 
+    private static ShootingParameters presetParameters;
+    private static ShootingParameters shootingParameters;
+
+    public void setPRESETParameters(ShootingParameters parameters) {
+        presetParameters = parameters;
+    }
+
+    public static ShootingParameters getPRESETParameters() {
+        return presetParameters;
+    }
 
     public static ShootingParameters getShootingPrameters() {
-        return new ShootingParameters(0, 0, 0);
+        return shootingParameters;
     }
 
     public static ShootingParameters getFeedingPrameters() {
