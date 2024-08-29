@@ -57,6 +57,9 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
       case "SOURCE_INTAKE":
         shooter.setVoltage(ShooterConstants.SOURCE_INTAKE_VOLTAGE);
         break;
+      case "PRESET_SHOOTING":
+        shooter.setShootingParameterSpeeds(SuperStructure.getPRESETParameters());
+        break;
       default:
         break;
     }

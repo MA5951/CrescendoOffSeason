@@ -44,7 +44,7 @@ public class RobotContainer {
   public void setIDLE() {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
-      Arm.getInstance().setTargetState(ArmConstants.IDLE);
+      Arm.getInstance().setTargetState(ArmConstants.HOME);
       Feeder.getInstance().setTargetState(FeederConstants.IDLE);
       Intake.getInstance().setTargetState(IntakeConstants.IDLE);
       Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
@@ -129,9 +129,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //Start and stop intake
+    //Start, stop  and inturupt intake
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
     new Trigger(() -> driverController.getHID().getL1Button() && !SuperStructure.isNote() && currentRobotState != RobotConstants.INTAKE).onTrue(new InstantCommand(() -> setINTAKE()));
+    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setIDLE()));
+
 
     //Start, stop and inturupt amp
     new Trigger(() -> currentRobotState == RobotConstants.AMP && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
@@ -146,8 +148,14 @@ public class RobotContainer {
     new Trigger(() -> driverController.getHID().getR1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
     //Shooting turn off in feeder
 
-    new Trigger(() -> driverController.getHID().getPOV() == && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
-    new Trigger(() -> driverController.getHID().getR1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+    //Preset Shooting
+    new Trigger(() -> driverController.getHID().getPOV() == -90 && currentRobotState != RobotConstants.SOURCE_INTAKE)
+    .onTrue(new InstantCommand(() -> SuperStructure.setPRESETParameters(RobotConstants.PODIUM_SHOOTING_PARAMETERS))
+    .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
+    new Trigger(() -> driverController.getHID().getPOV() == 180 && currentRobotState != RobotConstants.SOURCE_INTAKE)
+    .onTrue(new InstantCommand(() -> SuperStructure.setPRESETParameters(RobotConstants.SUBWOOF_SHOOTING_PARAMETERS))
+    .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
+    //Shooting turn off in feeder
 
     //Ejecting while held
     new Trigger(() -> driverController.getHID().getCrossButton() && currentRobotState != RobotConstants.SOURCE_INTAKE && SuperStructure.isNote())

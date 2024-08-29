@@ -13,7 +13,7 @@ public class SuperStructure {
     private static ShootingParameters presetParameters;
     private static ShootingParameters shootingParameters;
 
-    public void setPRESETParameters(ShootingParameters parameters) {
+    public static void setPRESETParameters(ShootingParameters parameters) {
         presetParameters = parameters;
     }
 

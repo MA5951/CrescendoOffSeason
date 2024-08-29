@@ -90,9 +90,9 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      if (RobotContainer.driverController.getHID().getPOV() == -90) {
+      if (RobotContainer.oporatorController.getHID().getPOV() == -90) {
         feeder.turnOnFeeder();
-      } else if (RobotContainer.driverController.getHID().getPOV() == 90) {
+      } else if (RobotContainer.oporatorController.getHID().getPOV() == 90) {
         feeder.turnOnEjectFeeder();
       }
   }

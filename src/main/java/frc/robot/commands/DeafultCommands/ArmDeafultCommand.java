@@ -48,6 +48,9 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       case "SOURCE_INTAKE":
         arm.runSetPoint(ArmConstants.SOURCE_INTAKE_POSE);
         break;
+      case "PRESET_SHOOTING":
+        arm.runSetPoint(SuperStructure.getPRESETParameters().getArmAngle());
+        break;
       case "AMP":
         arm.runSetPoint(ArmConstants.AMP_POSE);
         break;
@@ -70,9 +73,15 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   }
 
   @Override
+  public void CAN_MOVE() {
+    super.CAN_MOVE();
+    arm.runSetPoint(arm.getArmPosition());
+  }
+
+  @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      double controllerMult = Math.abs(RobotContainer.driverController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.driverController.getHID().getLeftY() * -1;
+      double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.oporatorController.getHID().getLeftY() * -1;
       arm.setVoltage(ArmConstants.MANUEL_VOLTAGE_LIMIT * -controllerMult);
   }
 

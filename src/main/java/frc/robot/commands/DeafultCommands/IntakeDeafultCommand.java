@@ -55,9 +55,9 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
     super.ManuelLoop();
-    if (RobotContainer.driverController.getHID().getPOV() == 0) {
+    if (RobotContainer.oporatorController.getHID().getPOV() == 0) {
       intake.turnOnIntke();
-    } else if (RobotContainer.driverController.getHID().getPOV() == 180) {
+    } else if (RobotContainer.oporatorController.getHID().getPOV() == 180) {
       intake.turnOnEjectIntake();
     }
   }
