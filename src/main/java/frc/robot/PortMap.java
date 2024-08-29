@@ -64,8 +64,4 @@ public class PortMap {
         public static final int ledPort = 9; 
     }
 
-    public class Controllers {
-        public static final int driveID = 0;
-        public static final int operatorID = 1;    
-    }
 }

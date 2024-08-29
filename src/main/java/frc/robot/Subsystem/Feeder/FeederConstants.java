@@ -19,6 +19,8 @@ public class FeederConstants {
     public static final double FEEDER_POWER = 0; //TODO
     public static final double EJECT_POWER = 0; //TODO
 
+    public static final double AMP_REALES_TIME_SECOUNDS = 0;
+
     public static final double GEAR = 2.66; //TODO
 
     public static final State IDLE = StatesConstants.IDLE;

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.DeafultCommands;
+package frc.robot.Commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
@@ -72,7 +72,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      double controllerMult = Math.abs(RobotContainer.drivController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.drivController.getHID().getLeftY() * -1;
+      double controllerMult = Math.abs(RobotContainer.driverController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.driverController.getHID().getLeftY() * -1;
       arm.setVoltage(ArmConstants.MANUEL_VOLTAGE_LIMIT * -controllerMult);
   }
 

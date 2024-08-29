@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.DeafultCommands.ArmDeafultCommand;
+import frc.robot.Commands.DeafultCommands.FeederDeafultCommand;
+import frc.robot.Commands.DeafultCommands.IntakeDeafultCommand;
+import frc.robot.Commands.DeafultCommands.ShooterDeafultCommand;
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
@@ -19,11 +24,6 @@ import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
-import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
-import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
-import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
-import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
-import frc.robot.commands.Swerve.DriveController;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
@@ -140,7 +140,13 @@ public class RobotContainer {
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
     driverController.R1().onTrue(new InstantCommand(() -> setINTAKE()));
 
-    new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP).onTrue(new InstantCommand(() -> setAMP()));
+    new Trigger(() -> currentRobotState == RobotConstants.AMP && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setAMP()));
+    new Trigger(() -> currentRobotState == RobotConstants.AMP && driverController.getHID().getCircleButton() && !SuperStructure.isNote()).onTrue(new InstantCommand(() -> setIDLE()));
+
+    new Trigger(() -> SuperStructure.isInWarmUpZone() && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setWARMING()));
+    new Trigger(() -> !SuperStructure.isInWarmUpZone() && currentRobotState == RobotConstants.WARMING).onTrue(new InstantCommand(() -> setIDLE()));
+
   }
 
   public Command getAutonomousCommand() {
