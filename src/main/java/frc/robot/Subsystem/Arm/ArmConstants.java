@@ -19,9 +19,12 @@ public class ArmConstants {
     public static final double AMP_POSE = 137.32;
     public static final double SOURCE_INTAKE_POSE = 0;
 
-    public static final double ARM_LENGTH = 0;
-    public static final double ARM_WEIGHT = 0;
+    public static final double ARM_LENGTH = 0.35;
+    public static final double ARM_WEIGHT = 8.5;
     
+    public static final double MG = ARM_WEIGHT * 9.8;
+
+    public static final double kSTALL_TOURQE = 7;
     public static final int CONTROL_SLOT = 0;
     public static final double kP = 0;
     public static final double kI = 0;

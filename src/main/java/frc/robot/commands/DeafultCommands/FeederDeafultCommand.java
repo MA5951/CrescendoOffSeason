@@ -15,7 +15,7 @@ import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 
 public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
-  private static Feeder feeder = Feeder.getInstance();
+  private static Feeder feeder = Feeder.getInstance(); //TODO change to the constructor and cant be static
   private Timer timer = new Timer();
   private boolean isAmpReales = false;
   private boolean isTimerReset = false;
@@ -34,7 +34,9 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+     //TODO set the volteg to 0
+  }
 
   @Override
   public boolean isFinished() {
@@ -49,7 +51,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           feeder.turnOffFeeder();
           break;
         case "FORWARD":
-          if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
+          if (RobotContainer.currentRobotState == RobotConstants.INTAKE) { //TODO change to ir logic
             feeder.turnOnFeeder();
           } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
             if (!isTimerReset) {
@@ -69,8 +71,9 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           feeder.turnOnEjectFeeder();
           break;
         case "NOTE_ADJUSTING":
+        //TODO add the logic 
           break;
-        case "AMP_REALES":
+        case "AMP_REALES": //TODO delet
           if (SuperStructure.isNote() && Arm.getInstance().atPoint() && RobotContainer.driverController.getHID().getCircleButton()) {
             isAmpReales = true;
             timer.start();
@@ -100,6 +103,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void AutoLoop() {
       super.AutoLoop();
+      //TODO add the AutomaticLoop
   }
 
   @Override

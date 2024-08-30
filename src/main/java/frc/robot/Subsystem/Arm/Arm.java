@@ -34,6 +34,10 @@ public class Arm extends StateControlledSubsystem {
     board.addNum("Angle Offset", 0);
   }
 
+  public double getFeedForwardVoltage() {
+    return ((ArmConstants.MG * Math.sin(getArmPosition()) * ArmConstants.ARM_LENGTH) / ArmConstants.GEAR) / ArmConstants.kSTALL_TOURQE * 12;
+}
+
   public double getCurrentDraw() {
     return armIO.getCurrentDraw();
   }

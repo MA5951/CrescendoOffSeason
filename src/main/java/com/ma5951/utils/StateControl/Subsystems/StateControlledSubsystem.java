@@ -74,8 +74,8 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
 
    @Override
    public void periodic() {
-       //Print States 
-       //Dashboard cahnge to manuel / automatic
+       //TODO Print States 
+       //TODO Dashboard cahnge to manuel / automatic
        currentStateLog.update(getCurrenState().getName());
        systemFunctionStateLog.update(getSystemFunctionState().getName());
        targetStateLog.update(getTargetState().getName());

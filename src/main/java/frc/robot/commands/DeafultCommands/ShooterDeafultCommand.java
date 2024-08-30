@@ -12,7 +12,7 @@ import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 
 public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
-  private static Shooter shooter = Shooter.getInstance();
+  private static Shooter shooter = Shooter.getInstance(); //TODO change to the constructor and cant be static
 
   public ShooterDeafultCommand() {
     super(shooter);
@@ -20,7 +20,9 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    //TODO set the motor to work only between 0 and 1 / -1 to 0 
+  }
 
   @Override
   public void execute() {
@@ -28,7 +30,9 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+     //TODO set the volteg to 0
+  }
 
   @Override
   public boolean isFinished() {
@@ -43,7 +47,7 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         shooter.setVoltage(0);
         break;
       case "WARM":
-        shooter.setShootingParameterSpeeds(RobotConstants.WARM_SHOOTING_PARAMETERS);
+        shooter.setShootingParameterSpeeds(RobotConstants.WARM_SHOOTING_PARAMETERS); //TODO change to function that retunr preset. maybe we need to change the value based on the pose 
         break;
       case "SHOOTING":
         shooter.setShootingParameterSpeeds(SuperStructure.getShootingPrameters());
@@ -55,7 +59,9 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         shooter.setVoltage(ShooterConstants.EJECTING_VOLTGE);
         break;
       case "SOURCE_INTAKE":
+      //TODO cancel the init set
         shooter.setVoltage(ShooterConstants.SOURCE_INTAKE_VOLTAGE);
+      //TODO cancel the cancel  
         break;
       case "PRESET_SHOOTING":
         shooter.setShootingParameterSpeeds(SuperStructure.getPRESETParameters());
@@ -68,6 +74,8 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      shooter.setManuelMode();
+      shooter.setManuelMode(); //change to be a command proparty
   }
+
+  //TODO add auto loop 
 }

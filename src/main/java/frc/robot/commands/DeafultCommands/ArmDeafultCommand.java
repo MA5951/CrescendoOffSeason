@@ -12,7 +12,7 @@ import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class ArmDeafultCommand extends RobotFunctionStatesCommand {
-  private static Arm arm = Arm.getInstance();
+  private static Arm arm = Arm.getInstance(); //TODO change to the constructor and cant be static
   
   public ArmDeafultCommand() {
     super(arm);
@@ -20,7 +20,9 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   @Override
   public void execute() {
@@ -28,7 +30,9 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+   //TODO set the volteg to feedfowerd
+  }
 
   @Override
   public boolean isFinished() {
@@ -39,8 +43,8 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   public void AutomaticLoop() {
     super.AutomaticLoop();
     switch (arm.getCurrenState().getName()) {
-      case "IDLE":
-        arm.setVoltage(0);
+      case "IDLE": //TODO change the string to constant
+        arm.setVoltage(0); //TODO change to hold value constant the value can be 0 
         break;
       case "FOLLOW_SPEAKER":
         arm.runSetPoint(SuperStructure.getShootingPrameters().getArmAngle());
@@ -60,9 +64,10 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       case "HOME":
         if (arm.getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT) {
           arm.setTargetState(ArmConstants.IDLE);
-          arm.resetPosition(ArmConstants.INTAKE_POSE);
+          arm.resetPosition(ArmConstants.INTAKE_POSE); //TODO change to onther value. we cant now for sure that this is the smae one
         } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT) {
           arm.runSetPoint(ArmConstants.INTAKE_POSE);
+          //TODO set the voltege to zero between the sets
         } else {
           arm.setVoltage(ArmConstants.HOME_VOLTAGE);
         }
@@ -75,19 +80,25 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void CAN_MOVE() {
     super.CAN_MOVE();
-    arm.runSetPoint(arm.getArmPosition());
   }
+
+  @Override
+    public void CANT_MOVE() {
+        super.CANT_MOVE();
+          arm.runSetPoint(arm.getArmPosition()); //TODO cahnge to hold value constant the value can be 0 
+    }
 
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
       double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.oporatorController.getHID().getLeftY() * -1;
-      arm.setVoltage(ArmConstants.MANUEL_VOLTAGE_LIMIT * -controllerMult);
+      arm.setVoltage(ArmConstants.MANUEL_VOLTAGE_LIMIT * -controllerMult); //TODO you dont need to multiply by -1
   }
 
   @Override
   public void AutoLoop() {
       super.AutoLoop();
+      //TODO run the AutomaticLoop function
   }
 
   @Override

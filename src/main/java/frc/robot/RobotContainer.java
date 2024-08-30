@@ -27,7 +27,7 @@ import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
-  public static State lastRobotState = RobotConstants.IDLE;
+  public static State lastRobotState = currentRobotState;
 
   public static CommandPS5Controller driverController = new CommandPS5Controller(PortMap.Controllers.driveID);
   public static CommandPS5Controller oporatorController = new CommandPS5Controller(PortMap.Controllers.operatorID);
@@ -37,6 +37,7 @@ public class RobotContainer {
     Arm.getInstance();
     Feeder.getInstance();
     Shooter.getInstance();
+    //TODO add swerve drive instance
     setDeafultCommands();
     configureBindings();
   }
@@ -52,6 +53,7 @@ public class RobotContainer {
 
   public void setINTAKE() {
       currentRobotState = RobotConstants.INTAKE;
+      //TODO add last state
       Arm.getInstance().setTargetState(ArmConstants.INTAKE);
       Intake.getInstance().setTargetState(IntakeConstants.INTAKING);
       Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
@@ -62,8 +64,8 @@ public class RobotContainer {
     lastRobotState = currentRobotState;
     currentRobotState = RobotConstants.EJECT;
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
-    Intake.getInstance().setTargetState(IntakeConstants.EJECTING);
-    Feeder.getInstance().setTargetState(FeederConstants.REVERSE);
+    Intake.getInstance().setTargetState(IntakeConstants.EJECTING); //idel 
+    Feeder.getInstance().setTargetState(FeederConstants.REVERSE); //TODO change to fowerd
     Shooter.getInstance().setTargetState(ShooterConstants.EJECTING);
   }
 
@@ -81,7 +83,7 @@ public class RobotContainer {
     currentRobotState = RobotConstants.AMP;
     Arm.getInstance().setTargetState(ArmConstants.AMP);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
+    Feeder.getInstance().setTargetState(FeederConstants.FORWARD); //TODO Cahge to idel
     Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
   }
 
@@ -118,10 +120,11 @@ public class RobotContainer {
     Arm.getInstance().setTargetState(ArmConstants.FEEDING);
     Intake.getInstance().setTargetState(IntakeConstants.IDLE);
     Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
-    Shooter.getInstance().setTargetState(ShooterConstants.FEEDING);
+    Shooter.getInstance().setTargetState(ShooterConstants.FEEDING); //TODO change to the right state
   }
   
   private void setDeafultCommands() {
+    //TODO while you set the defult command
     CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Feeder.getInstance(), new FeederDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeDeafultCommand());
@@ -131,7 +134,7 @@ public class RobotContainer {
   private void configureBindings() {
     //Start, stop  and inturupt intake
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
-    new Trigger(() -> driverController.getHID().getL1Button() && !SuperStructure.isNote() && currentRobotState != RobotConstants.INTAKE).onTrue(new InstantCommand(() -> setINTAKE()));
+    new Trigger(() -> driverController.getHID().getL1Button() && !SuperStructure.isNote()).onTrue(new InstantCommand(() -> setINTAKE()));
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setIDLE()));
 
 
@@ -140,7 +143,7 @@ public class RobotContainer {
     new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setAMP()));
     new Trigger(() -> currentRobotState == RobotConstants.AMP && driverController.getHID().getCircleButton() && !SuperStructure.isNote()).onTrue(new InstantCommand(() -> setIDLE()));
 
-    //Start and stop warm up
+    //Start and stop warm up //add not amp
     new Trigger(() -> SuperStructure.isInWarmUpZone() && SuperStructure.isNote() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setWARMING()));
     new Trigger(() -> !SuperStructure.isInWarmUpZone() && currentRobotState == RobotConstants.WARMING).onTrue(new InstantCommand(() -> setIDLE()));
 
@@ -159,12 +162,12 @@ public class RobotContainer {
 
     //Ejecting while held
     new Trigger(() -> driverController.getHID().getCrossButton() && currentRobotState != RobotConstants.SOURCE_INTAKE && SuperStructure.isNote())
-    .onTrue(new InstantCommand(() -> setEJECT())).whileFalse(new InstantCommand(() -> setIDLE()));
+    .onTrue(new InstantCommand(() -> setEJECT())).onFalse(new InstantCommand(() -> setIDLE()));
 
 
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    return null; //TODO add auto commands 
   }
 }

@@ -125,6 +125,7 @@ public class ArmIOReal implements ArmIO {
         armMotor.setControl(motionMagicControl.withPosition(angleSetPoint).withSlot(ArmConstants.CONTROL_SLOT)
         .withLimitForwardMotion(getForwardLimit())
         .withLimitReverseMotion(getReversLimit())
+       
         );
     }
 

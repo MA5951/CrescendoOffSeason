@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Intake.Intake;
 
 public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
-  private static Intake intake = Intake.getInstance();
+  private static Intake intake = Intake.getInstance(); //TODO change to the constructor and cant be static
   
   public IntakeDeafultCommand() {
     super(intake);
@@ -26,7 +26,9 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+     //TODO set the volteg to 0
+  }
 
   @Override
   public boolean isFinished() {
