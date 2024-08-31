@@ -36,6 +36,7 @@ public class SwerveConstants {
         //                 / DRIVE_GEAR_RATIO)); // * 0.92378753;
         // public final static double ANGLE_PER_PULSE = 360d / TURNING_GEAR_RATIO;
 
+        //TODO revers motors
         // front left module
         public final static double FRONT_LEFT_MODULE_OFFSET_ENCODER = 0;//-0.47;
         public final static boolean FRONT_LEFT_MOUDLE_IS_DRIVE_MOTOR_REVERSED = true;
@@ -157,7 +158,6 @@ public class SwerveConstants {
         public final static double OPEN_LOOP_RAMP = 0.25;
         public final static double CLOSED_LOOP_RAMP = 0;
         // Current Limit
-        public final static int TURNING_PEAK_CURRENT_LIMIT_TORQUE_CURRENT = 400;
         public final static int TURNING_PEAK_CURRENT_LIMIT = 40;
         public final static int TURNING_CONTINUOUS_CURRENT_LIMIT = 25;
         public final static double TURNING_PEAK_CURRENT_DURATION = 0.1;
@@ -171,7 +171,6 @@ public class SwerveConstants {
         public final static double DRIVE_kS = 0;
         public final static double DRIVE_kV = 0.857 ;//* 12;
         // Current Limit
-        public final static int DRIVE_PEAK_CURRENT_LIMIT_TORQUE_CURRENT = 60;
         public final static int DRIVE_PEAK_CURRENT_LIMIT = 60;
         public final static int DRIVE_CONTINUOS_CURRENT_LIMIT = 35;
         public final static double DRIVE_PEAK_CURRENT_DURATION = 0.1;

@@ -21,7 +21,9 @@ public interface ArmIO {
 
     void setNutralMode(boolean isBrake);
 
-    void setAngleSetPoint(double angleSetPoint);
+    void setAngleSetPoint(double angleSetPoint , double feedforward);
+
+    void updatePIDValues(double Kp , double Ki , double Kd);
 
     void setVoltage(double volt);
 

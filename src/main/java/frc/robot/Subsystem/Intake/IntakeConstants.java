@@ -15,16 +15,15 @@ import frc.robot.Subsystem.Intake.IOs.IntakeIOSim;
 /** Add your docs here. */
 public class IntakeConstants {
 
-    public static final double INTAKE_POWER = 0; //TODO
-    public static final double EJECT_POWER = 0; //TODO
+    public static final double INTAKE_POWER = 4;
+    public static final double EJECT_POWER = -4;
     
-    public static final double Gear = 0.333; //TODO
+    public static final double Gear = 0.333;
     
-    
-    public static final double PeakCurrentLimit = 0; //TODO
-    public static final double ContinuesCurrentLimit = 0; //TODO
-    public static final double PeakCurrentTime = 0; //TODO
-    public static final boolean IsCurrentLimitEnabled = true; //TODO
+    public static final double PeakCurrentLimit = 40; 
+    public static final double ContinuesCurrentLimit = 25; 
+    public static final double PeakCurrentTime = 0.1; 
+    public static final boolean IsCurrentLimitEnabled = true; 
 
     public static final State IDLE = StatesConstants.IDLE;
     public static final State INTAKING = new State("INTAKING");

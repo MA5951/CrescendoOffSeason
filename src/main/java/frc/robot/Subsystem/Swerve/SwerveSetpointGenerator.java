@@ -249,8 +249,6 @@ public class SwerveSetpointGenerator {
     }
     Twist2d preSeTwist2d =  new Twist2d(
         prevSetpoint.chassisSpeeds().vxMetersPerSecond, prevSetpoint.chassisSpeeds().vyMetersPerSecond, prevSetpoint.chassisSpeeds().omegaRadiansPerSecond);
-    Twist2d deTwist2d2 =  new Twist2d(
-        desiredState.vxMetersPerSecond, desiredState.vyMetersPerSecond, desiredState.omegaRadiansPerSecond);
     if (all_modules_should_flip
         && !EqualsUtil.epsilonEquals(new Twist2d() , preSeTwist2d)
         && !EqualsUtil.epsilonEquals(new Twist2d() , deTwist2d)) {

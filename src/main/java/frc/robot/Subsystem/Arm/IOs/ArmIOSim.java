@@ -70,7 +70,7 @@ public class ArmIOSim implements ArmIO{
         
     }
     
-    public void setAngleSetPoint(double angleSetPoint) {
+    public void setAngleSetPoint(double angleSetPoint , double feedforward) {//TODO: feedforward
         setVoltage(pidController.calculate(getPosition(), angleSetPoint));
     }
 
@@ -93,5 +93,10 @@ public class ArmIOSim implements ArmIO{
         velocityLog.update(getVelocity());
         currentDrawLog.update(getCurrentDraw());
         positionLog.update(getPosition());
+    }
+
+
+    public void updatePIDValues(double Kp, double Ki, double Kd) {
+        
     }
 }

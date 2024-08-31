@@ -42,7 +42,7 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void AutomaticLoop() {
     super.AutomaticLoop();    
-    switch (shooter.getCurrenState().getName()) {
+    switch (shooter.getTargetState().getName()) {
       case "IDLE":
         shooter.setVoltage(0);
         break;

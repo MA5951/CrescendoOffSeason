@@ -18,12 +18,15 @@ import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
+import frc.robot.Subsystem.PoseEstimation.SwervePoseCalculator;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
 import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
 import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
+import frc.robot.commands.Swerve.TeleopSwerveController;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;
@@ -37,9 +40,11 @@ public class RobotContainer {
     Arm.getInstance();
     Feeder.getInstance();
     Shooter.getInstance();
-    //TODO add swerve drive instance
+    SwerveSubsystem.getInstance();
+    SwervePoseCalculator.getInstance();
     setDeafultCommands();
     configureBindings();
+    
   }
 
   public void setIDLE() {
@@ -129,6 +134,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(Feeder.getInstance(), new FeederDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
+    CommandScheduler.getInstance().setDefaultCommand(SwerveSubsystem.getInstance(), new TeleopSwerveController(RobotContainer.driverController));
   }
 
   private void configureBindings() {

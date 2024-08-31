@@ -42,7 +42,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void AutomaticLoop() {
     super.AutomaticLoop();
-    switch (arm.getCurrenState().getName()) {
+    switch (arm.getTargetState().getName()) {
       case "IDLE": //TODO change the string to constant
         arm.setVoltage(0); //TODO change to hold value constant the value can be 0 
         break;
@@ -65,7 +65,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
         if (arm.getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT) {
           arm.setTargetState(ArmConstants.IDLE);
           arm.resetPosition(ArmConstants.INTAKE_POSE); //TODO change to onther value. we cant now for sure that this is the smae one
-        } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT) {
+        } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
           arm.runSetPoint(ArmConstants.INTAKE_POSE);
           //TODO set the voltege to zero between the sets
         } else {

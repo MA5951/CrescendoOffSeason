@@ -7,6 +7,7 @@ package com.ma5951.utils.StateControl.Subsystems;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.StateControl.StatesTypes.State;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
@@ -25,6 +26,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
     private LoggedString currentStateLog;
     private LoggedString systemFunctionStateLog;
     private LoggedString targetStateLog;
+    private LoggedBool systemCanMoveLog;
 
 
     public StateControlledSubsystem(State[] states , String name) {
@@ -33,6 +35,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         currentStateLog = new LoggedString("/RobotControl/" + name + "/Current State");
         systemFunctionStateLog = new LoggedString("/RobotControl/" + name + "/System Function State");
         targetStateLog = new LoggedString("/RobotControl/" + name + "/Target State");
+        systemCanMoveLog = new LoggedBool("/RobotControl/" + name + "/Can Move");
 
     }
 
@@ -79,6 +82,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
        currentStateLog.update(getCurrenState().getName());
        systemFunctionStateLog.update(getSystemFunctionState().getName());
        targetStateLog.update(getTargetState().getName());
+       systemCanMoveLog.update(canMove());
    }
 
 }

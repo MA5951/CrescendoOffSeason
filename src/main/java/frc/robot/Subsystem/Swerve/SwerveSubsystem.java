@@ -7,6 +7,7 @@ package frc.robot.Subsystem.Swerve;
 import com.ma5951.utils.RobotConstantsMAUtil;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedSwerveStates;
+import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -43,6 +44,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private final SwerveModule[] modulesArry = SwerveConstants.getModulesArry();
   private final Gyro gyro = SwerveConstants.getGyro();
+  private double yaw = 0;
   private final SwerveDriveKinematics kinematics = SwerveConstants.kinematics;
   private SwerveModuleState[] optimizedSetpointStates = new SwerveModuleState[4];
   private SwerveModuleState[] currentStates = new SwerveModuleState[4];
@@ -121,8 +123,12 @@ public class SwerveSubsystem extends SubsystemBase {
     gyro.reset();
   }
 
+  public void updateYaw(double newYa) {
+    yaw = newYa;
+  }
+
   public double getFusedHeading() {
-    return gyro.getYaw();
+    return yaw;
   }
 
   public double getRoll() {
@@ -152,16 +158,17 @@ public class SwerveSubsystem extends SubsystemBase {
                     Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
                      - SwerveSubsystem.getInstance().getOffsetAngle()))));
     
-    chassiSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY * 0.7,
-     chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY * 0.7, chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY * 0.7, new Rotation2d(
+    chassiSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY ,
+     chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY, chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY , new Rotation2d(
                     Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
                      - SwerveSubsystem.getInstance().getOffsetAngle()))));
     
     
+    updateYaw(getFusedHeading() + ConvUtil.RadiansToDegrees(chassiSpeeds.omegaRadiansPerSecond) * 0.02);
     if (optimize) {
       currentSetpoint =
       setpointGenerator.generateSetpoint(
-       new ModuleLimits(4.3, Units.feetToMeters(75.0) , Units.degreesToRadians(600)), currentSetpoint, chassiSpeeds, RobotConstantsMAUtil.KDELTA_TIME);
+       new ModuleLimits(5.3, Units.feetToMeters(75.0) , Units.degreesToRadians(800)), currentSetpoint, chassiSpeeds, RobotConstantsMAUtil.KDELTA_TIME);
 
     for (int i = 0; i < modulesArry.length; i++) {
       optimizedSetpointStates[i] = currentSetpoint.moduleStates()[i];
@@ -232,7 +239,6 @@ public class SwerveSubsystem extends SubsystemBase {
     lastXvelocity = currentChassisSpeeds.vxMetersPerSecond;
     lastYvelocity = currentChassisSpeeds.vyMetersPerSecond;
     lastTheatavelocity = currentChassisSpeeds.omegaRadiansPerSecond;
-
 
     
 

@@ -7,6 +7,8 @@ package frc.robot.Subsystem.Shooter.IOs;
 
 public interface ShooterIO {
 
+    boolean getBeamBraker();
+
     double getLeftCurrentDraw(); //Return Current Draw In Amp
 
     double getLeftVelocity(); //Retrun System Velocity In RPM
@@ -17,7 +19,7 @@ public interface ShooterIO {
 
     void  setLeftNutralMode(boolean isBrake); //Sets between coast and brake 
 
-    void setLeftSpeedSetPoint(double setPoint); //Sets setPoint in RPM
+    void setLeftSpeedSetPoint(double setPoint , double feedforward); //Sets setPoint in RPM
 
     void setLeftVoltage(double volt); //Sets motor voltage between -12 to 12
 
@@ -33,11 +35,13 @@ public interface ShooterIO {
 
     void  setRightNutralMode(boolean isBrake); //Sets between coast and brake 
 
-    void setRightSpeedSetPoint(double setPoint); //Sets setPoint in RPM
+    void setRightSpeedSetPoint(double setPoint , double feedforward); //Sets setPoint in RPM
 
     void setRightVoltage(double volt); //Sets motor voltage between -12 to 12
 
     void updatePeriodic(); //Update Periodic
+
+    void updatePIDValues(double Kp , double Ki , double Kd);
 
     void setShooterNutralMode(boolean isBrake);
 }

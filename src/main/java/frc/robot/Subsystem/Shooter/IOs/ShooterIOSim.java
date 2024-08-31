@@ -8,8 +8,10 @@ import com.ma5951.utils.Logger.LoggedDouble;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import frc.robot.PortMap;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 
@@ -21,6 +23,8 @@ public class ShooterIOSim implements ShooterIO{
     private PIDController rightPidController = new PIDController(0.1, 0, 0);
     private double LappliedVolts = 0;
     private double RappliedVolts = 0;
+
+    private DigitalInput beambraker;
 
     private LoggedDouble LmotorTempLog;
     private LoggedDouble LappliedVoltsLog;
@@ -36,6 +40,8 @@ public class ShooterIOSim implements ShooterIO{
         leftMotor = new DCMotorSim(DCMotor.getFalcon500(1), ShooterConstants.GEAR, 0.025);
         rightMotor = new DCMotorSim(DCMotor.getFalcon500(1), ShooterConstants.GEAR, 0.025);
 
+        beambraker = new DigitalInput(PortMap.Shooter.DIO_ShooterSensor);
+
         LmotorTempLog = new LoggedDouble("/Subsystems/Shooter/Sim/Left Motor/Motor Temp");
         LappliedVoltsLog = new LoggedDouble("/Subsystems/Shooter/Sim/Left Motor/Motor Applied Volts");
         LvelocityLog = new LoggedDouble("/Subsystems/Shooter/Sim/Left Motor/Motor Velocity");
@@ -45,6 +51,10 @@ public class ShooterIOSim implements ShooterIO{
         RappliedVoltsLog = new LoggedDouble("/Subsystems/Shooter/Sim/Right Motor/Motor Applied Volts");
         RvelocityLog = new LoggedDouble("/Subsystems/Shooter/Sim/Right Motor/Motor Velocity");
         RcurrentDrawLog = new LoggedDouble("/Subsystems/Shooter/Sim/Right Motor/Motor Current Draw");
+    }
+
+    public boolean getBeamBraker() {
+        return beambraker.get();
     }
 
     public double getLeftCurrentDraw() {
@@ -67,7 +77,7 @@ public class ShooterIOSim implements ShooterIO{
         
     }
 
-    public void setLeftSpeedSetPoint(double setPoint) {
+    public void setLeftSpeedSetPoint(double setPoint , double feedforward) {//TODO: feed forward
         setLeftVoltage(leftPidController.calculate(getLeftVelocity(), setPoint));
     }
 
@@ -96,7 +106,7 @@ public class ShooterIOSim implements ShooterIO{
         
     }
 
-    public void setRightSpeedSetPoint(double setPoint) {
+    public void setRightSpeedSetPoint(double setPoint , double feedforward) {//TODO: feed forward
         setRightVoltage(rightPidController.calculate(getRightVelocity(), setPoint));
     }
 
@@ -109,6 +119,9 @@ public class ShooterIOSim implements ShooterIO{
         setLeftNutralMode(isBrake);
         setRightNutralMode(isBrake);
     }    
+
+    public void updatePIDValues(double Kp, double Ki, double Kd) {
+    }
 
     public void updatePeriodic() {
         if (DriverStation.isDisabled()) {
@@ -128,4 +141,6 @@ public class ShooterIOSim implements ShooterIO{
         RvelocityLog.update(getRightVelocity());
         RcurrentDrawLog.update(getRightCurrentDraw());
     }
+
+
 }

@@ -5,6 +5,8 @@
 package frc.robot.RobotControl;
 
 import frc.robot.RobotConstants;
+import frc.robot.Subsystem.Feeder.Feeder;
+import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Utils.ShootingParameters;
 
 /** Add your docs here. */
@@ -54,7 +56,15 @@ public class SuperStructure {
     }
 
     public static boolean isNote() {
-        return false;
+        return Feeder.getInstance().isNoteInFeeder() || Shooter.getInstance().isNoteInShooter();
+    }
+
+    public static boolean isNoteInFeeder() {
+        return Feeder.getInstance().isNoteInFeeder();
+    }
+
+    public static boolean isNoteInShooter() {
+        return Shooter.getInstance().isNoteInShooter();
     }
 
 }

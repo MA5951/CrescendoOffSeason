@@ -62,9 +62,6 @@ public class ArmIOReal implements ArmIO {
         motorConfig.Slot0.kP = ArmConstants.kP;
         motorConfig.Slot0.kI = ArmConstants.kI;
         motorConfig.Slot0.kD = ArmConstants.kD;
-        motorConfig.Slot0.kS = ArmConstants.kS;
-        motorConfig.Slot0.kA = ArmConstants.kA;
-        motorConfig.Slot0.kV = ArmConstants.kV;
         
         motorConfig.MotionMagic.MotionMagicAcceleration = ArmConstants.kACCELERATION;
         motorConfig.MotionMagic.MotionMagicCruiseVelocity = ArmConstants.kCRUSIE_VELOCITY;
@@ -84,7 +81,7 @@ public class ArmIOReal implements ArmIO {
     }
 
     public boolean getReversLimit() {
-        return getPosition() >= ArmConstants.ANGLE_LIMIT;
+        return getPosition() >= ArmConstants.UPPER_LIMIT;
     }
 
     public double getCurrentDraw() {
@@ -120,12 +117,20 @@ public class ArmIOReal implements ArmIO {
         }
         armMotor.getConfigurator().apply(motorConfig);
     }
+
+    public void updatePIDValues(double Kp , double Ki , double Kd) {
+        motorConfig.Slot0.kP = Kp;
+        motorConfig.Slot0.kI = Ki;
+        motorConfig.Slot0.kD = Kd;
+
+        armMotor.getConfigurator().apply(motorConfig);
+    }
     
-    public void setAngleSetPoint(double angleSetPoint) {
+    public void setAngleSetPoint(double angleSetPoint , double feedforward) {
         armMotor.setControl(motionMagicControl.withPosition(angleSetPoint).withSlot(ArmConstants.CONTROL_SLOT)
         .withLimitForwardMotion(getForwardLimit())
         .withLimitReverseMotion(getReversLimit())
-       
+        .withFeedForward(feedforward)
         );
     }
 

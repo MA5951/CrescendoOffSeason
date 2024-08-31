@@ -20,15 +20,31 @@ public class Feeder extends StateControlledSubsystem {
   private FeederIO feederIO =  FeederConstants.getFeederIO();
 
   private LoggedBool beamBrakerLog;
+  private LoggedBool IntakeCanMoveLog;
+  private LoggedBool EjectCanMoveLog;
+  private LoggedBool FeedingCanLog;
+  private LoggedBool StationaryShootCanMoveLog;
+  private LoggedBool PresetShootingCanMoveLog;
+  private LoggedBool CanMoveLog;
 
   private Feeder() {
     super(FeederConstants.SYSTEM_STATES , "Feeder");
     feederIO.setNutralMode(true);
     beamBrakerLog = new LoggedBool("/Subsystems/Feeder/Is Note");
+    IntakeCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/Intake");
+    EjectCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/Eject");
+    FeedingCanLog = new LoggedBool("/Subsystems/Feedr/Can Move/Feeding");
+    StationaryShootCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/Stationary Shoot");
+    PresetShootingCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/PresetShooting");
+    CanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move");
   }
 
-  public void isNoteInFeeder() {
-    feederIO.getBeamBraker();
+  public double getCurrentDraw() {
+    return feederIO.getCurrentDraw();
+  }
+
+  public boolean isNoteInFeeder() {
+    return feederIO.getBeamBraker();
   }
 
   public void turnOnFeeder() {
@@ -92,7 +108,15 @@ public class Feeder extends StateControlledSubsystem {
 
   @Override
   public void periodic() {
+    feederIO.updatePeriodic();
+    
     super.periodic();
     beamBrakerLog.update(feederIO.getBeamBraker());
+    IntakeCanMoveLog.update(IntakeCanMove());
+    EjectCanMoveLog.update(EjectCanMove());
+    FeedingCanLog.update(FeedingCanMove());
+    StationaryShootCanMoveLog.update(StationaryShootCanMove());
+    PresetShootingCanMoveLog.update(PresetShootingCanMove());
+    CanMoveLog.update(canMove());
   }
 }

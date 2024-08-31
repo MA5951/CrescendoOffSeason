@@ -7,8 +7,12 @@ package frc.robot.Subsystem.Arm;
 import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.Logger.LoggedPose3d;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
+import com.ma5951.utils.Utils.ConvUtil;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 
 public class Arm extends StateControlledSubsystem {
@@ -17,21 +21,30 @@ public class Arm extends StateControlledSubsystem {
   private ArmIO armIO = ArmConstants.getArmIO();
   private double setPoint = 0;
 
+
+  private Pose3d armPosition;
   private LoggedBool atPointLog;
   private LoggedDouble setPointLog;
   private LoggedDouble armAngleLog;
   private LoggedDouble armOffset;
+  private LoggedPose3d armPose3d;
+  private LoggedBool CanMove;
   private MAShuffleboard board;
 
   private Arm() {
     super(ArmConstants.SUBSYSTEM_STATES , "Arm");
+    armPosition = ArmConstants.SIM_ARM_OFFSET;
     atPointLog = new LoggedBool("/Subsystems/Arm/At Point");
     setPointLog = new LoggedDouble("/Subsystems/Arm/Set Point");
     armAngleLog = new LoggedDouble("/Subsystems/Arm/Arm Angle");
     armOffset = new LoggedDouble("/Subsystems/Arm/Angle Offset");
+    armPose3d = new LoggedPose3d("/Subsystems/Arm/Position");
+    CanMove = new LoggedBool("/Subsystems/Arm/Can Move");
     armIO.setNutralMode(true);
     board = new MAShuffleboard("Arm");
+    board.getPidControllerGainSupplier("Arm PID" , 0 , 0 , 0);
     board.addNum("Angle Offset", 0);
+
   }
 
   public double getFeedForwardVoltage() {
@@ -60,7 +73,7 @@ public class Arm extends StateControlledSubsystem {
 
   public void runSetPoint(double setPoint) {
     this.setPoint = setPoint;
-    armIO.setAngleSetPoint(setPoint + board.getNum("Angle Offset"));
+    armIO.setAngleSetPoint(setPoint + board.getNum("Angle Offset") , getFeedForwardVoltage());
   }
 
   public double getVoltage() {
@@ -103,5 +116,14 @@ public class Arm extends StateControlledSubsystem {
     setPointLog.update(getSetPoint());
     armAngleLog.update(getArmPosition());
     armOffset.update(board.getNum("Angle Offset"));
+    CanMove.update(canMove());
+
+    armIO.updatePIDValues(board.getPidControllerGainSupplier("Arm PID").getKP(),
+    board.getPidControllerGainSupplier("Arm PID").getKI(), board.getPidControllerGainSupplier("Arm PID").getKD());
+
+    armPosition = new Pose3d(armPosition.getX(), armPosition.getY(), armPosition.getZ(), 
+  new Rotation3d(0, ConvUtil.DegreesToRadians(-getArmPosition()), 0));
+    armPose3d.update(armPosition);
   }
 }
+

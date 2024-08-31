@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ma5951.utils.Utils.ConvUtil;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 
@@ -24,6 +25,8 @@ public class ShooterIOReal implements ShooterIO{
     private VelocityVoltage controlRight;
     private TalonFXConfiguration leftMotorConfig;
     private TalonFXConfiguration rightMotorConfig;
+
+    private DigitalInput beambraker;
 
     private StatusSignal<Double> leftcurrentDraw;
     private StatusSignal<Double> leftvelocity;
@@ -38,6 +41,8 @@ public class ShooterIOReal implements ShooterIO{
     public ShooterIOReal() {
         motorLeft = new TalonFX(PortMap.Shooter.FalconLeftMotor);
         motorRight = new TalonFX(PortMap.Shooter.FalconRightMotor);
+
+        beambraker = new DigitalInput(PortMap.Shooter.DIO_ShooterSensor);
 
         configMotors();
 
@@ -61,8 +66,6 @@ public class ShooterIOReal implements ShooterIO{
         leftMotorConfig.Slot0.kP = ShooterConstants.kP;
         leftMotorConfig.Slot0.kI = ShooterConstants.kI;
         leftMotorConfig.Slot0.kD = ShooterConstants.kD;
-        leftMotorConfig.Slot0.kV = ShooterConstants.kV;
-        leftMotorConfig.Slot0.kS = ShooterConstants.kS;
 
         leftMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.IsCurrentLimitEnabled;
         leftMotorConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.ContinuesCurrentLimit;
@@ -76,13 +79,16 @@ public class ShooterIOReal implements ShooterIO{
         rightMotorConfig.Slot0.kP = ShooterConstants.kP;
         rightMotorConfig.Slot0.kI = ShooterConstants.kI;
         rightMotorConfig.Slot0.kD = ShooterConstants.kD;
-        rightMotorConfig.Slot0.kV = ShooterConstants.kV;
-        rightMotorConfig.Slot0.kS = ShooterConstants.kS;
+
 
         rightMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.IsCurrentLimitEnabled;
         rightMotorConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.ContinuesCurrentLimit;
         rightMotorConfig.CurrentLimits.SupplyCurrentThreshold = ShooterConstants.PeakCurrentLimit;
         rightMotorConfig.CurrentLimits.SupplyTimeThreshold = ShooterConstants.PeakCurrentTime;
+    }
+
+    public boolean getBeamBraker() {
+        return !beambraker.get();
     }
 
     public double getLeftCurrentDraw() {
@@ -110,8 +116,9 @@ public class ShooterIOReal implements ShooterIO{
         motorLeft.getConfigurator().apply(leftMotorConfig);
     }
 
-    public void setLeftSpeedSetPoint(double setPoint) {
-        motorLeft.setControl(controlLeft.withVelocity(ConvUtil.RPMtoRPS(setPoint)).withSlot(ShooterConstants.CONTROL_SLOT));
+    public void setLeftSpeedSetPoint(double setPoint , double feedforward) {
+        motorLeft.setControl(controlLeft.withVelocity(ConvUtil.RPMtoRPS(setPoint)).withSlot(ShooterConstants.CONTROL_SLOT)
+        .withFeedForward(feedforward));
     }
 
     public void setLeftVoltage(double volt) {
@@ -143,12 +150,26 @@ public class ShooterIOReal implements ShooterIO{
         motorRight.getConfigurator().apply(rightMotorConfig);
     }
 
-    public void setRightSpeedSetPoint(double setPoint) {
-        motorRight.setControl(controlRight.withVelocity(ConvUtil.RPMtoRPS(setPoint)).withSlot(ShooterConstants.CONTROL_SLOT));
+    public void setRightSpeedSetPoint(double setPoint , double feedforward) {
+        motorRight.setControl(controlRight.withVelocity(ConvUtil.RPMtoRPS(setPoint)).withSlot(ShooterConstants.CONTROL_SLOT)
+        .withFeedForward(feedforward));
     }
 
     public void setRightVoltage(double volt) {
         motorRight.setVoltage(volt);
+    }
+
+    public void updatePIDValues(double Kp , double Ki , double Kd) {
+        leftMotorConfig.Slot0.kP = Kp;
+        leftMotorConfig.Slot0.kI = Ki;
+        leftMotorConfig.Slot0.kD = Kd;
+
+        rightMotorConfig.Slot0.kP = Kp;
+        rightMotorConfig.Slot0.kI = Ki;
+        rightMotorConfig.Slot0.kD = Kd;
+
+        motorLeft.getConfigurator().apply(leftMotorConfig);
+        motorRight.getConfigurator().apply(rightMotorConfig);
     }
 
     public void setShooterNutralMode(boolean isBrake) {

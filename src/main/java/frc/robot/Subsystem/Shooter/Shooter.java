@@ -33,6 +33,13 @@ public class Shooter extends StateControlledSubsystem {
   private LoggedBool rightShooterAtPoint;
   private LoggedBool shooterAtPoint;
 
+  private LoggedBool StationaryShootCanMove;
+  private LoggedBool WarmingCanMove;
+  private LoggedBool FeedingCanMove;
+  private LoggedBool EjectCanMove;
+  private LoggedBool SourceIntakeCanMove;
+  private LoggedBool CanMove;
+
   private Shooter() {
     super(ShooterConstants.SYSTEM_STATES , "Shooter");
     shooterIO.setShooterNutralMode(false);
@@ -41,6 +48,7 @@ public class Shooter extends StateControlledSubsystem {
     board.addNum("Left Speed Adjust", 0);
     board.addNum("Right Speed Adjust", 0);
     board.addBoolean("Shooter Manuel Mode", false);
+    board.getPidControllerGainSupplier("Shooter PID" , 0 , 0 , 0);
 
     leftSpeed = new LoggedDouble("/Subsystems/Shooter/Left Speed");
     rightSpeed = new LoggedDouble("/Subsystems/Shooter/Right Speed");
@@ -51,6 +59,17 @@ public class Shooter extends StateControlledSubsystem {
     shooterAtPoint = new LoggedBool("/Subsystems/Shooter/At Point");
     leftSpeedAdust = new LoggedDouble("/Subsystems/Shooter/Left Speed Adjust");
     rightSpeedAdust = new LoggedDouble("/Subsystems/Shooter/Right Speed Adjust");
+
+    CanMove = new LoggedBool("/Subsystems/Shooter/Can Move");
+    StationaryShootCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/Stationary Shoot");
+    WarmingCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/Warming");
+    FeedingCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/Feeding");
+    EjectCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/Eject");
+    SourceIntakeCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/SourceIntake");
+  }
+
+  public boolean isNoteInShooter() {
+    return shooterIO.getBeamBraker();
   }
 
   public double getCurrentDraw() {
@@ -109,8 +128,8 @@ public class Shooter extends StateControlledSubsystem {
   public void setShootingParameterSpeeds(ShootingParameters parameters) {
     rightSetPoint = parameters.getRightSpeed();
     leftSetPoint = parameters.getLeftSpeed();
-    shooterIO.setRightSpeedSetPoint(rightSetPoint);
-    shooterIO.setLeftSpeedSetPoint(leftSetPoint);
+    shooterIO.setRightSpeedSetPoint(rightSetPoint , rightSetPoint / ShooterConstants.MAX_SYSTEM_RPM * 12);
+    shooterIO.setLeftSpeedSetPoint(leftSetPoint , leftSetPoint / ShooterConstants.MAX_SYSTEM_RPM * 12);
   }
 
   public void setManuelMode() {
@@ -167,5 +186,16 @@ public class Shooter extends StateControlledSubsystem {
     rightSetPointLog.update(rightSetPoint);
     leftSpeedAdust.update(board.getNum("Left Speed Adjust"));
     rightSpeedAdust.update(board.getNum("Right Speed Adjust"));
+
+    CanMove.update(canMove());
+    StationaryShootCanMove.update(StationaryShootCanMove());
+    WarmingCanMove.update(WarmingCanMove());
+    FeedingCanMove.update(FeedingCanMove());
+    EjectCanMove.update(EjectCanMove());
+    SourceIntakeCanMove.update(SourceIntakeCanMove());
+
+    shooterIO.updatePIDValues(board.getPidControllerGainSupplier("Shooter PID").getKP(),
+    board.getPidControllerGainSupplier("Shooter PID").getKI(), board.getPidControllerGainSupplier("Shooter PID").getKD());
+
   }
 }

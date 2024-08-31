@@ -38,7 +38,7 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void AutomaticLoop() {
     super.AutomaticLoop();
-    switch (intake.getCurrenState().getName()) {
+    switch (intake.getTargetState().getName()) {
       case "IDLE":
         intake.turnOffIntke();
         break;

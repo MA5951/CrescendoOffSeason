@@ -18,22 +18,22 @@ public class ShooterConstants {
     public static final double kP = 0;
     public static final double kI = 0;
     public static final double kD = 0;
-    public static final double kS = 0;
-    public static final double kV = 0;
-    public static final double kTOLORANCE = 0;
-    public static final double kTOLORANCE_BETWEEN_SIDES = 0;
+    public static final double kTOLORANCE = 50;
+    public static final double kTOLORANCE_BETWEEN_SIDES = 50;
     public static final double GEAR = 0.5;
+
+    public static final double MAX_SYSTEM_RPM = 6000 * (1 / GEAR);
 
     public static final double SIM_kP = 0.1;
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
-    public static final double EJECTING_VOLTGE = 0;
-    public static final double SOURCE_INTAKE_VOLTAGE = 0;
+    public static final double EJECTING_VOLTGE = -4;
+    public static final double SOURCE_INTAKE_VOLTAGE = -4;
 
-    public static final double PeakCurrentLimit = 0; 
-    public static final double ContinuesCurrentLimit = 0; 
-    public static final double PeakCurrentTime = 0; 
+    public static final double PeakCurrentLimit = 40; 
+    public static final double ContinuesCurrentLimit = 25; 
+    public static final double PeakCurrentTime = 0.1; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
     public static final State IDLE = StatesConstants.IDLE;

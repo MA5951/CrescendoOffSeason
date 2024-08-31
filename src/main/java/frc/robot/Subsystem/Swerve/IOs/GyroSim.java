@@ -5,9 +5,9 @@
 package frc.robot.Subsystem.Swerve.IOs;
 
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Subsystem.Swerve.Util.Gyro;
 
 public class GyroSim implements Gyro{
@@ -60,7 +60,7 @@ public class GyroSim implements Gyro{
         accelX.update(getAccelX());
         accelY.update(getAccelY());
 
-        yawValue += Units.radiansToDegrees(robotSpeeds.omegaRadiansPerSecond) * 0.02;
+        yawValue = yawValue + ConvUtil.RadiansToDegrees(robotSpeeds.omegaRadiansPerSecond) * 0.02;
     }
 
 

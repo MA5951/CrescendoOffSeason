@@ -46,7 +46,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void AutomaticLoop() {
       super.AutoLoop();
-      switch (feeder.getCurrenState().getName()) {
+      switch (feeder.getTargetState().getName()) {
         case "IDLE":
           feeder.turnOffFeeder();
           break;

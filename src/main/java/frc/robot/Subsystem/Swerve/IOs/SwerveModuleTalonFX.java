@@ -132,10 +132,6 @@ public class SwerveModuleTalonFX implements SwerveModule {
         turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
 
 
-        turningConfiguration.TorqueCurrent.PeakForwardTorqueCurrent = 
-            SwerveConstants.TURNING_PEAK_CURRENT_LIMIT_TORQUE_CURRENT;
-        turningConfiguration.TorqueCurrent.PeakReverseTorqueCurrent = 
-            -SwerveConstants.TURNING_PEAK_CURRENT_LIMIT_TORQUE_CURRENT;
 
         turningConfiguration.CurrentLimits.SupplyCurrentLimitEnable = 
             SwerveConstants.TURNING_ENABLE_CURRENT_LIMIT;
@@ -171,12 +167,6 @@ public class SwerveModuleTalonFX implements SwerveModule {
         driveConfiguration.Slot0.kD = SwerveConstants.DRIVE_kD;
         driveConfiguration.Slot0.kS = SwerveConstants.DRIVE_kS;
         driveConfiguration.Slot0.kV = SwerveConstants.DRIVE_kV;
-
-
-        driveConfiguration.TorqueCurrent.PeakForwardTorqueCurrent = 
-            SwerveConstants.DRIVE_PEAK_CURRENT_LIMIT_TORQUE_CURRENT;
-        driveConfiguration.TorqueCurrent.PeakReverseTorqueCurrent = 
-            -SwerveConstants.DRIVE_PEAK_CURRENT_LIMIT_TORQUE_CURRENT;
 
         driveConfiguration.CurrentLimits.SupplyCurrentLimitEnable = 
             SwerveConstants.DRIVE_ENBLE_CURRENT_LIMIT;

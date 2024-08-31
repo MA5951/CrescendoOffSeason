@@ -63,7 +63,7 @@ public class FeederIOReal implements FeederIO {
     }
 
     public boolean getBeamBraker() {
-        return feederBeamBraker.get();
+        return !feederBeamBraker.get();
     }
 
     public double getCurrentDraw() {
