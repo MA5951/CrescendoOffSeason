@@ -47,12 +47,20 @@ public class Feeder extends StateControlledSubsystem {
     return feederIO.getBeamBraker();
   }
 
-  public void turnOnFeeder() {
-    setVoltage(FeederConstants.FEEDER_POWER);
+  public void turnOnForward() {
+    setVoltage(FeederConstants.FORWARD_VOLTAGE);
   }
 
-  public void turnOnEjectFeeder() {
-    setVoltage(FeederConstants.EJECT_POWER);
+  public void turnOnRevers() {
+    setVoltage(FeederConstants.REVERS_VOLTAG);
+  }
+
+  public void turnOnAdjustForward() {
+    setVoltage(FeederConstants.FORWARD_VOLTAGE);
+  }
+
+  public void turnOnAdjustRevers() {
+    setVoltage(FeederConstants.REVERS_VOLTAG);
   }
 
   public void turnOffFeeder() {

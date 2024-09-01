@@ -12,7 +12,7 @@ import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class ArmDeafultCommand extends RobotFunctionStatesCommand {
-  private static Arm arm = Arm.getInstance(); //TODO change to the constructor and cant be static
+  private static Arm arm = Arm.getInstance(); //TODO change to the constructor and cant be static //CantDo
   
   public ArmDeafultCommand() {
     super(arm);
@@ -31,7 +31,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
 
   @Override
   public void end(boolean interrupted) {
-   //TODO set the volteg to feedfowerd
+   arm.setVoltage(arm.getFeedForwardVoltage());
   }
 
   @Override
@@ -43,8 +43,8 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   public void AutomaticLoop() {
     super.AutomaticLoop();
     switch (arm.getTargetState().getName()) {
-      case "IDLE": //TODO change the string to constant
-        arm.setVoltage(0); //TODO change to hold value constant the value can be 0 
+      case "IDLE":
+        arm.setVoltage(arm.getFeedForwardVoltage());
         break;
       case "FOLLOW_SPEAKER":
         arm.runSetPoint(SuperStructure.getShootingPrameters().getArmAngle());
@@ -64,10 +64,10 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       case "HOME":
         if (arm.getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT) {
           arm.setTargetState(ArmConstants.IDLE);
-          arm.resetPosition(ArmConstants.INTAKE_POSE); //TODO change to onther value. we cant now for sure that this is the smae one
+          arm.resetPosition(ArmConstants.ZERO_POSE);
         } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
           arm.runSetPoint(ArmConstants.INTAKE_POSE);
-          //TODO set the voltege to zero between the sets
+          arm.setVoltage(0);
         } else {
           arm.setVoltage(ArmConstants.HOME_VOLTAGE);
         }

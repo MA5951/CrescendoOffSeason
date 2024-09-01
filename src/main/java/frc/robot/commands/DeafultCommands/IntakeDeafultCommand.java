@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Intake.Intake;
 
 public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
-  private static Intake intake = Intake.getInstance(); //TODO change to the constructor and cant be static
+  private static Intake intake = Intake.getInstance(); //TODO change to the constructor and cant be static//Cant
   
   public IntakeDeafultCommand() {
     super(intake);

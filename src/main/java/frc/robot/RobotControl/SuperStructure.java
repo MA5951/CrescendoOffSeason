@@ -19,6 +19,10 @@ public class SuperStructure {
         presetParameters = parameters;
     }
 
+    public static ShootingParameters getWarmingParameters() {
+        return RobotConstants.WARM_SHOOTING_PARAMETERS;
+    }
+
     public static ShootingParameters getPRESETParameters() {
         return presetParameters;
     }

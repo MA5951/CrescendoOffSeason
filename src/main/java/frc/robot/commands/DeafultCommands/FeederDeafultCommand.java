@@ -6,19 +6,15 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.RobotControl.SuperStructure;
-import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 
 public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
-  private static Feeder feeder = Feeder.getInstance(); //TODO change to the constructor and cant be static
-  private Timer timer = new Timer();
-  private boolean isAmpReales = false;
-  private boolean isTimerReset = false;
+  private static Feeder feeder = Feeder.getInstance(); //TODO change to the constructor and cant be static//Cant
+  private boolean isNoteBack = false;
 
   public FeederDeafultCommand() {
     super(feeder);
@@ -35,7 +31,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
 
   @Override
   public void end(boolean interrupted) {
-     //TODO set the volteg to 0
+    feeder.setVoltage(0);
   }
 
   @Override
@@ -49,40 +45,35 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
       switch (feeder.getTargetState().getName()) {
         case "IDLE":
           feeder.turnOffFeeder();
+          isNoteBack = false;
           break;
         case "FORWARD":
-          if (RobotContainer.currentRobotState == RobotConstants.INTAKE) { //TODO change to ir logic
-            feeder.turnOnFeeder();
+          if (RobotContainer.currentRobotState == RobotConstants.INTAKE) { //TODO change to ir logic//Why?
+            feeder.turnOnForward();
           } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
-            if (!isTimerReset) {
-              timer.start();
-              timer.reset();
-              isTimerReset = true;
-            } else if (!timer.hasElapsed(FeederConstants.SHOOTING_REALES_TIME_SECOUNDS)) {
-              feeder.turnOnFeeder();
+            if (SuperStructure.isNoteInShooter()) {
+              feeder.turnOnForward();
             } else {
-              timer.stop();
-              isTimerReset = false;
               RobotContainer.currentRobotState = RobotConstants.IDLE;
             }
           } 
           break;
         case "REVERSE":
-          feeder.turnOnEjectFeeder();
+          if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotContainer.driverController.getHID().getCircleButton()) {
+              feeder.turnOnRevers();
+            }
           break;
         case "NOTE_ADJUSTING":
-        //TODO add the logic 
-          break;
-        case "AMP_REALES": //TODO delet
-          if (SuperStructure.isNote() && Arm.getInstance().atPoint() && RobotContainer.driverController.getHID().getCircleButton()) {
-            isAmpReales = true;
-            timer.start();
-            timer.reset();
-          } else if ( isAmpReales && !timer.hasElapsed(FeederConstants.AMP_REALES_TIME_SECOUNDS)) {
-            feeder.turnOnFeeder();
-          } else {
-            isAmpReales = false;
-            timer.stop();
+          if (SuperStructure.isNoteInShooter() && !isNoteBack) {
+            feeder.turnOnAdjustRevers();
+          } else { 
+            isNoteBack = true;
+            if (!SuperStructure.isNoteInShooter()) {
+              feeder.turnOnAdjustForward();
+              
+            } else {
+              feeder.setTargetState(FeederConstants.IDLE);
+            }
           }
           break;
         default:
@@ -94,9 +85,9 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   public void ManuelLoop() {
       super.ManuelLoop();
       if (RobotContainer.oporatorController.getHID().getPOV() == -90) {
-        feeder.turnOnFeeder();
+        feeder.turnOnForward();
       } else if (RobotContainer.oporatorController.getHID().getPOV() == 90) {
-        feeder.turnOnEjectFeeder();
+        feeder.turnOnRevers();
       }
   }
 

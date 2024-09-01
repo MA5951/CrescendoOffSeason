@@ -141,7 +141,7 @@ public class RobotContainer {
     //Start, stop  and inturupt intake
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && driverController.getHID().getL1Button()).onTrue(new InstantCommand(() -> setIDLE()));
     new Trigger(() -> driverController.getHID().getL1Button() && !SuperStructure.isNote()).onTrue(new InstantCommand(() -> setINTAKE()));
-    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && SuperStructure.isNote()).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && SuperStructure.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
 
 
     //Start, stop and inturupt amp

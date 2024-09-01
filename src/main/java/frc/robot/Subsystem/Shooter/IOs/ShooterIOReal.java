@@ -67,6 +67,7 @@ public class ShooterIOReal implements ShooterIO{
         leftMotorConfig.Slot0.kI = ShooterConstants.kI;
         leftMotorConfig.Slot0.kD = ShooterConstants.kD;
 
+
         leftMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.IsCurrentLimitEnabled;
         leftMotorConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.ContinuesCurrentLimit;
         leftMotorConfig.CurrentLimits.SupplyCurrentThreshold = ShooterConstants.PeakCurrentLimit;
@@ -85,6 +86,8 @@ public class ShooterIOReal implements ShooterIO{
         rightMotorConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.ContinuesCurrentLimit;
         rightMotorConfig.CurrentLimits.SupplyCurrentThreshold = ShooterConstants.PeakCurrentLimit;
         rightMotorConfig.CurrentLimits.SupplyTimeThreshold = ShooterConstants.PeakCurrentTime;
+
+        rightMotorConfig.
     }
 
     public boolean getBeamBraker() {

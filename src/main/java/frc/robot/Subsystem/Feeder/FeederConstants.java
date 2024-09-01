@@ -16,11 +16,11 @@ import frc.robot.Subsystem.Feeder.IOs.FeederIOSim;
 /** Add your docs here. */
 public class FeederConstants {
 
-    public static final double FEEDER_POWER = 0; //TODO
-    public static final double EJECT_POWER = 0; //TODO
+    public static final double FORWARD_VOLTAGE = 6; //TODO
+    public static final double REVERS_VOLTAG = -6; //TODO
 
-    public static final double AMP_REALES_TIME_SECOUNDS = 0;
-    public static final double SHOOTING_REALES_TIME_SECOUNDS = 0;
+    public static final double FORWARD_ADJUST_VOLTAG = 2; //TODO
+    public static final double REVERS_ADJUST_VOLTAG = -2; //TODO
 
     public static final double GEAR = 2.66; //TODO
 
