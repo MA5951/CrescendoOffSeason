@@ -42,6 +42,7 @@ public class RobotContainer {
     Shooter.getInstance();
     SwerveSubsystem.getInstance();
     SwervePoseCalculator.getInstance();
+    SuperStructure.setupInterpolation();
     setDeafultCommands();
     configureBindings();
     

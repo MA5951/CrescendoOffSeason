@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import frc.robot.Utils.ShootingParameters;
@@ -29,8 +30,30 @@ public class RobotConstants {
     public static final double AngleForFeeding = 0;
     public static final double FeedingTolerance = 0;
 
-    public static final ShootingParameters WARM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0);
+    public static final ShootingParameters WARM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
 
-    public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0);
-    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0);
+    public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
+    public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
+    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
+
+
+    //Interpolation
+    //Shooting Points
+    private static final ShootingParameters Point1 = new ShootingParameters(0, 0, 0 , 0);
+    private static final ShootingParameters Point2 = new ShootingParameters(0, 0, 0 , 0);
+    private static final ShootingParameters Point3 = new ShootingParameters(0, 0, 0 , 0);
+    private static final ShootingParameters Point4 = new ShootingParameters(0, 0, 0 , 0);
+    private static final ShootingParameters Point5 = new ShootingParameters(0, 0, 0 , 0);
+    private static final ShootingParameters Point6 = new ShootingParameters(0, 0, 0 , 0);
+
+    
+
+    public static final ShootingParameters[] PointsArry = new ShootingParameters[] {
+        Point1,
+        Point2,
+        Point3,
+        Point4,
+        Point5,
+        Point6
+    };
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.RobotControl;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Shooter.Shooter;
@@ -13,7 +14,19 @@ import frc.robot.Utils.ShootingParameters;
 public class SuperStructure {
 
     private static ShootingParameters presetParameters;
-    private static ShootingParameters shootingParameters;
+    private static ShootingParameters point;
+    private static InterpolatingDoubleTreeMap leftShooterInterpolation = new InterpolatingDoubleTreeMap();
+    private static InterpolatingDoubleTreeMap rightShooterInterpolation = new InterpolatingDoubleTreeMap();
+    private static InterpolatingDoubleTreeMap angleInterpolation = new InterpolatingDoubleTreeMap();
+        
+    public static void setupInterpolation() {
+        for (int i = 0; i < RobotConstants.PointsArry.length; i++) {
+            point = RobotConstants.PointsArry[i];
+            leftShooterInterpolation.put(point.getLeftSpeed(), point.getDistance());
+            rightShooterInterpolation.put(point.getRightSpeed(), point.getDistance());
+            angleInterpolation.put(point.getArmAngle(), point.getDistance());
+        }
+    }
 
     public static void setPRESETParameters(ShootingParameters parameters) {
         presetParameters = parameters;
@@ -28,11 +41,15 @@ public class SuperStructure {
     }
 
     public static ShootingParameters getShootingPrameters() {
-        return shootingParameters;
+        return new ShootingParameters(
+            leftShooterInterpolation.get(getDistanceToSpeaker()),
+            rightShooterInterpolation.get(getDistanceToSpeaker()),
+            angleInterpolation.get(getDistanceToSpeaker()),
+             getDistanceToSpeaker());
     }
 
     public static ShootingParameters getFeedingPrameters() {
-        return new ShootingParameters(0, 0, 0);
+        return RobotConstants.FEEDING_SHOOTING_PARAMETERS;
     }
 
     public static double getRobotHeading() {
@@ -59,6 +76,10 @@ public class SuperStructure {
         return false;
     }
 
+    public static double getDistanceToSpeaker() {
+        return 0d;
+    }
+
     public static boolean isNote() {
         return Feeder.getInstance().isNoteInFeeder() || Shooter.getInstance().isNoteInShooter();
     }
@@ -71,4 +92,5 @@ public class SuperStructure {
         return Shooter.getInstance().isNoteInShooter();
     }
 
+    
 }

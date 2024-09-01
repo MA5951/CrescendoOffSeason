@@ -10,11 +10,13 @@ public class ShootingParameters {
     private double leftSpeed;
     private double rightSpeed;
     private double armAngle;
+    private double distance;
 
-    public ShootingParameters(double leftSpeed , double rightSpeed , double armAngle) {
+    public ShootingParameters(double leftSpeed , double rightSpeed , double armAngle , double distance) {
         this.leftSpeed = leftSpeed;
         this.rightSpeed = rightSpeed;
         this.armAngle = armAngle;
+        this.distance = distance;
     }
 
     public double getLeftSpeed() {
@@ -27,6 +29,10 @@ public class ShootingParameters {
 
     public double getArmAngle() {
         return armAngle;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 
 
