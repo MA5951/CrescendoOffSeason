@@ -13,9 +13,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Subsystem.Arm.Arm;
-import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
+import frc.robot.Subsystem.PoseEstimation.SwervePoseCalculator;
 
 
 
@@ -30,7 +29,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     m_robotContainer.setIDLE();
-    //PoseEstimator.getInstance();
+    PoseEstimator.getInstance();
+    SwervePoseCalculator.getInstance();
     LoggedPose2d robotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
     robotPose.update(new Pose2d(0, 0, new Rotation2d(0)));
   }
@@ -38,7 +38,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    //PoseEstimator.getInstance().update();
+    PoseEstimator.getInstance().update();
+    SwervePoseCalculator.getInstance().update();
     RobotConstants.SUPER_STRUCTURE.updateAfterDSConnect();
   }
 

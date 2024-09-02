@@ -7,7 +7,6 @@ package frc.robot.Subsystem.Intake.IOs;
 import com.ma5951.utils.Logger.LoggedDouble;
 
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Intake.IntakeConstants;
@@ -24,7 +23,7 @@ public class IntakeIOSim implements IntakeIO{
     private LoggedDouble currentDrawLog;
 
     public IntakeIOSim() {
-        motor = new DCMotorSim(DCMotor.getKrakenX60(1), IntakeConstants.Gear, 0.05);
+        motor = new DCMotorSim(DCMotor.getFalcon500(1), IntakeConstants.Gear, 0.05);
      
         motorTempLog = new LoggedDouble("/Subsystems/Intake/Sim/Motor Temp");
         appliedVoltsLog = new LoggedDouble("/Subsystems/Intake/Sim/Applied Voltage");

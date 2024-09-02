@@ -41,7 +41,6 @@ public class RobotContainer {
     Feeder.getInstance();
     Shooter.getInstance();
     SwerveSubsystem.getInstance();
-    //PoseEstimator.getInstance();
     RobotConstants.SUPER_STRUCTURE.setupInterpolation();
     setDeafultCommands();
     configureBindings();

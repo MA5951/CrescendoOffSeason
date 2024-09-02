@@ -17,11 +17,12 @@ import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
 /** Add your docs here. */
 public class PoseEstimator {
-    private static PoseEstimator swervePoseCalculator;
+    private static PoseEstimator poseEstimator;
 
-    private SwerveDrivePoseEstimator poseEstimator;
+    private SwerveDrivePoseEstimator robotPoseEstimator;
     private Vision vision = Vision.getInstance();
-    private SwerveSubsystem swerve = SwerveSubsystem.getInstance();;
+    private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
+    private SwervePoseCalculator swervePoseCalculator = SwervePoseCalculator.getInstance();
 
     private LoggedPose2d estimatedRobotPose;
     private LoggedBool odometryUpdateConstrains;
@@ -29,38 +30,35 @@ public class PoseEstimator {
 
 
     public PoseEstimator() {
-        // poseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.kinematics , swerve.getRotation2d() , 
-        // swerve.getSwerveModulePositions() ,
-        // new Pose2d(),
-        // PoseEstimatorConstants.ODOMETRY_DEVS,//Oodmetry Devs
-        // PoseEstimatorConstants.VISION_DEVS);//Vision Devs
+        robotPoseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.kinematics , swerve.getRotation2d() , 
+        swerve.getSwerveModulePositions() ,
+        new Pose2d(),
+        PoseEstimatorConstants.ODOMETRY_DEVS,//Oodmetry Devs
+        PoseEstimatorConstants.VISION_DEVS);//Vision Devs
 
-        // estimatedRobotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
-        // odometryUpdateConstrains = new LoggedBool("/PoseEstimator/Odometry Update Constrains");
-        // visionUpdateConstrains = new LoggedBool("/PoseEstimator/Vision Update Constrains");
+        estimatedRobotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
+        odometryUpdateConstrains = new LoggedBool("/PoseEstimator/Odometry Update Constrains");
+        visionUpdateConstrains = new LoggedBool("/PoseEstimator/Vision Update Constrains");
         
     }
 
     public void resetPose(Pose2d pose) {
-        poseEstimator.resetPosition(swerve.getRotation2d() , swerve.getSwerveModulePositions() ,pose) ;
+        robotPoseEstimator.resetPosition(swerve.getRotation2d() , swerve.getSwerveModulePositions() ,pose) ;
     }
     
     public void updateOdometry() {
-        if (PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS) {
-            poseEstimator.updateWithTime(Timer.getFPGATimestamp() ,swerve.getRotation2d(), swerve.getSwerveModulePositions());
-        }
-        
+        robotPoseEstimator.resetPosition(swerve.getRotation2d() , swerve.getSwerveModulePositions() ,swervePoseCalculator.getEstimatesPose()) ;
     }
 
     public void updateVision() {
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS) {
-            poseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
+            robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
         }
     }
 
     public Pose2d getEstimatedRobotPose() {
-        //return poseEstimator.getEstimatedPosition();
-        return new Pose2d(5 , 5 , new Rotation2d());
+        return robotPoseEstimator.getEstimatedPosition();
+        //return new Pose2d(5 , 5 , new Rotation2d());
     }
 
     public void update() {
@@ -74,10 +72,10 @@ public class PoseEstimator {
 
 
     public static PoseEstimator getInstance() {
-        if (swervePoseCalculator == null) {
-          swervePoseCalculator = new PoseEstimator();
+        if (poseEstimator == null) {
+          poseEstimator = new PoseEstimator();
         }
-        return swervePoseCalculator;
+        return poseEstimator;
         }
 
 

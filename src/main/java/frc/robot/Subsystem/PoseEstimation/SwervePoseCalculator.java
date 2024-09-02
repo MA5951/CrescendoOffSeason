@@ -5,9 +5,6 @@
 package frc.robot.Subsystem.PoseEstimation;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import frc.robot.Subsystem.Swerve.CollisionDtector;
-import frc.robot.Subsystem.Swerve.SkidDetector;
-import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveOdometry;
 
 /** Add your docs here. */
@@ -27,9 +24,10 @@ public class SwervePoseCalculator {
 
     
     public void update() {
-        if (PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS) {
-            odometry.update();
-        }
+        // if (PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS) {
+        //     odometry.update();
+        // }
+        odometry.update();
         //collisionDtector.update();
         //skidDetector.update();
     }

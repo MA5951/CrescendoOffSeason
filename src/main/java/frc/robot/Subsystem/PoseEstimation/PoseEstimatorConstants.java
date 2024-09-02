@@ -24,5 +24,5 @@ public class PoseEstimatorConstants {
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vyMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().omegaRadiansPerSecond < MAX_ANGULAR_VELOCITY_FOR_UPDATE; 
 
-    public final static boolean ODOMETRY_UPDATE_CONSTRAINS = DriverStation.isEnabled() && !DriverStation.isTest();
+    public static boolean ODOMETRY_UPDATE_CONSTRAINS = DriverStation.isEnabled() && !DriverStation.isTest();
 }
