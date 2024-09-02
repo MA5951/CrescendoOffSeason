@@ -11,4 +11,5 @@ public class VisionConstants {
     public final static double CAMERA_HIGHT = 0;
     public final static double CAMERA_ANGLE = 0;
 
+
 }

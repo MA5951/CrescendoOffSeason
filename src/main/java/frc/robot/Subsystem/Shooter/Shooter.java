@@ -122,7 +122,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public void setShooterSpeeds(double leftRPM , double rightRPM) {
-    setShootingParameterSpeeds(new ShootingParameters(leftRPM + board.getNum("Left Speed Adjust"), + board.getNum("Right Speed Adjust"), 0));
+    setShootingParameterSpeeds(new ShootingParameters(leftRPM + board.getNum("Left Speed Adjust"), + board.getNum("Right Speed Adjust"), 0 , 0));
   }
 
   public void setShootingParameterSpeeds(ShootingParameters parameters) {

@@ -23,6 +23,10 @@ public class SwervePoseCalculator {
         odometry.update();
     }
 
+    public SwerveOdometry getOdometry() {
+        return odometry;
+    }
+
     public static SwervePoseCalculator getInstance() {
         if (swervePoseCalculator == null) {
           swervePoseCalculator = new SwervePoseCalculator();

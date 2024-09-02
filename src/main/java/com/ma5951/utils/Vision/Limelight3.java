@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.ma5951.utils;
+package com.ma5951.utils.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -15,7 +15,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 
-public class Limelight {
+public class Limelight3 {
   private double cammeraHight = 0;
   private double cammeraAngle = 0;
   private double x;
@@ -57,7 +57,7 @@ public class Limelight {
 
   // private String PIAddress;
 
-  public Limelight(
+  public Limelight3(
     String cammeraName, double cammeraHight, double cammeraAngle){
 
     table = NetworkTableInstance.getDefault().getTable(cammeraName);
