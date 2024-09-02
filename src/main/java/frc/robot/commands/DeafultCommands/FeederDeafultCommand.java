@@ -51,7 +51,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           if (RobotContainer.currentRobotState == RobotConstants.INTAKE) { //TODO change to ir logic//Why?
             feeder.turnOnForward();
           } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
-            if (SuperStructure.isNoteInShooter()) {
+            if (SuperStructure.getInstance().isNoteInShooter()) {
               feeder.turnOnForward();
             } else {
               RobotContainer.currentRobotState = RobotConstants.IDLE;
@@ -64,11 +64,11 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
             }
           break;
         case "NOTE_ADJUSTING":
-          if (SuperStructure.isNoteInShooter() && !isNoteBack) {
+          if (SuperStructure.getInstance().isNoteInShooter() && !isNoteBack) {
             feeder.turnOnAdjustRevers();
           } else { 
             isNoteBack = true;
-            if (!SuperStructure.isNoteInShooter()) {
+            if (!SuperStructure.getInstance().isNoteInShooter()) {
               feeder.turnOnAdjustForward();
               
             } else {

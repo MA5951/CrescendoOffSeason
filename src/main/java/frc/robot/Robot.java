@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
-import frc.robot.Subsystem.PoseEstimation.SwervePoseCalculator;
+import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 
 
 
@@ -26,12 +26,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     m_robotContainer.setIDLE();
+    //PoseEstimator.getInstance();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SwervePoseCalculator.getInstance().update();
+    //PoseEstimator.getInstance().update();
   }
 
   @Override

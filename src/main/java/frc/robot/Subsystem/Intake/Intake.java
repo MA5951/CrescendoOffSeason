@@ -37,6 +37,10 @@ public class Intake extends StateControlledSubsystem {
     CanMove = new LoggedBool("/Subsystems/Intake/Can Move");
   }
 
+  public double getAppliedVolts() {
+    return intakeIO.getAppliedVolts();
+  }
+
   public double getCurrentDraw() {
     return intakeIO.getCurrentDraw();
   }
@@ -64,7 +68,7 @@ public class Intake extends StateControlledSubsystem {
 
   //Can Move
   private boolean IntakeCanMove(){
-    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !SuperStructure.isNote() ;
+    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !SuperStructure.getInstance().isNote() ;
   }
 
   private boolean EjectCanMove(){
@@ -88,6 +92,8 @@ public class Intake extends StateControlledSubsystem {
     super.periodic();
     intakeIO.updatePeriodic();
    
+    board.addNum("Applied Volts", getAppliedVolts());
+
     offsetLog.update(board.getNum("Intake Adjust"));
     IntakeCanMove.update(IntakeCanMove());
     EjectCanMove.update(EjectCanMove());

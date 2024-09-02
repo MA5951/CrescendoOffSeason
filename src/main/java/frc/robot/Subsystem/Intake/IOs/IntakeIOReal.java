@@ -47,7 +47,7 @@ public class IntakeIOReal implements IntakeIO {
     public void configTalonFX() {
         motorConfig.Feedback.SensorToMechanismRatio = IntakeConstants.Gear;
         
-        motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
         motorConfig.CurrentLimits.SupplyCurrentLimitEnable = IntakeConstants.IsCurrentLimitEnabled;

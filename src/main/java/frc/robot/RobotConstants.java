@@ -7,6 +7,8 @@ package frc.robot;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Utils.ShootingParameters;
 
 public class RobotConstants {
@@ -24,10 +26,9 @@ public class RobotConstants {
     public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING"); //Preset shooting
 
     
-    public static final double AngleFotShooting = 0;
     public static final double ShootingTolerance = 0;
 
-    public static final double AngleForFeeding = 0;
+    public static final double FeedingOffsetY = 0;
     public static final double FeedingTolerance = 0;
 
     public static final ShootingParameters WARM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
@@ -56,4 +57,15 @@ public class RobotConstants {
         Point5,
         Point6
     };
+
+    //XY = 0 is the corenr of the red humean source
+    //X is side to side form driver station view
+    //Y is front to back from driver station view
+    //FieldConstants
+    public static final Pose2d BLUE_SPEAKER = new Pose2d(5.548 , 0 , new Rotation2d());
+    public static final Pose2d RED_SPEAKER = new Pose2d(5.548 , 16.579 , new Rotation2d());
+    public static final Pose2d BLUE_AMP = new Pose2d(8.204 , 1.842 , new Rotation2d());
+    public static final Pose2d RED_AMP = new Pose2d(8.204 , 14.701 , new Rotation2d());
+
+    public static final double DISTANCE_TO_WARM = 0;
 }

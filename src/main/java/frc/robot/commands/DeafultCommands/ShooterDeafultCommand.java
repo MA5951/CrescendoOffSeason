@@ -6,7 +6,6 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
-import frc.robot.RobotConstants;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
@@ -47,12 +46,12 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         shooter.setVoltage(0);
         break;
       case "WARM":
-        shooter.setShootingParameterSpeeds(SuperStructure.getWarmingParameters());
+        shooter.setShootingParameterSpeeds(SuperStructure.getInstance().getWarmingParameters());
       case "SHOOTING":
-        shooter.setShootingParameterSpeeds(SuperStructure.getShootingPrameters());
+        shooter.setShootingParameterSpeeds(SuperStructure.getInstance().getShootingPrameters());
         break;
       case "FEEDING":
-        shooter.setShootingParameterSpeeds(SuperStructure.getFeedingPrameters());
+        shooter.setShootingParameterSpeeds(SuperStructure.getInstance().getFeedingPrameters());
         break;
       case "EJECTING":
         shooter.setVoltage(ShooterConstants.EJECTING_VOLTGE);
@@ -63,7 +62,7 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
       //TODO cancel the cancel  
         break;
       case "PRESET_SHOOTING":
-        shooter.setShootingParameterSpeeds(SuperStructure.getPRESETParameters());
+        shooter.setShootingParameterSpeeds(SuperStructure.getInstance().getPRESETParameters());
         break;
       default:
         break;

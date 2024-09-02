@@ -160,4 +160,14 @@ public class GeomUtil {
   public static Pose2d withRotation(Pose2d pose, Rotation2d rotation) {
     return new Pose2d(pose.getTranslation(), rotation);
   }
+
+  public static double distanceTo(Pose2d point1, Pose2d point2) {
+    return Math.sqrt(Math.pow(Math.abs(point1.getTranslation().getX() - point2.getTranslation().getX()), 2) + 
+    Math.pow(Math.abs(point1.getTranslation().getY() - point2.getTranslation().getY()), 2));
+    
+  }
+
+  public static double getAngleBetween(Pose2d point1, Pose2d point2) {
+    return Math.atan2(Math.abs(point2.getTranslation().getY() - point1.getTranslation().getY()), Math.abs(point2.getTranslation().getX() - point1.getTranslation().getX()));
+  }
 }

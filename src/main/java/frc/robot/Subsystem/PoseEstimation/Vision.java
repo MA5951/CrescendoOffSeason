@@ -10,10 +10,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+  private static Vision vision;
 
   private Limelight3G limelight;
 
-  public Vision() {
+  private Vision() {
     limelight = new Limelight3G(VisionConstants.CAMERA_NAME,
      VisionConstants.CAMERA_HIGHT,
       VisionConstants.CAMERA_ANGLE);
@@ -43,6 +44,17 @@ public class Vision extends SubsystemBase {
 
   public double getLatency() {
     return limelight.getL();
+  }
+
+  public double getTimeStamp() {
+    return limelight.getTimeStamp();
+  }
+
+  public static Vision getInstance() {
+    if (vision == null) {
+      vision = new Vision();
+    }
+    return vision;
   }
 
   @Override

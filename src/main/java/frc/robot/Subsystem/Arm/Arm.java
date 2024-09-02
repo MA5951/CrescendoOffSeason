@@ -118,6 +118,9 @@ public class Arm extends StateControlledSubsystem {
     armOffset.update(board.getNum("Angle Offset"));
     CanMove.update(canMove());
 
+    board.addNum("Set Point", getSetPoint());
+    board.addNum("Current Pose", getArmPosition());
+
     armIO.updatePIDValues(board.getPidControllerGainSupplier("Arm PID").getKP(),
     board.getPidControllerGainSupplier("Arm PID").getKI(), board.getPidControllerGainSupplier("Arm PID").getKD());
 

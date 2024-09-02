@@ -47,13 +47,13 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
         arm.setVoltage(arm.getFeedForwardVoltage());
         break;
       case "FOLLOW_SPEAKER":
-        arm.runSetPoint(SuperStructure.getShootingPrameters().getArmAngle());
+        arm.runSetPoint(SuperStructure.getInstance().getShootingPrameters().getArmAngle());
         break;
       case "SOURCE_INTAKE":
         arm.runSetPoint(ArmConstants.SOURCE_INTAKE_POSE);
         break;
       case "PRESET_SHOOTING":
-        arm.runSetPoint(SuperStructure.getPRESETParameters().getArmAngle());
+        arm.runSetPoint(SuperStructure.getInstance().getPRESETParameters().getArmAngle());
         break;
       case "AMP":
         arm.runSetPoint(ArmConstants.AMP_POSE);

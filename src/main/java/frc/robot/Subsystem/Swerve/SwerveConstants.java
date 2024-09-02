@@ -191,7 +191,8 @@ public class SwerveConstants {
         //Swerve theta PID_CONTROLLER radians
         public final static double THATA_KP = 5.4;
         public final static double THATA_KI = 0.4;
-        public final static double THATA_KD = 0.0;
+        public final static double THATA_KD = 0.0;//TODO
+        public final static double ANGLE_PID_TOLORANCE = 0.1;//TODO
 
         //Module Limits
         public final static ModuleLimits DEFUALT =  new ModuleLimits(4.5, Units.feetToMeters(75.0) , Units.degreesToRadians(600)); 
