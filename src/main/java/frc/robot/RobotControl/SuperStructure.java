@@ -20,23 +20,31 @@ import frc.robot.Utils.ShootingParameters;
 
 /** Add your docs here. */
 public class SuperStructure {
-    private static SuperStructure superStructure;
 
 
-    private static ShootingParameters presetParameters;
-    private static ShootingParameters point;
-    private static Pose2d speakerPose = DriverStation.getAlliance().get() == Alliance.Red ? 
-      RobotConstants.RED_SPEAKER : RobotConstants.BLUE_SPEAKER;
-    private static Pose2d feedingPose = DriverStation.getAlliance().get() == Alliance.Red ? 
-      new Pose2d(speakerPose.getX() - RobotConstants.FeedingOffsetY , speakerPose.getY() , speakerPose.getRotation()) : new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() , speakerPose.getRotation());
-    private static InterpolatingDoubleTreeMap leftShooterInterpolation = new InterpolatingDoubleTreeMap();
-    private static InterpolatingDoubleTreeMap rightShooterInterpolation = new InterpolatingDoubleTreeMap();
-    private static InterpolatingDoubleTreeMap angleInterpolation = new InterpolatingDoubleTreeMap();
+    private ShootingParameters presetParameters;
+    private ShootingParameters point;
+    private Pose2d speakerPose;
+    private Pose2d feedingPose;
+    private InterpolatingDoubleTreeMap leftShooterInterpolation = new InterpolatingDoubleTreeMap();
+    private InterpolatingDoubleTreeMap rightShooterInterpolation = new InterpolatingDoubleTreeMap();
+    private InterpolatingDoubleTreeMap angleInterpolation = new InterpolatingDoubleTreeMap();
+    private boolean updatedAfterDS = false;
         
-    private SuperStructure() {
+    public SuperStructure() {
         setupInterpolation();
+        
     }
 
+    public void updateAfterDSConnect() {
+        if (!updatedAfterDS && !DriverStation.getAlliance().isEmpty()) {
+            updatedAfterDS = true;
+            speakerPose = DriverStation.getAlliance().get() == Alliance.Red ? 
+            RobotConstants.RED_SPEAKER : RobotConstants.BLUE_SPEAKER;
+            feedingPose = DriverStation.getAlliance().get() == Alliance.Red ? 
+            new Pose2d(speakerPose.getX() - RobotConstants.FeedingOffsetY , speakerPose.getY() , speakerPose.getRotation()) : new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() , speakerPose.getRotation());
+        }
+    }
 
     public void setupInterpolation() {
         // for (int i = 0; i < RobotConstants.PointsArry.length; i++) {
@@ -60,11 +68,12 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-        return new ShootingParameters(
-            leftShooterInterpolation.get(getDistanceToSpeaker()),
-            rightShooterInterpolation.get(getDistanceToSpeaker()),
-            angleInterpolation.get(getDistanceToSpeaker()),
-             getDistanceToSpeaker());
+        // return new ShootingParameters(
+        //     leftShooterInterpolation.get(getDistanceToSpeaker()),
+        //     rightShooterInterpolation.get(getDistanceToSpeaker()),
+        //     angleInterpolation.get(getDistanceToSpeaker()),
+        //      getDistanceToSpeaker());
+        return new ShootingParameters(2000, 3000, 30, 5);
     }
 
     public ShootingParameters getFeedingPrameters() {
@@ -98,10 +107,14 @@ public class SuperStructure {
     }
 
     public double getDistanceToSpeaker() {
-        if (DriverStation.getAlliance().get() == Alliance.Blue) {
-            return GeomUtil.distanceTo(RobotConstants.BLUE_AMP, PoseEstimator.getInstance().getEstimatedRobotPose());
-        } else {
-            return GeomUtil.distanceTo(RobotConstants.RED_SPEAKER, PoseEstimator.getInstance().getEstimatedRobotPose());
+        if (!DriverStation.getAlliance().isEmpty()) {
+            if (DriverStation.getAlliance().get() == Alliance.Blue) {
+            return distanceTo(RobotConstants.BLUE_AMP, PoseEstimator.getInstance().getEstimatedRobotPose());
+            } else {
+                return distanceTo(RobotConstants.RED_SPEAKER, PoseEstimator.getInstance().getEstimatedRobotPose());
+            } 
+        }else {
+            return 0;
         }
     }
 
@@ -117,11 +130,10 @@ public class SuperStructure {
         return Shooter.getInstance().isNoteInShooter();
     }
 
-    public static SuperStructure getInstance() {
-        if (superStructure == null) {
-            superStructure = new SuperStructure();
-        }
-        return superStructure;
-    }
+    public double distanceTo(Pose2d point1, Pose2d point2) {
+        return Math.sqrt(Math.pow(Math.abs(point1.getTranslation().getX() - point2.getTranslation().getX()), 2) + 
+        Math.pow(Math.abs(point1.getTranslation().getY() - point2.getTranslation().getY()), 2));
+        
+      }
     
 }

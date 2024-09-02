@@ -59,10 +59,6 @@ public class IntakeIOSim implements IntakeIO{
     }
      
     public void updatePeriodic() {
-        if (DriverStation.isDisabled()) {
-            motor.setInputVoltage(0);
-        }
-        
         motor.update(RobotConstants.kDELTA_TIME);    
         
         motorTempLog.update(getMotorTemp());

@@ -41,7 +41,7 @@ public class Feeder extends StateControlledSubsystem {
     CanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move");
 
     board = new MAShuffleboard("Feeder");
-    board.addNum("Feeder Adjust", 0);
+    board.addNum("Feeder Adjust", 1);
   }
 
   public double getAppliedVolts() {
@@ -95,12 +95,12 @@ public class Feeder extends StateControlledSubsystem {
 
   private boolean FeedingCanMove() {
     return RobotContainer.currentRobotState == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
-           && SuperStructure.getInstance().isHeadingForFeeding() ;
+           && RobotConstants.SUPER_STRUCTURE.isHeadingForFeeding() ;
   }
 
   private boolean StationaryShootCanMove() {
     return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-          && SuperStructure.getInstance().isHeadingForShooting() && !SuperStructure.getInstance().isRobotMoving() ;
+          && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
   }
 
   private boolean AmpCanMove() {

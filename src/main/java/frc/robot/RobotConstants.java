@@ -9,11 +9,14 @@ import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Utils.ShootingParameters;
 
 public class RobotConstants {
 
     public static final double kDELTA_TIME = 0.02;
+
+    public static final SuperStructure SUPER_STRUCTURE = new SuperStructure();
 
     public static final State IDLE = new State("IDLE"); //Systems IDLE 
     public static final State INTAKE = new State("INTAKE"); //Intaking a note //Did

@@ -144,7 +144,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   private boolean WarmingCanMove() {
-    return RobotContainer.currentRobotState == RobotConstants.WARMING && SuperStructure.getInstance().isInWarmUpZone();
+    return RobotContainer.currentRobotState == RobotConstants.WARMING && RobotConstants.SUPER_STRUCTURE.isInWarmUpZone();
   }
 
   private boolean FeedingCanMove() {

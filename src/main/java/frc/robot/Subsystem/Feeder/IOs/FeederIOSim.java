@@ -67,10 +67,6 @@ public class FeederIOSim implements FeederIO{
     }
      
     public void updatePeriodic() {
-        if (DriverStation.isDisabled()) {
-            motor.setInputVoltage(0);
-        }
-        
         motor.update(RobotConstants.kDELTA_TIME);    
         
         motorTempLog.update(getMotorTemp());

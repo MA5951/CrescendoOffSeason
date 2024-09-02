@@ -10,6 +10,7 @@ import com.ma5951.utils.Logger.LoggedPose2d;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
@@ -28,15 +29,15 @@ public class PoseEstimator {
 
 
     public PoseEstimator() {
-        poseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.kinematics , swerve.getRotation2d() , 
-        swerve.getSwerveModulePositions() ,
-        new Pose2d(),
-        PoseEstimatorConstants.ODOMETRY_DEVS,//Oodmetry Devs
-        PoseEstimatorConstants.VISION_DEVS);//Vision Devs
+        // poseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.kinematics , swerve.getRotation2d() , 
+        // swerve.getSwerveModulePositions() ,
+        // new Pose2d(),
+        // PoseEstimatorConstants.ODOMETRY_DEVS,//Oodmetry Devs
+        // PoseEstimatorConstants.VISION_DEVS);//Vision Devs
 
-        estimatedRobotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
-        odometryUpdateConstrains = new LoggedBool("/PoseEstimator/Odometry Update Constrains");
-        visionUpdateConstrains = new LoggedBool("/PoseEstimator/Vision Update Constrains");
+        // estimatedRobotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
+        // odometryUpdateConstrains = new LoggedBool("/PoseEstimator/Odometry Update Constrains");
+        // visionUpdateConstrains = new LoggedBool("/PoseEstimator/Vision Update Constrains");
         
     }
 
@@ -58,7 +59,8 @@ public class PoseEstimator {
     }
 
     public Pose2d getEstimatedRobotPose() {
-        return poseEstimator.getEstimatedPosition();
+        //return poseEstimator.getEstimatedPosition();
+        return new Pose2d(5 , 5 , new Rotation2d());
     }
 
     public void update() {

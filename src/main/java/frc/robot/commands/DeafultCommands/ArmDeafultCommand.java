@@ -6,6 +6,7 @@ package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
+import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
@@ -47,13 +48,13 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
         arm.setVoltage(arm.getFeedForwardVoltage());
         break;
       case "FOLLOW_SPEAKER":
-        arm.runSetPoint(SuperStructure.getInstance().getShootingPrameters().getArmAngle());
+        arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
         break;
       case "SOURCE_INTAKE":
         arm.runSetPoint(ArmConstants.SOURCE_INTAKE_POSE);
         break;
       case "PRESET_SHOOTING":
-        arm.runSetPoint(SuperStructure.getInstance().getPRESETParameters().getArmAngle());
+        arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getPRESETParameters().getArmAngle());
         break;
       case "AMP":
         arm.runSetPoint(ArmConstants.AMP_POSE);
@@ -64,7 +65,8 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       case "HOME":
         if (arm.getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT) {
           arm.setTargetState(ArmConstants.IDLE);
-          arm.resetPosition(ArmConstants.ZERO_POSE);
+          //arm.resetPosition(ArmConstants.ZERO_POSE);
+          arm.resetPosition(0);
         } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
           arm.runSetPoint(ArmConstants.INTAKE_POSE);
           arm.setVoltage(0);

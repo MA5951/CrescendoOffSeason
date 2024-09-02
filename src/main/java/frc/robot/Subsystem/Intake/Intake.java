@@ -30,7 +30,7 @@ public class Intake extends StateControlledSubsystem {
     super(IntakeConstants.SYSTEM_STATES , "Intake");
     intakeIO.setNutralMode(true);
     board = new MAShuffleboard("Intake");
-    board.addNum("Intake Adjust" , 0);
+    board.addNum("Intake Adjust" , 1);
     offsetLog = new LoggedDouble("/Subsystems/Intake/Offset");
     IntakeCanMove = new LoggedBool("/Subsystems/Intake/Can Move/Intake");
     EjectCanMove = new LoggedBool("/Subsystems/Intake/Can Move/Eject");
@@ -68,7 +68,7 @@ public class Intake extends StateControlledSubsystem {
 
   //Can Move
   private boolean IntakeCanMove(){
-    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !SuperStructure.getInstance().isNote() ;
+    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !RobotConstants.SUPER_STRUCTURE.isNote() ;
   }
 
   private boolean EjectCanMove(){
