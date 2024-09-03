@@ -7,12 +7,17 @@ package frc.robot.commands.Swerve;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import frc.robot.Robot;
+import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
 public class TeleopSwerveController extends Command {
   
   private DriveController driveCommand;
+  private AngleAdjustController angleAdjustCommand;
   private ChassisSpeeds driveControllerSpeeds;
+  private ChassisSpeeds angleAdjustControllerSpeeds;
 
   private SwerveSubsystem swerve;
   private ChassisSpeeds robotSpeeds;
@@ -21,6 +26,7 @@ public class TeleopSwerveController extends Command {
     swerve = SwerveSubsystem.getInstance();
     
     driveCommand = new DriveController(controller);
+    angleAdjustCommand = new AngleAdjustController(() -> RobotConstants.SUPER_STRUCTURE.getSetPointForAline(), true);
     addRequirements(swerve);
   }
 
@@ -32,10 +38,14 @@ public class TeleopSwerveController extends Command {
   @Override
   public void execute() {
     driveCommand.execute();
-    driveControllerSpeeds = driveCommand.getChassisSpeed();
+    angleAdjustCommand.execute();
+    driveControllerSpeeds = driveCommand.getChassisSpeeds();
+    angleAdjustControllerSpeeds = angleAdjustCommand.getChassisSpeeds();
 
-    //State meachin to switch aulter the final chassis speed
-    if (true) {
+    if (RobotContainer.currentRobotState == RobotConstants.FEEDING || RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING
+    || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
+      robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond , driveControllerSpeeds.vyMetersPerSecond, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
+    } else {
       robotSpeeds = driveControllerSpeeds;
     }
 

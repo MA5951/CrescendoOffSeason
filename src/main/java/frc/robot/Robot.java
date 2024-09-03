@@ -6,10 +6,7 @@ package frc.robot;
 
 
 
-import com.ma5951.utils.Logger.LoggedPose2d;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -21,6 +18,7 @@ import frc.robot.Subsystem.PoseEstimation.SwervePoseCalculator;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  
 
   private RobotContainer m_robotContainer;
 
@@ -31,8 +29,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.setIDLE();
     PoseEstimator.getInstance();
     SwervePoseCalculator.getInstance();
-    LoggedPose2d robotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
-    robotPose.update(new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   @Override
@@ -41,6 +37,7 @@ public class Robot extends TimedRobot {
     PoseEstimator.getInstance().update();
     SwervePoseCalculator.getInstance().update();
     RobotConstants.SUPER_STRUCTURE.updateAfterDSConnect();
+    RobotConstants.SUPER_STRUCTURE.update();
   }
 
   @Override

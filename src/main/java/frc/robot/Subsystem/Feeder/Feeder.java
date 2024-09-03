@@ -33,12 +33,12 @@ public class Feeder extends StateControlledSubsystem {
     super(FeederConstants.SYSTEM_STATES , "Feeder");
     feederIO.setNutralMode(true);
     beamBrakerLog = new LoggedBool("/Subsystems/Feeder/Is Note");
-    IntakeCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/Intake");
-    EjectCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/Eject");
-    FeedingCanLog = new LoggedBool("/Subsystems/Feedr/Can Move/Feeding");
-    StationaryShootCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/Stationary Shoot");
-    PresetShootingCanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move/PresetShooting");
-    CanMoveLog = new LoggedBool("/Subsystems/Feedr/Can Move");
+    IntakeCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Intake");
+    EjectCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Eject");
+    FeedingCanLog = new LoggedBool("/Subsystems/Feeder/Can Move/Feeding");
+    StationaryShootCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Stationary Shoot");
+    PresetShootingCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/PresetShooting");
+    CanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move");
 
     board = new MAShuffleboard("Feeder");
     board.addNum("Feeder Adjust", 1);

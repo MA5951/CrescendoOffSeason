@@ -4,14 +4,18 @@
 
 package frc.robot.RobotControl;
 
-import com.ma5951.utils.Utils.GeomUtil;
+import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.Shooter.Shooter;
@@ -24,35 +28,51 @@ public class SuperStructure {
 
     private ShootingParameters presetParameters;
     private ShootingParameters point;
-    private Pose2d speakerPose;
-    private Pose2d feedingPose;
+    private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());//TODO
+    private Pose2d feedingPose = new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());;
     private InterpolatingDoubleTreeMap leftShooterInterpolation = new InterpolatingDoubleTreeMap();
     private InterpolatingDoubleTreeMap rightShooterInterpolation = new InterpolatingDoubleTreeMap();
     private InterpolatingDoubleTreeMap angleInterpolation = new InterpolatingDoubleTreeMap();
     private boolean updatedAfterDS = false;
+
+    private LoggedBool isNoteLog;
+    private LoggedBool isInWarmupLog;
+    private LoggedBool isHeadingForShootingLog;
+    private LoggedBool isHeadingForFeedingLog;
+    private LoggedBool isRobotMovingLog;
+    private LoggedDouble distanceToSpeakerLog;
+    private LoggedDouble robotHeadingLog;
         
     public SuperStructure() {
         setupInterpolation();
+        isNoteLog = new LoggedBool("/SuperStructure/Is Note");
+        isInWarmupLog = new LoggedBool("/SuperStructure/Is In Warmup");
+        isHeadingForShootingLog = new LoggedBool("/SuperStructure/Is Heading For Shooting");
+        isHeadingForFeedingLog = new LoggedBool("/SuperStructure/Is Heading For Feeding");
+        isRobotMovingLog = new LoggedBool("/SuperStructure/Is Robot Moving");
+        distanceToSpeakerLog = new LoggedDouble("/SuperStructure/Distance To Speaker");
+        robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
         
     }
 
-    public void updateAfterDSConnect() {
+    public void updateAfterDSConnect() {//TODO
         if (!updatedAfterDS && !DriverStation.getAlliance().isEmpty()) {
             updatedAfterDS = true;
             speakerPose = DriverStation.getAlliance().get() == Alliance.Red ? 
             RobotConstants.RED_SPEAKER : RobotConstants.BLUE_SPEAKER;
             feedingPose = DriverStation.getAlliance().get() == Alliance.Red ? 
-            new Pose2d(speakerPose.getX() - RobotConstants.FeedingOffsetY , speakerPose.getY() , speakerPose.getRotation()) : new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() , speakerPose.getRotation());
+            new Pose2d(speakerPose.getX() - RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation()) :
+            new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());
         }
     }
 
     public void setupInterpolation() {
-        // for (int i = 0; i < RobotConstants.PointsArry.length; i++) {
-        //     point = RobotConstants.PointsArry[i];
-        //     leftShooterInterpolation.put(point.getLeftSpeed(), point.getDistance());
-        //     rightShooterInterpolation.put(point.getRightSpeed(), point.getDistance());
-        //     angleInterpolation.put(point.getArmAngle(), point.getDistance());
-        // }
+        for (int i = 0; i < RobotConstants.PointsArry.length; i++) {
+            point = RobotConstants.PointsArry[i];
+            leftShooterInterpolation.put(point.getLeftSpeed(), point.getDistance());
+            rightShooterInterpolation.put(point.getRightSpeed(), point.getDistance());
+            angleInterpolation.put(point.getArmAngle(), point.getDistance());
+        }
     }
 
     public void setPRESETParameters(ShootingParameters parameters) {
@@ -90,8 +110,13 @@ public class SuperStructure {
     }
 
     public boolean isHeading(Pose2d point, double tolerance) {
-        double angle = GeomUtil.getAngleBetween(point, PoseEstimator.getInstance().getEstimatedRobotPose());
-        return Math.abs(getRobotHeading() - angle) < tolerance;
+        double angle = getAngleBetween(speakerPose, PoseEstimator.getInstance().getEstimatedRobotPose());
+        if (PoseEstimator.getInstance().getEstimatedRobotPose().getY() < point.getY()) {
+            angle -=90;
+            return Math.abs((180 -getRobotHeading()) - angle) < tolerance;
+        } else {
+            return Math.abs((270 -getRobotHeading()) - angle) < tolerance;
+        }
     }
 
     public boolean isHeadingForFeeding() {
@@ -99,6 +124,7 @@ public class SuperStructure {
     }
 
     public boolean isHeadingForShooting() {
+        
         return isHeading(speakerPose , RobotConstants.ShootingTolerance);
     }
 
@@ -107,14 +133,15 @@ public class SuperStructure {
     }
 
     public double getDistanceToSpeaker() {
-        if (!DriverStation.getAlliance().isEmpty()) {
-            if (DriverStation.getAlliance().get() == Alliance.Blue) {
-            return distanceTo(RobotConstants.BLUE_AMP, PoseEstimator.getInstance().getEstimatedRobotPose());
-            } else {
-                return distanceTo(RobotConstants.RED_SPEAKER, PoseEstimator.getInstance().getEstimatedRobotPose());
-            } 
-        }else {
-            return 0;
+        return distanceTo(speakerPose, PoseEstimator.getInstance().getEstimatedRobotPose());
+    }
+
+    public double getSetPointForAline() {
+        if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
+            return Math.atan2(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getX() - speakerPose.getTranslation().getX(), PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getY() - speakerPose.getTranslation().getY());
+
+        } else {
+            return Math.atan2(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getX() - feedingPose.getTranslation().getX(), PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getY() - feedingPose.getTranslation().getY());
         }
     }
 
@@ -131,9 +158,23 @@ public class SuperStructure {
     }
 
     public double distanceTo(Pose2d point1, Pose2d point2) {
-        return Math.sqrt(Math.pow(Math.abs(point1.getTranslation().getX() - point2.getTranslation().getX()), 2) + 
-        Math.pow(Math.abs(point1.getTranslation().getY() - point2.getTranslation().getY()), 2));
+        return Math.sqrt(Math.pow(point1.getTranslation().getX() - point2.getTranslation().getX(), 2) + 
+        Math.pow(point1.getTranslation().getY() - point2.getTranslation().getY(), 2));
         
-      }
+    }
+
+    public double getAngleBetween(Pose2d point1, Pose2d point2) {
+        return ConvUtil.RadiansToDegrees(Math.atan2(point2.getTranslation().getX() - point1.getTranslation().getX(), point2.getTranslation().getY() - point1.getTranslation().getY()));
+    }
+
+    public void update() {
+        isNoteLog.update(isNote());
+        isInWarmupLog.update(isInWarmUpZone());
+        isHeadingForShootingLog.update(isHeadingForShooting());
+        isHeadingForFeedingLog.update(isHeadingForFeeding());
+        isRobotMovingLog.update(isRobotMoving());
+        distanceToSpeakerLog.update(getDistanceToSpeaker());
+        robotHeadingLog.update(getRobotHeading());
+    }
     
 }

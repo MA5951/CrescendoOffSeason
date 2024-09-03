@@ -32,15 +32,15 @@ SwerveSubsystem extends SubsystemBase {
   private static SwerveSubsystem swerveSubsystem;
 
   private SwerveSetpointGenerator setpointGenerator;
-  private LoggedSwerveStates currenStates;
-  private LoggedSwerveStates setPoinStates;
-  private LoggedDouble offsetprint;
-  private LoggedDouble swerevXvelocity;
-  private LoggedDouble swerevYvelocity;
-  private LoggedDouble swerevXaccel;
-  private LoggedDouble swerevYaccel;
-  private LoggedDouble swerevTheatavelocity;
-  private LoggedDouble swerveTheataaccel;
+  private LoggedSwerveStates currenStatesLog;
+  private LoggedSwerveStates setPoinStatesLog;
+  private LoggedDouble offsetprintLog;
+  private LoggedDouble swerevXvelocityLog;
+  private LoggedDouble swerevYvelocityLog;
+  private LoggedDouble swerevXaccelLog;
+  private LoggedDouble swerevYaccelLog;
+  private LoggedDouble swerevTheatavelocityLog;
+  private LoggedDouble swerveTheataaccelLog;
   
 
   private final SwerveModule[] modulesArry = SwerveConstants.getModulesArry();
@@ -76,15 +76,15 @@ SwerveSubsystem extends SubsystemBase {
       SwerveConstants.rearRightLocation
     });
 
-    currenStates = new LoggedSwerveStates("/Swerve/States/Current States");
-    setPoinStates = new LoggedSwerveStates("/Swerve/States/SetPoint States");
-    swerevXvelocity = new LoggedDouble("/Swerve/Chassis Speed/X Velocity");
-    swerevYvelocity = new LoggedDouble("/Swerve/Chassis Speed/Y Velocity");
-    swerevTheatavelocity = new LoggedDouble("/Swerve/Chassis Speed/Theat Velocity");
-    swerevXaccel = new LoggedDouble("/Swerve/Chassis Speed/X Accel");
-    swerevYaccel = new LoggedDouble("/Swerve/Chassis Speed/Y Accel");
-    swerveTheataaccel = new LoggedDouble("/Swerve/Chassis Speed/Theath Accel");
-    offsetprint = new LoggedDouble("/Swerve/Gyro Offset Angle");
+    currenStatesLog = new LoggedSwerveStates("/Swerve/States/Current States");
+    setPoinStatesLog = new LoggedSwerveStates("/Swerve/States/SetPoint States");
+    swerevXvelocityLog = new LoggedDouble("/Swerve/Chassis Speed/X Velocity");
+    swerevYvelocityLog = new LoggedDouble("/Swerve/Chassis Speed/Y Velocity");
+    swerevTheatavelocityLog = new LoggedDouble("/Swerve/Chassis Speed/Theat Velocity");
+    swerevXaccelLog = new LoggedDouble("/Swerve/Chassis Speed/X Accel");
+    swerevYaccelLog = new LoggedDouble("/Swerve/Chassis Speed/Y Accel");
+    swerveTheataaccelLog = new LoggedDouble("/Swerve/Chassis Speed/Theath Accel");
+    offsetprintLog = new LoggedDouble("/Swerve/Gyro Offset Angle");
 
     for (int i = 0; i < 4 ; i++) {
       modulesArry[i].setNeutralModeDrive(true);
@@ -194,7 +194,7 @@ SwerveSubsystem extends SubsystemBase {
     SwerveModuleState[] states = generateStates(chassisSpeeds, SwerveConstants.optimize);
 
     SwerveModuleState[] Optistates = new SwerveModuleState[] {states[1] , states[3] , states[0] , states[2]};
-    setPoinStates.update(Optistates);
+    setPoinStatesLog.update(Optistates);
     setModules(Optistates);
   }
 
@@ -227,15 +227,15 @@ SwerveSubsystem extends SubsystemBase {
     currentChassisSpeeds = kinematics.toChassisSpeeds(currentStates);
 
     gyro.update(currentChassisSpeeds);
-    currenStates.update(getSwerveModuleStates());
-    offsetprint.update(offsetAngle);
+    currenStatesLog.update(getSwerveModuleStates());
+    offsetprintLog.update(offsetAngle);
     
-    swerevXvelocity.update(currentChassisSpeeds.vxMetersPerSecond);
-    swerevYvelocity.update(currentChassisSpeeds.vyMetersPerSecond);
-    swerevTheatavelocity.update(currentChassisSpeeds.omegaRadiansPerSecond);
-    swerevXaccel.update((lastXvelocity - currentChassisSpeeds.vxMetersPerSecond) / 0.2);
-    swerevYaccel.update((lastYvelocity - currentChassisSpeeds.vyMetersPerSecond) / 0.2);
-    swerveTheataaccel.update((lastTheatavelocity - currentChassisSpeeds.omegaRadiansPerSecond) / 0.2);
+    swerevXvelocityLog.update(currentChassisSpeeds.vxMetersPerSecond);
+    swerevYvelocityLog.update(currentChassisSpeeds.vyMetersPerSecond);
+    swerveTheataaccelLog.update(currentChassisSpeeds.omegaRadiansPerSecond);
+    swerevXaccelLog.update((lastXvelocity - currentChassisSpeeds.vxMetersPerSecond) / 0.2);
+    swerevYaccelLog.update((lastYvelocity - currentChassisSpeeds.vyMetersPerSecond) / 0.2);
+    swerevTheatavelocityLog.update((lastTheatavelocity - currentChassisSpeeds.omegaRadiansPerSecond) / 0.2);
 
     lastXvelocity = currentChassisSpeeds.vxMetersPerSecond;
     lastYvelocity = currentChassisSpeeds.vyMetersPerSecond;

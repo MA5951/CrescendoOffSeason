@@ -36,7 +36,7 @@ public class ArmIOReal implements ArmIO {
     private LoggedDouble positionLog;
     
     public ArmIOReal() {
-        armMotor = new TalonFX(PortMap.Arm.KrakenArmMotor);
+        armMotor = new TalonFX(PortMap.Arm.KrakenArmMotor , PortMap.CanBus.CANivoreBus);
 
 
         motorTempLog = new LoggedDouble("/Subsystems/Arm/Real/Motor Temp");

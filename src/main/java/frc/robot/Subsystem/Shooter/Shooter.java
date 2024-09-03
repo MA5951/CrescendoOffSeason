@@ -11,7 +11,6 @@ import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
-import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Shooter.IOs.ShooterIO;
 import frc.robot.Utils.ShootingParameters;
 
@@ -32,6 +31,7 @@ public class Shooter extends StateControlledSubsystem {
   private LoggedBool leftShotoerAtPoint;
   private LoggedBool rightShooterAtPoint;
   private LoggedBool shooterAtPoint;
+  private LoggedBool isNote;
 
   private LoggedBool StationaryShootCanMove;
   private LoggedBool WarmingCanMove;
@@ -66,6 +66,8 @@ public class Shooter extends StateControlledSubsystem {
     FeedingCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/Feeding");
     EjectCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/Eject");
     SourceIntakeCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/SourceIntake");
+
+    isNote = new LoggedBool("/Subsystems/Shooter/Is Note");
   }
 
   public boolean isNoteInShooter() {
@@ -93,7 +95,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public boolean atPoint() {
-    return (leftAtPoint() && rightAtPoint()) && (Math.abs(getLeftSpeed() - getRightSpeed()) <= ShooterConstants.kTOLORANCE_BETWEEN_SIDES);
+    return leftAtPoint() && rightAtPoint();
   }
 
   public void setRightVoltage(double voltage) {
@@ -140,7 +142,7 @@ public class Shooter extends StateControlledSubsystem {
 
   //Can Move
   private boolean StationaryShootCanMove() {
-    return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING;
+    return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING;
   }
 
   private boolean WarmingCanMove() {
@@ -177,6 +179,7 @@ public class Shooter extends StateControlledSubsystem {
     super.periodic();
     shooterIO.updatePeriodic();
 
+    isNote.update(isNoteInShooter());
     leftSpeed.update(getLeftSpeed());
     rightSpeed.update(getRightSpeed());
     rightShooterAtPoint.update(rightAtPoint());

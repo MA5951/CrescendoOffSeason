@@ -1,6 +1,5 @@
 package frc.robot.Subsystem.Swerve;
 
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -51,14 +50,14 @@ public class SwerveConstants {
 
         // rear left module
         public final static double REAR_LEFT_MODULE_OFFSET_ENCODER = 20;
-        public final static boolean REAR_LEFT_MOUDLE_IS_DRIVE_MOTOR_REVERSED = true;
-        public final static boolean REAR_LEFT_MODULES_IS_TURNING_MOTOR_REVERSED = true;
+        public final static boolean REAR_LEFT_MOUDLE_IS_DRIVE_MOTOR_REVERSED = false;
+        public final static boolean REAR_LEFT_MODULES_IS_TURNING_MOTOR_REVERSED = false;
         public final static boolean REAR_LEFT_MODULE_IS_ABSOLUTE_ENCODER_REVERSED = false;
 
         // rear right module
         public final static double REAR_RIGHT_MODULE_OFFSET_ENCODER = 34;
-        public final static boolean REAR_RIGHT_MOUDLE_IS_DRIVE_MOTOR_REVERSED = false;
-        public final static boolean REAR_RIGHT_MODULES_IS_TURNING_MOTOR_REVERSED = true;
+        public final static boolean REAR_RIGHT_MOUDLE_IS_DRIVE_MOTOR_REVERSED = true;
+        public final static boolean REAR_RIGHT_MODULES_IS_TURNING_MOTOR_REVERSED = false;
         public final static boolean REAR_RIGHT_MODULE_IS_ABSOLUTE_ENCODER_REVERSED = false;
 
         public static final Translation2d frontLeftLocation = new Translation2d(

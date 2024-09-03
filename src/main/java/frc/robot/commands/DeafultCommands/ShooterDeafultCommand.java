@@ -7,7 +7,6 @@ package frc.robot.commands.DeafultCommands;
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
 import frc.robot.RobotConstants;
-import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 
@@ -68,6 +67,12 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
       default:
         break;
     }
+  }
+
+  @Override
+  public void CANT_MOVE() {
+      super.CANT_MOVE();
+      shooter.setVoltage(0);
   }
 
   @Override

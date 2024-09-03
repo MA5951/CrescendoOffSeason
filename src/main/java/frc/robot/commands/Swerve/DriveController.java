@@ -44,7 +44,7 @@ public class DriveController extends Command {
 
   }
 
-  public ChassisSpeeds getChassisSpeed() {
+  public ChassisSpeeds getChassisSpeeds() {
     return speed;
   }
 

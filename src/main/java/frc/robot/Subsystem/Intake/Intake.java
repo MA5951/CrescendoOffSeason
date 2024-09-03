@@ -68,7 +68,7 @@ public class Intake extends StateControlledSubsystem {
 
   //Can Move
   private boolean IntakeCanMove(){
-    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !RobotConstants.SUPER_STRUCTURE.isNote() ;
+    return RobotContainer.currentRobotState == RobotConstants.INTAKE && Arm.getInstance().atPoint() && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter() ;
   }
 
   private boolean EjectCanMove(){

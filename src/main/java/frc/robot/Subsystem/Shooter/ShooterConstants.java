@@ -19,7 +19,6 @@ public class ShooterConstants {
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double kTOLORANCE = 50;
-    public static final double kTOLORANCE_BETWEEN_SIDES = 50;
     public static final double GEAR = 0.5;
 
     public static final double MAX_SYSTEM_RPM = 6000 * (1 / GEAR);

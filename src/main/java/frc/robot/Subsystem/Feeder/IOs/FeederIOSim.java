@@ -8,7 +8,6 @@ import com.ma5951.utils.Logger.LoggedDouble;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.PortMap;
 import frc.robot.RobotConstants;

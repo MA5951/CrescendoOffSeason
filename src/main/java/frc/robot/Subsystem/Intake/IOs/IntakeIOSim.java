@@ -53,6 +53,7 @@ public class IntakeIOSim implements IntakeIO{
     }
      
     public void setVoltage(double volt) {
+        
         appliedVolts = volt;
         motor.setInputVoltage(volt);
     }

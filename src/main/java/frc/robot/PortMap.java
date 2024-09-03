@@ -43,13 +43,13 @@ public class PortMap {
 
     public class Feeder {
         public static final int KrakenFeederMotor = 18;
-        public static final int DIO_FeederSensor = 1;
+        public static final int DIO_FeederSensor = 0;
     }
 
     public class Shooter {
         public static final int FalconLeftMotor = 0;
         public static final int FalconRightMotor = 0;
-        public static final int DIO_ShooterSensor = 0;
+        public static final int DIO_ShooterSensor = 1;
     }
 
     public class Arm {

@@ -8,7 +8,6 @@ import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
-import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 
@@ -48,19 +47,17 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           isNoteBack = false;
           break;
         case "FORWARD":
-          if (RobotContainer.currentRobotState == RobotConstants.INTAKE) { //TODO change to ir logic//Why?
+          if (RobotContainer.currentRobotState == RobotConstants.INTAKE || RobotContainer.currentRobotState == RobotConstants.EJECT) {
             feeder.turnOnForward();
           } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
-            if (RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) {
               feeder.turnOnForward();
-            } else {
-              RobotContainer.currentRobotState = RobotConstants.IDLE;
-            }
           } 
           break;
         case "REVERSE":
           if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotContainer.driverController.getHID().getCircleButton()) {
               feeder.turnOnRevers();
+            } else {
+            feeder.turnOffFeeder();
             }
           break;
         case "NOTE_ADJUSTING":
@@ -79,6 +76,13 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
         default:
           break;
       }
+  }
+
+  @Override
+  public void CANT_MOVE() {
+      super.CANT_MOVE();
+      feeder.turnOffFeeder();
+      isNoteBack = false;
   }
 
   @Override

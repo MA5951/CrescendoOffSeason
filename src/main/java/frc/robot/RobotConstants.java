@@ -29,16 +29,18 @@ public class RobotConstants {
     public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING"); //Preset shooting
 
     
-    public static final double ShootingTolerance = 0;
+    public static final double ShootingTolerance = 15;
 
-    public static final double FeedingOffsetY = 0;
-    public static final double FeedingTolerance = 0;
+    public static final double FeedingOffsetY = 3;
+    public static final double FeedingOffsetX = 1;
+    public static final double FeedingTolerance = 15;
 
     public static final ShootingParameters WARM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
 
     public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
-    public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
-    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
+    public static final ShootingParameters LOW_FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
+    public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(1, 1, 50 , 0);
+    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(1, 1, 20 , 0);
 
 
     //Interpolation
@@ -62,13 +64,13 @@ public class RobotConstants {
     };
 
     //XY = 0 is the corenr of the red humean source
-    //X is side to side form driver station view
-    //Y is front to back from driver station view
+    //Y is side to side form driver station view
+    //X is front to back from driver station view 
     //FieldConstants
-    public static final Pose2d BLUE_SPEAKER = new Pose2d(5.548 , 0 , new Rotation2d());
-    public static final Pose2d RED_SPEAKER = new Pose2d(5.548 , 16.579 , new Rotation2d());
-    public static final Pose2d BLUE_AMP = new Pose2d(8.204 , 1.842 , new Rotation2d());
-    public static final Pose2d RED_AMP = new Pose2d(8.204 , 14.701 , new Rotation2d());
+    public static final Pose2d BLUE_SPEAKER = new Pose2d(0 , 5.548 , new Rotation2d(0));
+    public static final Pose2d RED_SPEAKER = new Pose2d(16.579 , 5.548 , new Rotation2d(0));
+    public static final Pose2d BLUE_AMP = new Pose2d(1.842 , 8.204 , new Rotation2d(0));
+    public static final Pose2d RED_AMP = new Pose2d(14.701 , 8.204 , new Rotation2d(0));
 
-    public static final double DISTANCE_TO_WARM = 0;
+    public static final double DISTANCE_TO_WARM = 5;//Warm raidus in meters
 }

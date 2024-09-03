@@ -53,6 +53,12 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
         break;
     }
   }
+  
+  @Override
+  public void CANT_MOVE() {
+      super.CANT_MOVE();
+      intake.turnOffIntke();
+  }
 
   @Override
   public void ManuelLoop() {

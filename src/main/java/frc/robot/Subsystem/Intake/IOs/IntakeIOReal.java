@@ -30,7 +30,7 @@ public class IntakeIOReal implements IntakeIO {
     private LoggedDouble currentDrawLog;
 
     public IntakeIOReal() {
-        intakeMotor = new TalonFX(PortMap.Intake.KrakenIntakeMotor);
+        intakeMotor = new TalonFX(PortMap.Intake.KrakenIntakeMotor , PortMap.CanBus.CANivoreBus);
 
         
         currentDraw = intakeMotor.getStatorCurrent();
