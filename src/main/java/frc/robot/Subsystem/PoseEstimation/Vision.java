@@ -8,6 +8,7 @@ import com.ma5951.utils.Vision.Limelight3G;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.PortMap;
 
 public class Vision extends SubsystemBase {
   private static Vision vision;
@@ -15,7 +16,7 @@ public class Vision extends SubsystemBase {
   private Limelight3G limelight;
 
   private Vision() {
-    limelight = new Limelight3G(VisionConstants.CAMERA_NAME,
+    limelight = new Limelight3G(PortMap.Vision.CAMERA_NAME,
      VisionConstants.CAMERA_HIGHT,
       VisionConstants.CAMERA_ANGLE);
   }

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.DeafultCommands;
+package frc.robot.Commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
@@ -11,7 +11,7 @@ import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 
 public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
-  private static Shooter shooter = Shooter.getInstance(); //TODO change to the constructor and cant be static//Cant
+  private static Shooter shooter = Shooter.getInstance();
 
   public ShooterDeafultCommand() {
     super(shooter);
@@ -20,7 +20,6 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
 
   @Override
   public void initialize() {
-    //TODO set the motor to work only between 0 and 1 / -1 to 0 
   }
 
   @Override
@@ -57,9 +56,7 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         shooter.setVoltage(ShooterConstants.EJECTING_VOLTGE);
         break;
       case "SOURCE_INTAKE":
-      //TODO cancel the init set
         shooter.setVoltage(ShooterConstants.SOURCE_INTAKE_VOLTAGE);
-      //TODO cancel the cancel  
         break;
       case "PRESET_SHOOTING":
         shooter.setShootingParameterSpeeds(RobotConstants.SUPER_STRUCTURE.getPRESETParameters());
@@ -78,7 +75,7 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      shooter.setManuelMode(); //change to be a command proparty
+      shooter.setManuelMode(); 
   }
 
   @Override

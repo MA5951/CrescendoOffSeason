@@ -101,7 +101,7 @@ public class ArmIOReal implements ArmIO {
     }
 
     public double getPosition() {
-        return position.getValueAsDouble();
+        return ConvUtil.RotationsToDegrees(position.getValueAsDouble());
     }
 
 

@@ -20,11 +20,11 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
-import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
-import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
-import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
-import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
-import frc.robot.commands.Swerve.TeleopSwerveController;
+import frc.robot.Commands.DeafultCommands.ArmDeafultCommand;
+import frc.robot.Commands.DeafultCommands.FeederDeafultCommand;
+import frc.robot.Commands.DeafultCommands.IntakeDeafultCommand;
+import frc.robot.Commands.DeafultCommands.ShooterDeafultCommand;
+import frc.robot.Commands.Swerve.TeleopSwerveController;
 
 public class RobotContainer {
   public static State currentRobotState = RobotConstants.IDLE;

@@ -5,6 +5,8 @@
 package frc.robot.Subsystem.PoseEstimation;
 
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N3;
@@ -20,9 +22,9 @@ public class PoseEstimatorConstants {
     public final static double MAX_LINEAR_VELOCITY_FOR_UPDATE = 0;//Meters per second
     public final static double MAX_ANGULAR_VELOCITY_FOR_UPDATE = 0;//Radians per second
 
-    public static boolean VISION_UPDATE_CONSTRAINS = SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vxMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE 
+    public static Supplier<Boolean> VISION_UPDATE_CONSTRAINS = () -> SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vxMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE 
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vyMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().omegaRadiansPerSecond < MAX_ANGULAR_VELOCITY_FOR_UPDATE; 
 
-    public static boolean ODOMETRY_UPDATE_CONSTRAINS = DriverStation.isEnabled() && !DriverStation.isTest();
+    public static Supplier<Boolean> ODOMETRY_UPDATE_CONSTRAINS = () -> DriverStation.isEnabled() && !DriverStation.isTest();
 }

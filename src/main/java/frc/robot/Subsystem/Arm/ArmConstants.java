@@ -35,7 +35,7 @@ public class ArmConstants {
     public static final double kACCELERATION = 0;//TODO
     public static final double kJERK = 0;
     public static final double kTOLORANCE = 5;
-    public static final double GEAR = 109.89;
+    public static final double GEAR = 136.98;
 
     public static final double SIM_kP = 0.1;
     public static final double SIM_kD = 0;

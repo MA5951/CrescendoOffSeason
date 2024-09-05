@@ -28,7 +28,7 @@ public class SuperStructure {
 
     private ShootingParameters presetParameters;
     private ShootingParameters point;
-    private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());//TODO
+    private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());
     private Pose2d feedingPose = new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());;
     private InterpolatingDoubleTreeMap leftShooterInterpolation = new InterpolatingDoubleTreeMap();
     private InterpolatingDoubleTreeMap rightShooterInterpolation = new InterpolatingDoubleTreeMap();
@@ -67,12 +67,12 @@ public class SuperStructure {
     }
 
     public void setupInterpolation() {
-        for (int i = 0; i < RobotConstants.PointsArry.length; i++) {
-            point = RobotConstants.PointsArry[i];
-            leftShooterInterpolation.put(point.getLeftSpeed(), point.getDistance());
-            rightShooterInterpolation.put(point.getRightSpeed(), point.getDistance());
-            angleInterpolation.put(point.getArmAngle(), point.getDistance());
-        }
+        // for (int i = 0; i < RobotConstants.PointsArry.length; i++) {
+        //     point = RobotConstants.PointsArry[i];
+        //     leftShooterInterpolation.put(point.getLeftSpeed(), point.getDistance());
+        //     rightShooterInterpolation.put(point.getRightSpeed(), point.getDistance());
+        //     angleInterpolation.put(point.getArmAngle(), point.getDistance());
+        // }
     }
 
     public void setPRESETParameters(ShootingParameters parameters) {

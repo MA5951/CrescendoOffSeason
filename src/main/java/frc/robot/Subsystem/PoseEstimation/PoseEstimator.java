@@ -49,7 +49,7 @@ public class PoseEstimator {
     }
 
     public void updateVision() {
-        if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS) {
+        if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
             robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
         }
     }
@@ -63,8 +63,8 @@ public class PoseEstimator {
         updateOdometry();
         updateVision();
         estimatedRobotPose.update(getEstimatedRobotPose());
-        odometryUpdateConstrains.update(PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS);
-        visionUpdateConstrains.update(PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS);
+        odometryUpdateConstrains.update(PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS.get());
+        visionUpdateConstrains.update(PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get());
 
     }
 

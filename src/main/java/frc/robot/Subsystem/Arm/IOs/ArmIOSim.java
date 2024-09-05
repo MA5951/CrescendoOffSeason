@@ -97,6 +97,6 @@ public class ArmIOSim implements ArmIO{
 
 
     public void updatePIDValues(double Kp, double Ki, double Kd) {
-        
+        System.out.println("Kp: " + Kp + "Ki: " + Ki + "Kd: " + Kd);
     }
 }

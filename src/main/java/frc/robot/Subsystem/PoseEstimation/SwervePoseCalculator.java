@@ -24,10 +24,9 @@ public class SwervePoseCalculator {
 
     
     public void update() {
-        // if (PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS) {
-        //     odometry.update();
-        // }
-        odometry.update();
+        if (PoseEstimatorConstants.ODOMETRY_UPDATE_CONSTRAINS.get()) {
+            odometry.update();
+        }
         //collisionDtector.update();
         //skidDetector.update();
     }

@@ -7,7 +7,6 @@ package frc.robot.Subsystem.PoseEstimation;
 /** Add your docs here. */
 public class VisionConstants {
 
-    public final static String CAMERA_NAME = "";
     public final static double CAMERA_HIGHT = 0;
     public final static double CAMERA_ANGLE = 0;
 
