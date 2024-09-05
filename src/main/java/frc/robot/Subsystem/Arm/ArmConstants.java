@@ -37,6 +37,8 @@ public class ArmConstants {
     public static final double kTOLORANCE = 5;
     public static final double GEAR = 136.98;
 
+    public static final double kARM_MOVING_THRSHOLD_RPM = 2;
+
     public static final double SIM_kP = 0.1;
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;

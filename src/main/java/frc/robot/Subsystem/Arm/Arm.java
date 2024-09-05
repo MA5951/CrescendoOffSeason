@@ -13,6 +13,7 @@ import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 
 public class Arm extends StateControlledSubsystem {
@@ -41,10 +42,15 @@ public class Arm extends StateControlledSubsystem {
     armPose3d = new LoggedPose3d("/Subsystems/Arm/Position");
     CanMove = new LoggedBool("/Subsystems/Arm/Can Move");
     armIO.setNutralMode(true);
-    board = new MAShuffleboard("Arm");
     board.getPidControllerGainSupplier("Arm PID" , 0 , 0 , 0);
     board.addNum("Angle Offset", 0);
 
+    board.addCommand("Reset Pose", new InstantCommand(() -> resetPosition(ArmConstants.ZERO_POSE)));
+
+  }
+
+  public boolean isArmMoving() {
+    return armIO.getVelocity() > ArmConstants.kARM_MOVING_THRSHOLD_RPM;
   }
 
   public double getFeedForwardVoltage() {

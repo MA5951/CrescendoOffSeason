@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Commands.DeafultCommands;
+package frc.robot.commands.DeafultCommands;
 
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
@@ -64,8 +64,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       case "HOME":
         if (arm.getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT) {
           arm.setTargetState(ArmConstants.IDLE);
-          //arm.resetPosition(ArmConstants.ZERO_POSE);
-          arm.resetPosition(0);
+          arm.resetPosition(ArmConstants.ZERO_POSE);
         } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
           arm.runSetPoint(ArmConstants.INTAKE_POSE);
           arm.setVoltage(0);

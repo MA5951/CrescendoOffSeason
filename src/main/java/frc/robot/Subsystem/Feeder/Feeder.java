@@ -38,8 +38,6 @@ public class Feeder extends StateControlledSubsystem {
     StationaryShootCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Stationary Shoot");
     PresetShootingCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/PresetShooting");
     CanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move");
-
-    board = new MAShuffleboard("Feeder");
     board.addNum("Feeder Adjust", 1);
   }
 

@@ -57,7 +57,7 @@ public class PortMap {
     }
 
     public class Vision {
-        public final static String CAMERA_NAME = "";
+        public final static String CAMERA_NAME = "CAMERA";
     }
 
     public class Leds {

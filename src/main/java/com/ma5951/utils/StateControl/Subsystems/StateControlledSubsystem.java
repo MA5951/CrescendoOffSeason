@@ -7,6 +7,7 @@ package com.ma5951.utils.StateControl.Subsystems;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.StateControl.StatesTypes.State;
@@ -27,6 +28,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
     private LoggedString systemFunctionStateLog;
     private LoggedString targetStateLog;
     private LoggedBool systemCanMoveLog;
+    protected MAShuffleboard board;
 
 
     public StateControlledSubsystem(State[] states , String name) {
@@ -36,6 +38,8 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         systemFunctionStateLog = new LoggedString("/RobotControl/" + name + "/System Function State");
         targetStateLog = new LoggedString("/RobotControl/" + name + "/Target State");
         systemCanMoveLog = new LoggedBool("/RobotControl/" + name + "/Can Move");
+        board = new MAShuffleboard(name);
+        board.addBoolean("Manuel", false);
 
     }
 
@@ -82,6 +86,12 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
        systemFunctionStateLog.update(getSystemFunctionState().getName());
        targetStateLog.update(getTargetState().getName());
        systemCanMoveLog.update(canMove());
+
+       if (board.getBoolean("Manuel")) {
+            setSystemFunctionState(StatesConstants.MANUEL);
+       } else {
+            setSystemFunctionState(StatesConstants.AUTOMATIC);
+       }
    }
 
 }

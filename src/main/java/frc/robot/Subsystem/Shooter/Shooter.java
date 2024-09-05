@@ -44,7 +44,6 @@ public class Shooter extends StateControlledSubsystem {
     super(ShooterConstants.SYSTEM_STATES , "Shooter");
     shooterIO.setShooterNutralMode(false);
 
-    board = new MAShuffleboard("Shooter");
     board.addNum("Left Speed Adjust", 0);
     board.addNum("Right Speed Adjust", 0);
     board.addBoolean("Shooter Manuel Mode", false);
@@ -95,7 +94,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public boolean atPoint() {
-    return leftAtPoint() && rightAtPoint();
+    return leftAtPoint() && rightAtPoint() && Math.abs(getRightSetPoint() - getLeftSetPoint()) <= ShooterConstants.kTOLORANCE_BETWEEN_SIDES.get();
   }
 
   public void setRightVoltage(double voltage) {
@@ -159,6 +158,14 @@ public class Shooter extends StateControlledSubsystem {
 
   private boolean SourceIntakeCanMove() {
     return RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE;
+  }
+
+  public double getRightSetPoint() {
+    return rightSetPoint;
+  }
+
+  public double getLeftSetPoint() {
+    return leftSetPoint;
   }
 
 

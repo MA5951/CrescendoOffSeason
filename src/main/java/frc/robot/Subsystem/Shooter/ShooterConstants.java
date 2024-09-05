@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystem.Shooter;
 
+import java.util.function.Supplier;
+
 import com.ma5951.utils.StateControl.StatesTypes.State;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 
@@ -20,6 +22,8 @@ public class ShooterConstants {
     public static final double kD = 0;
     public static final double kTOLORANCE = 50;
     public static final double GEAR = 0.5;
+    public static final Supplier<Double> kTOLORANCE_BETWEEN_SIDES = () ->
+        Math.abs(Shooter.getInstance().getRightSetPoint() - Shooter.getInstance().getLeftSetPoint()) + 100;
 
     public static final double MAX_SYSTEM_RPM = 6000 * (1 / GEAR);
 
