@@ -66,6 +66,8 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
       intake.turnOnIntke();
     } else if (RobotContainer.oporatorController.getHID().getPOV() == 180) {
       intake.turnOnEjectIntake();
+    } else {
+      intake.turnOffIntke();
     }
   }
 

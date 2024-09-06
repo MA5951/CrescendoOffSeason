@@ -41,14 +41,15 @@ public class RobotContainer {
     SwerveSubsystem.getInstance();
     RobotConstants.SUPER_STRUCTURE.setupInterpolation();
     setDeafultCommands();
-    configureBindings();
+    //configureBindings();
+    new Trigger(() -> driverController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset()));
     
   }
 
   public void setIDLE() {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
-      Arm.getInstance().setTargetState(ArmConstants.HOME);
+      Arm.getInstance().setTargetState(ArmConstants.IDLE);//TODO HOME
       Feeder.getInstance().setTargetState(FeederConstants.IDLE);
       Intake.getInstance().setTargetState(IntakeConstants.IDLE);
       Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
@@ -131,7 +132,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(Feeder.getInstance(), new FeederDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
-    CommandScheduler.getInstance().setDefaultCommand(SwerveSubsystem.getInstance(), new TeleopSwerveController(RobotContainer.driverController));
+    CommandScheduler.getInstance().setDefaultCommand(SwerveSubsystem.getInstance(), new TeleopSwerveController(RobotContainer.oporatorController));
   }
 
   private void configureBindings() {

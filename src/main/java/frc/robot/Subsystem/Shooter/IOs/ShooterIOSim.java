@@ -142,5 +142,13 @@ public class ShooterIOSim implements ShooterIO{
         RcurrentDrawLog.update(getRightCurrentDraw());
     }
 
+    public double getLeftError() {
+        return 0;
+    }
+
+    public double getRightError() {
+        return 0;
+    }
+
 
 }

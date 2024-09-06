@@ -5,9 +5,11 @@
 package frc.robot.Subsystem.Arm;
 
 import com.ma5951.utils.DashBoard.MAShuffleboard;
+import com.ma5951.utils.DashBoard.MAShuffleboard.pidControllerGainSupplier;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedPose3d;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 import com.ma5951.utils.Utils.ConvUtil;
 
@@ -30,7 +32,10 @@ public class Arm extends StateControlledSubsystem {
   private LoggedDouble armOffset;
   private LoggedPose3d armPose3d;
   private LoggedBool CanMove;
-  private MAShuffleboard board;
+  private LoggedDouble feedForawdLog;
+
+
+  private pidControllerGainSupplier pidSupplier;
 
   private Arm() {
     super(ArmConstants.SUBSYSTEM_STATES , "Arm");
@@ -41,12 +46,13 @@ public class Arm extends StateControlledSubsystem {
     armOffset = new LoggedDouble("/Subsystems/Arm/Angle Offset");
     armPose3d = new LoggedPose3d("/Subsystems/Arm/Position");
     CanMove = new LoggedBool("/Subsystems/Arm/Can Move");
+    feedForawdLog = new LoggedDouble("/Subsystems/Arm/FeedForward");
     armIO.setNutralMode(true);
-    board.getPidControllerGainSupplier("Arm PID" , 0 , 0 , 0);
+    pidSupplier = board.getPidControllerGainSupplier("Arm PID");
     board.addNum("Angle Offset", 0);
 
     board.addCommand("Reset Pose", new InstantCommand(() -> resetPosition(ArmConstants.ZERO_POSE)));
-
+    resetPosition(ArmConstants.ZERO_POSE);
   }
 
   public boolean isArmMoving() {
@@ -54,7 +60,7 @@ public class Arm extends StateControlledSubsystem {
   }
 
   public double getFeedForwardVoltage() {
-    return ((ArmConstants.MG * Math.sin(getArmPosition()) * ArmConstants.ARM_LENGTH) / ArmConstants.GEAR) / ArmConstants.kSTALL_TOURQE * 12;
+    return ((ArmConstants.MG * Math.sin(ConvUtil.DegreesToRadians(getArmPosition())) * ArmConstants.ARM_LENGTH) / ArmConstants.GEAR) / ArmConstants.kSTALL_TOURQE * 12;
 }
 
   public double getCurrentDraw() {
@@ -79,7 +85,7 @@ public class Arm extends StateControlledSubsystem {
 
   public void runSetPoint(double setPoint) {
     this.setPoint = setPoint;
-    armIO.setAngleSetPoint(setPoint + board.getNum("Angle Offset") , getFeedForwardVoltage());
+    armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint + board.getNum("Angle Offset")) , getFeedForwardVoltage());
   }
 
   public double getVoltage() {
@@ -97,9 +103,9 @@ public class Arm extends StateControlledSubsystem {
 
   //Can Move
   private boolean LimitsCanMove(){
-    return (getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
+    return ((getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
      (getArmPosition() > ArmConstants.UPPER_LIMIT && getVoltage() < 0) ||
-    (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0);
+    (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0) )|| getSystemFunctionState() == StatesConstants.MANUEL;
   } 
 
   @Override
@@ -123,12 +129,12 @@ public class Arm extends StateControlledSubsystem {
     armAngleLog.update(getArmPosition());
     armOffset.update(board.getNum("Angle Offset"));
     CanMove.update(canMove());
+    feedForawdLog.update(getFeedForwardVoltage());
 
     board.addNum("Set Point", getSetPoint());
     board.addNum("Current Pose", getArmPosition());
 
-    armIO.updatePIDValues(board.getPidControllerGainSupplier("Arm PID").getKP(),
-    board.getPidControllerGainSupplier("Arm PID").getKI(), board.getPidControllerGainSupplier("Arm PID").getKD());
+    //armIO.updatePIDValues(pidSupplier.getKP() , pidSupplier.getKI() , pidSupplier.getKD());
 
     armPosition = new Pose3d(armPosition.getX(), armPosition.getY(), armPosition.getZ(), 
   new Rotation3d(0, ConvUtil.DegreesToRadians(-getArmPosition()), 0));

@@ -7,6 +7,7 @@ package frc.robot.commands.DeafultCommands;
 import com.ma5951.utils.StateControl.Commands.RobotFunctionStatesCommand;
 
 import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 
@@ -75,7 +76,8 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      shooter.setManuelMode(); 
+      shooter.setManuelMode();
+
   }
 
   @Override

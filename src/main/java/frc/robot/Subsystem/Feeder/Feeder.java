@@ -6,6 +6,7 @@ package frc.robot.Subsystem.Feeder;
 
 import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import frc.robot.RobotConstants;
@@ -26,7 +27,6 @@ public class Feeder extends StateControlledSubsystem {
   private LoggedBool StationaryShootCanMoveLog;
   private LoggedBool PresetShootingCanMoveLog;
   private LoggedBool CanMoveLog;
-  private MAShuffleboard board;
 
   private Feeder() {
     super(FeederConstants.SYSTEM_STATES , "Feeder");
@@ -110,7 +110,7 @@ public class Feeder extends StateControlledSubsystem {
 
   @Override
   public boolean canMove() {
-      return IntakeCanMove()|| EjectCanMove() || FeedingCanMove()|| StationaryShootCanMove() || AmpCanMove() || PresetShootingCanMove();
+      return IntakeCanMove()|| EjectCanMove() || FeedingCanMove()|| StationaryShootCanMove() || AmpCanMove() || PresetShootingCanMove() || getSystemFunctionState() == StatesConstants.MANUEL;
   }
 
   public static Feeder getInstance() {

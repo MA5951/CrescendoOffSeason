@@ -33,9 +33,10 @@ public class FeederIOReal implements FeederIO {
     private LoggedDouble currentDrawLog;
 
     public FeederIOReal() {
-        feederMotor = new TalonFX(PortMap.Feeder.KrakenFeederMotor);
+        feederMotor = new TalonFX(PortMap.Feeder.FalconID , PortMap.CanBus.RioBus);
         feederBeamBraker = new DigitalInput(PortMap.Feeder.DIO_FeederSensor);
 
+        configTalonFX();
         
         currentDraw = feederMotor.getStatorCurrent();
         velocity = feederMotor.getVelocity();
@@ -51,7 +52,7 @@ public class FeederIOReal implements FeederIO {
     public void configTalonFX() {
         motorConfig.Feedback.SensorToMechanismRatio = IntakeConstants.Gear;
         
-        motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
         motorConfig.CurrentLimits.SupplyCurrentLimitEnable = IntakeConstants.IsCurrentLimitEnabled;

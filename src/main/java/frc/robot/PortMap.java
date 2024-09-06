@@ -42,14 +42,14 @@ public class PortMap {
     }
 
     public class Feeder {
-        public static final int KrakenFeederMotor = 18;
-        public static final int DIO_FeederSensor = 0;
+        public static final int FalconID = 18;
+        public static final int DIO_FeederSensor = 9;
     }
 
     public class Shooter {
-        public static final int FalconLeftMotor = 0;
-        public static final int FalconRightMotor = 0;
-        public static final int DIO_ShooterSensor = 1;
+        public static final int FalconLeftMotor = 16;
+        public static final int FalconRightMotor = 17;
+        public static final int DIO_ShooterSensor = 8;
     }
 
     public class Arm {
@@ -57,7 +57,7 @@ public class PortMap {
     }
 
     public class Vision {
-        public final static String CAMERA_NAME = "CAMERA";
+        public final static String CAMERA_NAME = "camera";
     }
 
     public class Leds {

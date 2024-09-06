@@ -124,12 +124,8 @@ SwerveSubsystem extends SubsystemBase {
     gyro.reset();
   }
 
-  public void updateYaw(double newYa) {
-    yaw = newYa;
-  }
-
   public double getFusedHeading() {
-    return yaw;
+    return gyro.getYaw();
   }
 
   public double getRoll() {
@@ -165,7 +161,6 @@ SwerveSubsystem extends SubsystemBase {
                      - SwerveSubsystem.getInstance().getOffsetAngle()))));
     
     
-    updateYaw(getFusedHeading() + ConvUtil.RadiansToDegrees(chassiSpeeds.omegaRadiansPerSecond) * 0.02);
     if (optimize) {
       currentSetpoint =
       setpointGenerator.generateSetpoint(

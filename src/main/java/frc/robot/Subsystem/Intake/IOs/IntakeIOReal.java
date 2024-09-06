@@ -32,6 +32,7 @@ public class IntakeIOReal implements IntakeIO {
     public IntakeIOReal() {
         intakeMotor = new TalonFX(PortMap.Intake.KrakenIntakeMotor , PortMap.CanBus.CANivoreBus);
 
+        configTalonFX();
         
         currentDraw = intakeMotor.getStatorCurrent();
         velocity = intakeMotor.getVelocity();
@@ -42,12 +43,14 @@ public class IntakeIOReal implements IntakeIO {
         appliedVoltsLog = new LoggedDouble("/Subsystems/Intake/Real/Applied Voltage");
         velocityLog = new LoggedDouble("/Subsystems/Intake/Real/Intake Velocity");
         currentDrawLog = new LoggedDouble("/Subsystems/Intake/Real/Motor Current");
+
+        
     }
 
     public void configTalonFX() {
         motorConfig.Feedback.SensorToMechanismRatio = IntakeConstants.Gear;
         
-        motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
         motorConfig.CurrentLimits.SupplyCurrentLimitEnable = IntakeConstants.IsCurrentLimitEnabled;

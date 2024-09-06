@@ -8,6 +8,7 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ma5951.utils.Logger.LoggedDouble;
@@ -28,6 +29,7 @@ public class ArmIOReal implements ArmIO {
     private StatusSignal<Double> motorTemp;
     private StatusSignal<Double> appliedVolts;
     private StatusSignal<Double> position;
+    private StatusSignal<Double> test;
 
     private LoggedDouble motorTempLog;
     private LoggedDouble appliedVoltsLog;
@@ -50,13 +52,17 @@ public class ArmIOReal implements ArmIO {
         motorTemp = armMotor.getDeviceTemp();
         appliedVolts = armMotor.getMotorVoltage();
         position = armMotor.getPosition();
+        test = armMotor.getClosedLoopReference();
+
+        configMotor();
     
     }
 
     public void configMotor() {
+        motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         motorConfig.Feedback.SensorToMechanismRatio = ArmConstants.GEAR;
         
-        motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         motorConfig.Slot0.kP = ArmConstants.kP;
@@ -74,14 +80,13 @@ public class ArmIOReal implements ArmIO {
 
         armMotor.getConfigurator().apply(motorConfig);
     }
-//TODO
-//Cheack directions
+
     public boolean getForwardLimit() {
-        return getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT;
+        return getPosition() <= ArmConstants.UPPER_LIMIT;
     }
 
     public boolean getReversLimit() {
-        return getPosition() >= ArmConstants.UPPER_LIMIT;
+        return getPosition() >= ArmConstants.LOWER_LIMIT;
     }
 
     public double getCurrentDraw() {
@@ -102,6 +107,7 @@ public class ArmIOReal implements ArmIO {
 
     public double getPosition() {
         return ConvUtil.RotationsToDegrees(position.getValueAsDouble());
+        //return position.getValueAsDouble();
     }
 
 
@@ -128,10 +134,11 @@ public class ArmIOReal implements ArmIO {
     
     public void setAngleSetPoint(double angleSetPoint , double feedforward) {
         armMotor.setControl(motionMagicControl.withPosition(angleSetPoint).withSlot(ArmConstants.CONTROL_SLOT)
-        .withLimitForwardMotion(getForwardLimit())
-        .withLimitReverseMotion(getReversLimit())
-        .withFeedForward(feedforward)
-        );
+        //.withLimitForwardMotion(getForwardLimit())
+        //.withLimitReverseMotion(getReversLimit())
+        .withFeedForward(feedforward));
+        System.out.println("PPPPPPPPPPPPPPPPPPPPPP");
+        
     }
 
     
@@ -140,6 +147,7 @@ public class ArmIOReal implements ArmIO {
     }
     
     public void updatePeriodic() {
+        test.refresh();
         currentDraw.refresh();
         velocity.refresh();
         motorTemp.refresh();
@@ -151,5 +159,6 @@ public class ArmIOReal implements ArmIO {
         velocityLog.update(getVelocity());
         currentDrawLog.update(getCurrentDraw());
         positionLog.update(getPosition());
+        System.out.println(test.getValueAsDouble());
     }
 }

@@ -22,10 +22,10 @@ public class ShooterIOReal implements ShooterIO{
 
     private TalonFX motorLeft;
     private TalonFX motorRight;
-    private VelocityVoltage controlLeft;
-    private VelocityVoltage controlRight;
-    private TalonFXConfiguration leftMotorConfig;
-    private TalonFXConfiguration rightMotorConfig;
+    private VelocityVoltage controlLeft = new VelocityVoltage(0);
+    private VelocityVoltage controlRight = new VelocityVoltage(0);
+    private TalonFXConfiguration leftMotorConfig = new TalonFXConfiguration();
+    private TalonFXConfiguration rightMotorConfig = new TalonFXConfiguration();
 
     private DigitalInput beambraker;
 
@@ -39,6 +39,9 @@ public class ShooterIOReal implements ShooterIO{
     private StatusSignal<Double> rightmotorTemp;
     private StatusSignal<Double> rightappliedVolts;
 
+    private StatusSignal<Double> leftMotorError;
+    private StatusSignal<Double> rightMotorError;
+
     private LoggedDouble LmotorTempLog;
     private LoggedDouble LappliedVoltsLog;
     private LoggedDouble LvelocityLog;
@@ -49,10 +52,12 @@ public class ShooterIOReal implements ShooterIO{
     private LoggedDouble RvelocityLog;
     private LoggedDouble RcurrentDrawLog;
 
-    public ShooterIOReal() {
-        motorLeft = new TalonFX(PortMap.Shooter.FalconLeftMotor);
-        motorRight = new TalonFX(PortMap.Shooter.FalconRightMotor);
+    private LoggedDouble LerrorLog;
+    private LoggedDouble RerrorLog;
 
+    public ShooterIOReal() {
+        motorLeft = new TalonFX(PortMap.Shooter.FalconLeftMotor , PortMap.CanBus.RioBus);
+        motorRight = new TalonFX(PortMap.Shooter.FalconRightMotor, PortMap.CanBus.RioBus);
         beambraker = new DigitalInput(PortMap.Shooter.DIO_ShooterSensor);
 
         configMotors();
@@ -67,6 +72,9 @@ public class ShooterIOReal implements ShooterIO{
         rightmotorTemp = motorRight.getDeviceTemp();
         rightappliedVolts = motorRight.getMotorVoltage();
 
+        leftMotorError = motorLeft.getClosedLoopError();
+        rightMotorError = motorRight.getClosedLoopError();
+
         LmotorTempLog = new LoggedDouble("/Subsystems/Shooter/Real/Left Motor/Motor Temp");
         LappliedVoltsLog = new LoggedDouble("/Subsystems/Shooter/Real/Left Motor/Motor Applied Volts");
         LvelocityLog = new LoggedDouble("/Subsystems/Shooter/Real/Left Motor/Motor Velocity");
@@ -77,12 +85,15 @@ public class ShooterIOReal implements ShooterIO{
         RvelocityLog = new LoggedDouble("/Subsystems/Shooter/Real/Right Motor/Motor Velocity");
         RcurrentDrawLog = new LoggedDouble("/Subsystems/Shooter/Real/Right Motor/Motor Current Draw");
 
+        RerrorLog = new LoggedDouble("/Subsystems/Shooter/Real/Right Motor/Error");
+        LerrorLog = new LoggedDouble("/Subsystems/Shooter/Real/Left Motor/Error");
 
+        
     }
 
     public void configMotors() {
         leftMotorConfig.Feedback.SensorToMechanismRatio = ShooterConstants.GEAR;
-        leftMotorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        leftMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         leftMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         leftMotorConfig.Slot0.kP = ShooterConstants.kP;
         leftMotorConfig.Slot0.kI = ShooterConstants.kI;
@@ -96,7 +107,7 @@ public class ShooterIOReal implements ShooterIO{
 
 
         rightMotorConfig.Feedback.SensorToMechanismRatio = ShooterConstants.GEAR;
-        rightMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        rightMotorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         rightMotorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         rightMotorConfig.Slot0.kP = ShooterConstants.kP;
         rightMotorConfig.Slot0.kI = ShooterConstants.kI;
@@ -110,6 +121,14 @@ public class ShooterIOReal implements ShooterIO{
 
     }
 
+    public double getLeftError() {
+        return leftMotorError.getValueAsDouble();
+    }
+
+    public double getRightError() {
+        return rightMotorError.getValueAsDouble();
+    }
+
     public boolean getBeamBraker() {
         return !beambraker.get();
     }
@@ -119,7 +138,7 @@ public class ShooterIOReal implements ShooterIO{
     }
 
     public double getLeftVelocity() {
-        return leftvelocity.getValueAsDouble();
+        return ConvUtil.RPStoRPM(leftvelocity.getValueAsDouble());
     }
 
     public double getLeftMotorTemp() {
@@ -141,7 +160,8 @@ public class ShooterIOReal implements ShooterIO{
 
     public void setLeftSpeedSetPoint(double setPoint , double feedforward) {
         motorLeft.setControl(controlLeft.withVelocity(ConvUtil.RPMtoRPS(setPoint)).withSlot(ShooterConstants.CONTROL_SLOT)
-        .withFeedForward(feedforward));
+        .withFeedForward(feedforward)
+        .withLimitReverseMotion(getLeftVelocity() > 0));
     }
 
     public void setLeftVoltage(double volt) {
@@ -153,7 +173,7 @@ public class ShooterIOReal implements ShooterIO{
     }
 
     public double getRightVelocity() {
-        return rightvelocity.getValueAsDouble();
+        return ConvUtil.RPStoRPM(rightvelocity.getValueAsDouble());
     }
 
     public double getRightMotorTemp() {
@@ -175,7 +195,8 @@ public class ShooterIOReal implements ShooterIO{
 
     public void setRightSpeedSetPoint(double setPoint , double feedforward) {
         motorRight.setControl(controlRight.withVelocity(ConvUtil.RPMtoRPS(setPoint)).withSlot(ShooterConstants.CONTROL_SLOT)
-        .withFeedForward(feedforward));
+        .withFeedForward(feedforward)
+        .withLimitReverseMotion(getRightVelocity() > 0));
     }
 
     public void setRightVoltage(double volt) {
@@ -193,6 +214,8 @@ public class ShooterIOReal implements ShooterIO{
 
         motorLeft.getConfigurator().apply(leftMotorConfig);
         motorRight.getConfigurator().apply(rightMotorConfig);
+
+    
     }
 
     public void setShooterNutralMode(boolean isBrake) {
@@ -209,6 +232,8 @@ public class ShooterIOReal implements ShooterIO{
         rightvelocity.refresh();
         rightmotorTemp.refresh();
         rightappliedVolts.refresh();
+        rightMotorError.refresh();
+        leftMotorError.refresh();
 
         LmotorTempLog.update(getLeftMotorTemp());
         LappliedVoltsLog.update(getLeftAppliedVolts());
@@ -218,5 +243,7 @@ public class ShooterIOReal implements ShooterIO{
         RappliedVoltsLog.update(getRightAppliedVolts());
         RvelocityLog.update(getRightVelocity());
         RcurrentDrawLog.update(getRightCurrentDraw());
+        RerrorLog.update(rightMotorError.getValueAsDouble());
+        LerrorLog.update(leftMotorError.getValueAsDouble());
     }
 }

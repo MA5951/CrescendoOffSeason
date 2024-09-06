@@ -88,10 +88,20 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      if (RobotContainer.oporatorController.getHID().getPOV() == -90) {
+      // if (RobotContainer.oporatorController.getHID().getPOV() == 270) {
+      //   feeder.turnOnForward();
+      // } else if (RobotContainer.oporatorController.getHID().getPOV() == 90) {
+      //   feeder.turnOnRevers();
+      // } else {
+      //   feeder.turnOffFeeder();
+      // }
+
+      if (RobotContainer.oporatorController.getHID().getSquareButton()) {
         feeder.turnOnForward();
-      } else if (RobotContainer.oporatorController.getHID().getPOV() == 90) {
+      } else if (RobotContainer.oporatorController.getHID().getCircleButton()) {
         feeder.turnOnRevers();
+      } else {
+        feeder.turnOffFeeder();
       }
   }
 

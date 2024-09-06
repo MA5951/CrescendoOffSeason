@@ -33,6 +33,10 @@ public interface ShooterIO {
 
     double getRightAppliedVolts(); //Return Applied Volts
 
+    double getLeftError();
+
+    double getRightError();
+
     void  setRightNutralMode(boolean isBrake); //Sets between coast and brake 
 
     void setRightSpeedSetPoint(double setPoint , double feedforward); //Sets setPoint in RPM

@@ -7,6 +7,7 @@ package frc.robot.Subsystem.Intake;
 import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import frc.robot.RobotConstants;
@@ -19,7 +20,6 @@ public class Intake extends StateControlledSubsystem {
 
   private IntakeIO intakeIO =  IntakeConstants.getIntakeIO();
 
-  private MAShuffleboard board;
   private LoggedDouble offsetLog;
   private LoggedBool IntakeCanMove;
   private LoggedBool EjectCanMove;
@@ -75,7 +75,7 @@ public class Intake extends StateControlledSubsystem {
 
   @Override
   public boolean canMove() {
-      return IntakeCanMove() || EjectCanMove();
+      return IntakeCanMove() || EjectCanMove() || getSystemFunctionState() == StatesConstants.MANUEL;
   }
 
   public static Intake getInstance() {

@@ -17,8 +17,8 @@ import frc.robot.Subsystem.Shooter.IOs.ShooterIOSim;
 public class ShooterConstants {
 
     public static final int CONTROL_SLOT = 0;
-    public static final double kP = 0;
-    public static final double kI = 0;
+    public static final double kP = 0.4;
+    public static final double kI = 0.0002;
     public static final double kD = 0;
     public static final double kTOLORANCE = 50;
     public static final double GEAR = 0.5;

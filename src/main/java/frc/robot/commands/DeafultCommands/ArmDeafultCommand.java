@@ -44,7 +44,8 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
     super.AutomaticLoop();
     switch (arm.getTargetState().getName()) {
       case "IDLE":
-        arm.setVoltage(arm.getFeedForwardVoltage());
+        //arm.setVoltage(arm.getFeedForwardVoltage());
+        arm.setVoltage(0);
         break;
       case "FOLLOW_SPEAKER":
         arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
@@ -85,14 +86,18 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
     public void CANT_MOVE() {
         super.CANT_MOVE();
-          arm.runSetPoint(arm.getArmPosition()); //TODO cahnge to hold value constant the value can be 0 
+         //arm.setVoltage(arm.getFeedForwardVoltage());
+        arm.setVoltage(0);
     }
 
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getLeftY()) < 0.2 ? 0 : RobotContainer.oporatorController.getHID().getLeftY() * -1;
-      arm.setVoltage(ArmConstants.MANUEL_VOLTAGE_LIMIT * -controllerMult); //TODO you dont need to multiply by -1
+      //double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getRightY()) < 0.1 ? arm.getFeedForwardVoltage() : (RobotContainer.oporatorController.getHID().getRightY() * -1 )
+      // * ArmConstants.MANUEL_VOLTAGE_LIMIT;
+      //arm.setVoltage(controllerMult);
+      // System.out.println(arm.getFeedForwardVoltage());
+      arm.runSetPoint(140);
   }
 
   @Override

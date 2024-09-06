@@ -5,8 +5,10 @@
 package frc.robot.Subsystem.Shooter;
 
 import com.ma5951.utils.DashBoard.MAShuffleboard;
+import com.ma5951.utils.DashBoard.MAShuffleboard.pidControllerGainSupplier;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import frc.robot.RobotConstants;
@@ -20,7 +22,6 @@ public class Shooter extends StateControlledSubsystem {
   private ShooterIO shooterIO = ShooterConstants.getShooterIO();
   private double rightSetPoint;
   private double leftSetPoint;
-  private MAShuffleboard board;
 
   private LoggedDouble leftSpeed;
   private LoggedDouble rightSpeed;
@@ -40,6 +41,8 @@ public class Shooter extends StateControlledSubsystem {
   private LoggedBool SourceIntakeCanMove;
   private LoggedBool CanMove;
 
+  private pidControllerGainSupplier pidSupplier;
+
   private Shooter() {
     super(ShooterConstants.SYSTEM_STATES , "Shooter");
     shooterIO.setShooterNutralMode(false);
@@ -47,7 +50,7 @@ public class Shooter extends StateControlledSubsystem {
     board.addNum("Left Speed Adjust", 0);
     board.addNum("Right Speed Adjust", 0);
     board.addBoolean("Shooter Manuel Mode", false);
-    board.getPidControllerGainSupplier("Shooter PID" , 0 , 0 , 0);
+    pidSupplier = board.getPidControllerGainSupplier("Shooter PID");
 
     leftSpeed = new LoggedDouble("/Subsystems/Shooter/Left Speed");
     rightSpeed = new LoggedDouble("/Subsystems/Shooter/Right Speed");
@@ -86,11 +89,11 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public boolean leftAtPoint() {
-    return Math.abs(getLeftSpeed() - leftSetPoint) <= ShooterConstants.kTOLORANCE;
+    return shooterIO.getLeftError() <= ShooterConstants.kTOLORANCE;
   }
 
   public boolean rightAtPoint() {
-    return Math.abs(getRightSpeed() - rightSetPoint) <= ShooterConstants.kTOLORANCE;
+    return shooterIO.getRightError() <= ShooterConstants.kTOLORANCE;
   }
 
   public boolean atPoint() {
@@ -107,7 +110,7 @@ public class Shooter extends StateControlledSubsystem {
 
   public void setVoltage(double voltage) {
     setRightVoltage(voltage);
-    setLeftVoltage(voltage);
+    setLeftVoltage(voltage * 0.5);
   }
 
   public void setRightPower(double power) {
@@ -134,9 +137,9 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public void setManuelMode() {
-    if (board.getBoolean("Shooter Manuel Mode")) {
-      setShooterSpeeds(board.getNum("Left Speed Adjust") , board.getNum("Right Speed Adjust"));
-    } 
+    //setShooterSpeeds(board.getNum("Left Speed Adjust") , board.getNum("Right Speed Adjust"));
+    setShootingParameterSpeeds(new ShootingParameters(board.getNum("Left Speed Adjust") , board.getNum("Right Speed Adjust")
+    , 0 , 0));
   }
 
   //Can Move
@@ -171,7 +174,8 @@ public class Shooter extends StateControlledSubsystem {
 
   @Override
   public boolean canMove() {
-      return StationaryShootCanMove() || WarmingCanMove() || FeedingCanMove() || EjectCanMove() || SourceIntakeCanMove();
+      return StationaryShootCanMove() || WarmingCanMove() || FeedingCanMove() || EjectCanMove() || SourceIntakeCanMove()
+      || getSystemFunctionState() == StatesConstants.MANUEL;
   }
 
   public static Shooter getInstance() {
@@ -204,8 +208,7 @@ public class Shooter extends StateControlledSubsystem {
     EjectCanMove.update(EjectCanMove());
     SourceIntakeCanMove.update(SourceIntakeCanMove());
 
-    shooterIO.updatePIDValues(board.getPidControllerGainSupplier("Shooter PID").getKP(),
-    board.getPidControllerGainSupplier("Shooter PID").getKI(), board.getPidControllerGainSupplier("Shooter PID").getKD());
+    //shooterIO.updatePIDValues(pidSupplier.getKP() , pidSupplier.getKI() , pidSupplier.getKD());
 
   }
 }
