@@ -10,14 +10,15 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
+import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
-public class AngleAdjustController extends Command {
+public class RelativAngleAdjustController extends Command {
   private static PIDController pid;
 
   private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-  private Supplier<Double> angle;
+  private Supplier<Double> ty;
   private boolean useGyro;
   private ChassisSpeeds speeds;
 
@@ -25,24 +26,14 @@ public class AngleAdjustController extends Command {
     return pid.atSetpoint();
   }
 
-  public AngleAdjustController(Supplier<Double> angle, boolean useGyro) {
-    this.useGyro = useGyro;
-    
-
+  public RelativAngleAdjustController() {
     pid = new PIDController(
-      SwerveConstants.THATA_KP,
-      SwerveConstants.THATA_KI,
-      SwerveConstants.THATA_KD
+      SwerveConstants.RELATIV_THATA_KP,
+      SwerveConstants.RELATIV_THATA_KI,
+      SwerveConstants.RELATIV_THATA_KD
     );
-    pid.setTolerance(SwerveConstants.ANGLE_PID_TOLORANCE);
-    this.angle = angle;
-    pid.enableContinuousInput(-Math.PI, Math.PI);
+    pid.setTolerance(SwerveConstants.RELATIV_ANGLE_PID_TOLORANCE);
   }
-
-  public void setUseGyro(boolean use) {
-    useGyro = use;
-  }
-
 
   // Called when the command is initially scheduled.
   @Override
@@ -52,9 +43,8 @@ public class AngleAdjustController extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pid.setSetpoint(angle.get());
-    //System.out.println(angle.get());
-    Supplier<Double> getMeserment = useGyro ? () -> Math.toRadians(swerve.getFusedHeading()) : PoseEstimator.getInstance().getEstimatedRobotPose().getRotation()::getRadians;
+    pid.setSetpoint(0);
+    Supplier<Double> getMeserment = () -> Vision.getInstance().getTx();
     speeds = new ChassisSpeeds(0, 0, pid.calculate(getMeserment.get()));
   }
 

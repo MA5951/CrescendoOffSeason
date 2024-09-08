@@ -13,7 +13,10 @@ import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.Arm;
+import frc.robot.Subsystem.Feeder.Feeder;
+import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.IOs.IntakeIO;
+import frc.robot.Subsystem.Shooter.Shooter;
 
 public class Intake extends StateControlledSubsystem {
   private static Intake intake;
@@ -70,12 +73,12 @@ public class Intake extends StateControlledSubsystem {
   }
 
   private boolean EjectCanMove(){
-    return RobotContainer.currentRobotState == RobotConstants.EJECT;
+    return RobotContainer.currentRobotState == RobotConstants.EJECT && Shooter.getInstance().atPoint();
   }
 
   @Override
   public boolean canMove() {
-      return IntakeCanMove() || EjectCanMove() || getSystemFunctionState() == StatesConstants.MANUEL;
+      return IntakeCanMove() || EjectCanMove() || getSystemFunctionState() == StatesConstants.MANUEL || Feeder.getInstance().getTargetState() ==  FeederConstants.NOTE_ADJUSTING;
   }
 
   public static Intake getInstance() {

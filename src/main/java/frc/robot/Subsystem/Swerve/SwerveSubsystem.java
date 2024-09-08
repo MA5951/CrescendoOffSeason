@@ -164,7 +164,7 @@ SwerveSubsystem extends SubsystemBase {
     if (optimize) {
       currentSetpoint =
       setpointGenerator.generateSetpoint(
-       new ModuleLimits(5.3, Units.feetToMeters(75.0) , Units.degreesToRadians(800)), currentSetpoint, chassiSpeeds, RobotConstantsMAUtil.KDELTA_TIME);
+       new ModuleLimits(1.3, Units.feetToMeters(75.0) , Units.degreesToRadians(800)), currentSetpoint, chassiSpeeds, RobotConstantsMAUtil.KDELTA_TIME);
 
     for (int i = 0; i < modulesArry.length; i++) {
       optimizedSetpointStates[i] = currentSetpoint.moduleStates()[i];

@@ -10,6 +10,7 @@ import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.Utils.ShootingParameters;
 
 public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   private static Shooter shooter = Shooter.getInstance();
@@ -54,7 +55,8 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         shooter.setShootingParameterSpeeds(RobotConstants.SUPER_STRUCTURE.getFeedingPrameters());
         break;
       case "EJECTING":
-        shooter.setVoltage(ShooterConstants.EJECTING_VOLTGE);
+        shooter.setShootingParameterSpeeds(new ShootingParameters(ShooterConstants.EJECTING_SPEED,
+         ShooterConstants.EJECTING_SPEED, 0, 0));
         break;
       case "SOURCE_INTAKE":
         shooter.setVoltage(ShooterConstants.SOURCE_INTAKE_VOLTAGE);

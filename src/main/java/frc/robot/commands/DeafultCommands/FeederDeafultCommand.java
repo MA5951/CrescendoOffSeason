@@ -10,6 +10,8 @@ import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
+import frc.robot.Subsystem.Intake.Intake;
+import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   private static Feeder feeder = Feeder.getInstance(); 
@@ -56,21 +58,34 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
         case "REVERSE":
           if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotContainer.driverController.getHID().getCircleButton()) {
               feeder.turnOnRevers();
+              RobotConstants.SUPER_STRUCTURE.updateAmpPose();
+            } else if (RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE){
+              feeder.turnOnAdjustRevers();
             } else {
-            feeder.turnOffFeeder();
+              feeder.turnOffFeeder();
             }
           break;
         case "NOTE_ADJUSTING":
-          if (RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && !isNoteBack) {
-            feeder.turnOnAdjustRevers();
-          } else { 
-            isNoteBack = true;
+          if (RobotContainer.lastRobotState == RobotConstants.INTAKE && RobotContainer.currentRobotState != RobotConstants.AMP) {
+            if (RobotConstants.SUPER_STRUCTURE.isNoteInFeeder() && !isNoteBack) {
+              feeder.turnOnRevers();
+              Intake.getInstance().setTargetState(IntakeConstants.EJECTING);
+            } else if (!RobotConstants.SUPER_STRUCTURE.isNoteInShooter()){
+              isNoteBack = true;
+              feeder.turnOnForward();
+              Intake.getInstance().setTargetState(IntakeConstants.INTAKING);
+            } else {
+              feeder.setTargetState(FeederConstants.IDLE);
+              Intake.getInstance().setTargetState(IntakeConstants.IDLE);
+            }
+          } else if (RobotContainer.lastRobotState == RobotConstants.SOURCE_INTAKE && RobotContainer.currentRobotState != RobotConstants.AMP) {
             if (!RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) {
-              feeder.turnOnAdjustForward();
-              
+              feeder.turnOnForward();
             } else {
               feeder.setTargetState(FeederConstants.IDLE);
             }
+          } else if (RobotContainer.currentRobotState == RobotConstants.AMP) {
+              feeder.setTargetState(FeederConstants.REVERSE);
           }
           break;
         default:

@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystem.PoseEstimation;
 
+import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Vision.Limelight3G;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -14,41 +16,54 @@ public class Vision extends SubsystemBase {
   private static Vision vision;
 
   private Limelight3G limelight;
+  private LoggedDouble ditanceToSpeakerLog;
+  private LoggedDouble tagIdLog;
+  private LoggedDouble tXLog;
+  private LoggedBool isTagLog;
 
   private Vision() {
-    limelight = new Limelight3G(PortMap.Vision.CAMERA_NAME,
-     VisionConstants.CAMERA_HIGHT,
-      VisionConstants.CAMERA_ANGLE);
-  }
+    limelight = new Limelight3G(PortMap.Vision.CAMERA_NAME);
 
-  private boolean isTagSpeaker() {
-    return limelight.getTagId() == 7 || limelight.getTagId() == 4;
-  }
-
-  public double getTySpeaker() {
-    if (isTagSpeaker()) {
-      return limelight.getY();
-    } 
-    return 0;
-  }
-
-  public double getDistanceToSpraker() {
-    if (isTagSpeaker()) {
-      return limelight.distance();
-    } 
-    return 0;
+    ditanceToSpeakerLog = new LoggedDouble("/Vision/Distance To Speaker");
+    tagIdLog = new LoggedDouble("/Vision/Tag Id");
+    tXLog = new LoggedDouble("/Vision/Tx");
+    isTagLog = new LoggedBool("/Vision/Is Tag");
   }
 
   public Pose2d getEstiman() {
-    return limelight.getEstPose();
-  }
-
-  public double getLatency() {
-    return limelight.getL();
+    return limelight.getEstimatedPose().pose;
   }
 
   public double getTimeStamp() {
-    return limelight.getTimeStamp();
+    return limelight.getEstimatedPose().timestampSeconds;
+  }
+
+  public boolean isTag() {
+    return limelight.isTarget();
+  }
+
+  public double getTagID() {
+    if (isTag()) {
+      return limelight.getTagID();
+    } else {
+      return 0;
+    }
+  }
+
+  public double getTx() {
+    if (isTag()) {
+      return limelight.getTx();
+    } else {
+      return 0;
+    }
+  }
+
+  public double getDistanceToTag() {
+    if (isTag()) {
+      return limelight.getDistanceToTag();
+    } else {
+      return 0;
+    }
   }
 
   public static Vision getInstance() {
@@ -60,6 +75,10 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
+    ditanceToSpeakerLog.update(getDistanceToTag());
+    tagIdLog.update(getTagID());
+    tXLog.update(getTx());
+    isTagLog.update(isTag());
   }
 
 }

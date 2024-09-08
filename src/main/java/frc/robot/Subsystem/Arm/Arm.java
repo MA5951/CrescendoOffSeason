@@ -17,6 +17,8 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
+import frc.robot.Subsystem.Feeder.Feeder;
+import frc.robot.Subsystem.Feeder.FeederConstants;
 
 public class Arm extends StateControlledSubsystem {
   private static Arm arm;
@@ -84,8 +86,8 @@ public class Arm extends StateControlledSubsystem {
   }
 
   public void runSetPoint(double setPoint) {
-    this.setPoint = setPoint;
-    armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint + board.getNum("Angle Offset")) , getFeedForwardVoltage());
+    this.setPoint = setPoint + board.getNum("Angle Offset");
+    armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint) , getFeedForwardVoltage());
   }
 
   public double getVoltage() {
@@ -103,9 +105,10 @@ public class Arm extends StateControlledSubsystem {
 
   //Can Move
   private boolean LimitsCanMove(){
-    return ((getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
+    return (((getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
      (getArmPosition() > ArmConstants.UPPER_LIMIT && getVoltage() < 0) ||
-    (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0) )|| getSystemFunctionState() == StatesConstants.MANUEL;
+    (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0) )|| getSystemFunctionState() == StatesConstants.MANUEL 
+    )&& Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING || getTargetState() == ArmConstants.HOME;
   } 
 
   @Override

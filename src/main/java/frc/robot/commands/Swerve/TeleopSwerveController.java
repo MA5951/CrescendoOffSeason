@@ -9,14 +9,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
+import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
 public class TeleopSwerveController extends Command {
   
   private DriveController driveCommand;
   private AngleAdjustController angleAdjustCommand;
+  private RelativAngleAdjustController relativAngleAdjustCommand;
   private ChassisSpeeds driveControllerSpeeds;
   private ChassisSpeeds angleAdjustControllerSpeeds;
+  private ChassisSpeeds relativAngleAdjustControllerSpeeds;
+  private boolean isOdometry;
 
   private SwerveSubsystem swerve;
   private ChassisSpeeds robotSpeeds;
@@ -26,26 +30,36 @@ public class TeleopSwerveController extends Command {
     
     driveCommand = new DriveController(controller);
     angleAdjustCommand = new AngleAdjustController(() -> RobotConstants.SUPER_STRUCTURE.getSetPointForAline(), true);
+    relativAngleAdjustCommand = new RelativAngleAdjustController();
     addRequirements(swerve);
   }
 
   @Override
   public void initialize() {
     driveCommand.initialize();
+    angleAdjustCommand.initialize();
+    relativAngleAdjustCommand.initialize();
   }
 
   @Override
   public void execute() {
     driveCommand.execute();
     angleAdjustCommand.execute();
+    relativAngleAdjustCommand.execute();
     driveControllerSpeeds = driveCommand.getChassisSpeeds();
     angleAdjustControllerSpeeds = angleAdjustCommand.getChassisSpeeds();
+    relativAngleAdjustControllerSpeeds = relativAngleAdjustCommand.getChassisSpeeds();
 
-    if (RobotContainer.currentRobotState == RobotConstants.FEEDING || RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING
-    || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
+    if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
+    || Vision.getInstance().getTagID() == 4 )&& !isOdometry) {
+      robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond , driveControllerSpeeds.vyMetersPerSecond, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      System.out.println("FFFFFFFFFFFFFFFFFFFF");
+    } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING){
+      isOdometry = true;
       robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond , driveControllerSpeeds.vyMetersPerSecond, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } else {
       robotSpeeds = driveControllerSpeeds;
+      isOdometry = false;
     }
 
     swerve.drive(robotSpeeds);

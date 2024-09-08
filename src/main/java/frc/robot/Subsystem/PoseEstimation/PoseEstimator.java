@@ -10,6 +10,8 @@ import com.ma5951.utils.Logger.LoggedPose2d;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -20,7 +22,6 @@ public class PoseEstimator {
     private SwerveDrivePoseEstimator robotPoseEstimator;
     private Vision vision = Vision.getInstance();
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-    private SwervePoseCalculator swervePoseCalculator = SwervePoseCalculator.getInstance();
 
     private LoggedPose2d estimatedRobotPose;
     private LoggedBool odometryUpdateConstrains;
@@ -34,9 +35,9 @@ public class PoseEstimator {
         PoseEstimatorConstants.ODOMETRY_DEVS,//Oodmetry Devs
         PoseEstimatorConstants.VISION_DEVS);//Vision Devs
 
-        estimatedRobotPose = new LoggedPose2d("/PoseEstimator/Estimated Robot Pose");
-        odometryUpdateConstrains = new LoggedBool("/PoseEstimator/Odometry Update Constrains");
-        visionUpdateConstrains = new LoggedBool("/PoseEstimator/Vision Update Constrains");
+        estimatedRobotPose = new LoggedPose2d("/Pose Estimator/Estimated Robot Pose");
+        odometryUpdateConstrains = new LoggedBool("/Pose Estimator/Odometry Update Constrains");
+        visionUpdateConstrains = new LoggedBool("/Pose Estimator/Vision Update Constrains");
         
     }
 
@@ -45,18 +46,17 @@ public class PoseEstimator {
     }
     
     public void updateOdometry() {
-        robotPoseEstimator.resetPosition(swerve.getRotation2d() , swerve.getSwerveModulePositions() ,swervePoseCalculator.getEstimatesPose()) ;
+        robotPoseEstimator.update(swerve.getRotation2d(), swerve.getSwerveModulePositions());
     }
 
     public void updateVision() {
-        if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
+        if (vision.isTag()) {
             robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
         }
     }
 
     public Pose2d getEstimatedRobotPose() {
         return robotPoseEstimator.getEstimatedPosition();
-        //return new Pose2d(5 , 5 , new Rotation2d());
     }
 
     public void update() {

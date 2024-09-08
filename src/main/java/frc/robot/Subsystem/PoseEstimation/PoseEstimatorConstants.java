@@ -16,12 +16,13 @@ import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 /** Add your docs here. */
 public class PoseEstimatorConstants {
 
-    public final static Vector<N3> ODOMETRY_DEVS = VecBuilder.fill(0.9, 0.9, 0.9);
-    public final static Vector<N3> VISION_DEVS = VecBuilder.fill(0.9, 0.9, 0.9);
+    public final static Vector<N3> ODOMETRY_DEVS = VecBuilder.fill(0.1, 0.1, 0.1);
+    public final static Vector<N3> VISION_DEVS = VecBuilder.fill(0.1, 0.1, 0.1);
     
     public final static double MAX_LINEAR_VELOCITY_FOR_UPDATE = 0;//Meters per second
     public final static double MAX_ANGULAR_VELOCITY_FOR_UPDATE = 0;//Radians per second
 
+    //TODO
     public static Supplier<Boolean> VISION_UPDATE_CONSTRAINS = () -> SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vxMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE 
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vyMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().omegaRadiansPerSecond < MAX_ANGULAR_VELOCITY_FOR_UPDATE; 

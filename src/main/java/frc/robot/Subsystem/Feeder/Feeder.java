@@ -87,7 +87,7 @@ public class Feeder extends StateControlledSubsystem {
   }
 
   private boolean EjectCanMove(){
-    return RobotContainer.currentRobotState == RobotConstants.EJECT;
+    return RobotContainer.currentRobotState == RobotConstants.EJECT && Shooter.getInstance().atPoint();
   }
 
   private boolean FeedingCanMove() {
@@ -97,7 +97,8 @@ public class Feeder extends StateControlledSubsystem {
 
   private boolean StationaryShootCanMove() {
     return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-          && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
+         ;// && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
+    //return false;
   }
 
   private boolean AmpCanMove() {
@@ -108,9 +109,14 @@ public class Feeder extends StateControlledSubsystem {
     return RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint();
   }
 
+  private boolean SourceIntakeCanMove() {
+    return RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE;
+  }
+
   @Override
   public boolean canMove() {
-      return IntakeCanMove()|| EjectCanMove() || FeedingCanMove()|| StationaryShootCanMove() || AmpCanMove() || PresetShootingCanMove() || getSystemFunctionState() == StatesConstants.MANUEL;
+      return IntakeCanMove()|| EjectCanMove() || FeedingCanMove()|| StationaryShootCanMove() || AmpCanMove() || PresetShootingCanMove() || getSystemFunctionState() == StatesConstants.MANUEL
+       || SourceIntakeCanMove() || getTargetState() ==  FeederConstants.NOTE_ADJUSTING;
   }
 
   public static Feeder getInstance() {

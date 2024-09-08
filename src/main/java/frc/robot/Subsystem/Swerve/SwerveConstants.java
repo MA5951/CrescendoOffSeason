@@ -25,7 +25,7 @@ public class SwerveConstants {
 
         // Modules constants
         public final static double TURNING_GEAR_RATIO = 150d / 7;//21.42
-        public final static double DRIVE_GEAR_RATIO = 6.75;
+        public final static double DRIVE_GEAR_RATIO = 6.12;
         public final static double WHEEL_RADIUS = 0.0508;
         public final static double WHEEL_CIRCUMFERENCE =  WHEEL_RADIUS * Math.PI;
 
@@ -184,10 +184,15 @@ public class SwerveConstants {
         public final static double KI_TRANSLATION = 0; //0.0009;
 
         //Swerve theta PID_CONTROLLER radians
-        public final static double THATA_KP = 5.4;
-        public final static double THATA_KI = 0.4;
-        public final static double THATA_KD = 0.0;//TODO
-        public final static double ANGLE_PID_TOLORANCE = 0.1;//TODO
+        public final static double THATA_KP = 1.1;
+        public final static double THATA_KI = 0;
+        public final static double THATA_KD = 0.0;
+        public final static double ANGLE_PID_TOLORANCE = Math.toRadians(6);
+
+        public final static double RELATIV_THATA_KP = 0.01;
+        public final static double RELATIV_THATA_KI = 0;
+        public final static double RELATIV_THATA_KD = 0.0016;
+        public final static double RELATIV_ANGLE_PID_TOLORANCE = 1;
 
         //Module Limits
         public final static ModuleLimits DEFUALT =  new ModuleLimits(4.5, Units.feetToMeters(75.0) , Units.degreesToRadians(600)); 

@@ -13,6 +13,10 @@ import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   private static Arm arm = Arm.getInstance();
+  private boolean getAngle = false;
+  private double angle = 0d;
+  private double delta = 0;
+  private boolean deltaArrive;
   
   public ArmDeafultCommand() {
     super(arm);
@@ -44,11 +48,21 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
     super.AutomaticLoop();
     switch (arm.getTargetState().getName()) {
       case "IDLE":
-        //arm.setVoltage(arm.getFeedForwardVoltage());
-        arm.setVoltage(0);
+        if (arm.getLastState() == ArmConstants.HOME ||arm.getLastState() == ArmConstants.INTAKE ) {
+          arm.setVoltage(-arm.getFeedForwardVoltage());
+        } else {
+          arm.setVoltage(arm.getFeedForwardVoltage());
+        }
+        
+        getAngle = false;
+        deltaArrive = false;
         break;
       case "FOLLOW_SPEAKER":
-        arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
+        if (!getAngle && RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle() != 62)  {
+          angle = RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle();
+          getAngle = true;
+        }
+        arm.runSetPoint(angle);
         break;
       case "SOURCE_INTAKE":
         arm.runSetPoint(ArmConstants.SOURCE_INTAKE_POSE);
@@ -60,15 +74,19 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
         arm.runSetPoint(ArmConstants.AMP_POSE);
         break;
       case "INTAKE":
+        // if (arm.getArmPosition() < 13) {
+        //   arm.setVoltage(ArmConstants.INTAKE_HOLD_VALUE);
+        // } else {
+        //   arm.runSetPoint(ArmConstants.INTAKE_POSE);
+        // }
         arm.runSetPoint(ArmConstants.INTAKE_POSE);
         break;
       case "HOME":
-        if (arm.getCurrentDraw() > ArmConstants.HOME_CURRENTLIMIT) {
-          arm.setTargetState(ArmConstants.IDLE);
+        if (Math.abs(arm.getCurrentDraw()) > ArmConstants.HOME_CURRENTLIMIT && arm.getArmPosition() < ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
           arm.resetPosition(ArmConstants.ZERO_POSE);
+          arm.setTargetState(ArmConstants.IDLE);
         } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
-          arm.runSetPoint(ArmConstants.INTAKE_POSE);
-          arm.setVoltage(0);
+          arm.runSetPoint(ArmConstants.ACTIVE_HOME_LIMIT_ANGLE);
         } else {
           arm.setVoltage(ArmConstants.HOME_VOLTAGE);
         }
@@ -86,18 +104,15 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
     public void CANT_MOVE() {
         super.CANT_MOVE();
-         //arm.setVoltage(arm.getFeedForwardVoltage());
-        arm.setVoltage(0);
+        arm.setVoltage(arm.getFeedForwardVoltage());
     }
 
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      //double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getRightY()) < 0.1 ? arm.getFeedForwardVoltage() : (RobotContainer.oporatorController.getHID().getRightY() * -1 )
-      // * ArmConstants.MANUEL_VOLTAGE_LIMIT;
-      //arm.setVoltage(controllerMult);
-      // System.out.println(arm.getFeedForwardVoltage());
-      arm.runSetPoint(140);
+      double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getRightY()) < 0.1 ? arm.getFeedForwardVoltage() : (RobotContainer.oporatorController.getHID().getRightY() * -1 )
+      * ArmConstants.MANUEL_VOLTAGE_LIMIT;
+      arm.setVoltage(controllerMult);
   }
 
   @Override

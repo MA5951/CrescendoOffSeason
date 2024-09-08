@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
@@ -39,17 +40,17 @@ public class RobotContainer {
     Feeder.getInstance();
     Shooter.getInstance();
     SwerveSubsystem.getInstance();
-    RobotConstants.SUPER_STRUCTURE.setupInterpolation();
     setDeafultCommands();
-    //configureBindings();
-    new Trigger(() -> driverController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset()));
-    
+    configureBindings();
+    //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
+    //new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
+    //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
   }
 
   public void setIDLE() {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
-      Arm.getInstance().setTargetState(ArmConstants.IDLE);//TODO HOME
+      Arm.getInstance().setTargetState(ArmConstants.INTAKE);//TODO HOME
       Feeder.getInstance().setTargetState(FeederConstants.IDLE);
       Intake.getInstance().setTargetState(IntakeConstants.IDLE);
       Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
@@ -112,10 +113,10 @@ public class RobotContainer {
   public void setSTATIONARY_SHOOTING() {
     lastRobotState = currentRobotState;
     currentRobotState = RobotConstants.STATIONARY_SHOOTING;
-    Arm.getInstance().setTargetState(ArmConstants.FOLLOW_SPEAKER);
-    Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
-    Shooter.getInstance().setTargetState(ShooterConstants.SHOOTING);
+    //Arm.getInstance().setTargetState(ArmConstants.FOLLOW_SPEAKER);
+    //Intake.getInstance().setTargetState(IntakeConstants.IDLE);
+    //Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
+    //Shooter.getInstance().setTargetState(ShooterConstants.SHOOTING);
   }
 
   public void setPRESET_SHOOTING() {
@@ -132,52 +133,63 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(Feeder.getInstance(), new FeederDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
-    CommandScheduler.getInstance().setDefaultCommand(SwerveSubsystem.getInstance(), new TeleopSwerveController(RobotContainer.oporatorController));
+    CommandScheduler.getInstance().setDefaultCommand(SwerveSubsystem.getInstance(), new TeleopSwerveController(RobotContainer.driverController));
   }
 
   private void configureBindings() {
     //Start, stop  and inturupt intake
     new Trigger(() -> driverController.getHID().getR1Button() && !RobotConstants.SUPER_STRUCTURE.isNote()).onTrue(new InstantCommand(() -> setINTAKE()));
-    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE())
+    .andThen(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))));
 
 
     //Start, stop and inturupt amp
-    new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()).onTrue(new InstantCommand(() -> setAMP()));
+    new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP && currentRobotState != RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNote()
+    && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setAMP()));
+    new Trigger(() -> currentRobotState == RobotConstants.AMP && !RobotConstants.SUPER_STRUCTURE.isNote()
+    && RobotConstants.SUPER_STRUCTURE.shouldCloseArmAfterAmp()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Start and stop warm up //add not amp
-    new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNote() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setWARMING()));
-    new Trigger(() -> !RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && currentRobotState == RobotConstants.WARMING).onTrue(new InstantCommand(() -> setIDLE()));
+    // new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNote() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setWARMING()));
+    // new Trigger(() -> !RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && currentRobotState == RobotConstants.WARMING).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Starts and stops Shooting 
     new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
-    new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
+    //new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
     
 
     //Preset Shooting
-    new Trigger(() -> driverController.getHID().getPOV() == 270 && currentRobotState != RobotConstants.SOURCE_INTAKE)
+    new Trigger(() -> driverController.getHID().getPOV() == 90 && RobotConstants.SUPER_STRUCTURE.isNote() && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING)
     .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.PODIUM_SHOOTING_PARAMETERS))
     .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
-    new Trigger(() -> driverController.getHID().getPOV() == 180 && currentRobotState != RobotConstants.SOURCE_INTAKE)
+    new Trigger(() -> driverController.getHID().getPOV() == 180 && RobotConstants.SUPER_STRUCTURE.isNote() && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING)
     .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.SUBWOOF_SHOOTING_PARAMETERS))
     .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
-    new Trigger(() -> currentRobotState == RobotConstants.PRESET_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> currentRobotState == RobotConstants.PRESET_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNote() 
+    && RobotConstants.SUPER_STRUCTURE.getFeedingPrameters().getArmAngle() != RobotConstants.LOW_FEEDING_SHOOTING_PARAMETERS.getArmAngle()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Ejecting while held
-    new Trigger(() -> driverController.getHID().getCrossButton() && currentRobotState != RobotConstants.SOURCE_INTAKE && RobotConstants.SUPER_STRUCTURE.isNote())
+    new Trigger(() -> driverController.getHID().getCrossButton() )
     .onTrue(new InstantCommand(() -> setEJECT())).onFalse(new InstantCommand(() -> setIDLE()));
 
-    //IDLE
+    // //IDLE
     new Trigger(() -> driverController.getHID().getTouchpad()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Feeding?
-    new Trigger(() -> driverController.getHID().getPOV() == 90 && currentRobotState != RobotConstants.SOURCE_INTAKE)
+    new Trigger(() -> driverController.getHID().getPOV() == 270 && currentRobotState != RobotConstants.SOURCE_INTAKE)
     .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.LOW_FEEDING_SHOOTING_PARAMETERS))
     .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
 
-    //Low Feed
+    // //Low Feed
 
     //Update Offset
     new Trigger(() -> driverController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset()));
+
+    new Trigger(() -> driverController.getHID().getOptionsButton() && Shooter.getInstance().getLeftSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT &&
+    Shooter.getInstance().getRightSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setSOURCE_INTAKE()));
+    new Trigger(() -> currentRobotState == RobotConstants.SOURCE_INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInFeeder() 
+    && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE())
+     .andThen(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))));
 
   }
 

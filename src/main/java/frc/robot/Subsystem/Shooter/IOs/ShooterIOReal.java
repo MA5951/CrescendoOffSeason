@@ -119,6 +119,9 @@ public class ShooterIOReal implements ShooterIO{
         rightMotorConfig.CurrentLimits.SupplyCurrentThreshold = ShooterConstants.PeakCurrentLimit;
         rightMotorConfig.CurrentLimits.SupplyTimeThreshold = ShooterConstants.PeakCurrentTime;
 
+        motorRight.getConfigurator().apply(rightMotorConfig);
+        motorLeft.getConfigurator().apply(leftMotorConfig);
+
     }
 
     public double getLeftError() {

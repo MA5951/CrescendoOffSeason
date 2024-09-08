@@ -81,14 +81,6 @@ public class ArmIOReal implements ArmIO {
         armMotor.getConfigurator().apply(motorConfig);
     }
 
-    public boolean getForwardLimit() {
-        return getPosition() <= ArmConstants.UPPER_LIMIT;
-    }
-
-    public boolean getReversLimit() {
-        return getPosition() >= ArmConstants.LOWER_LIMIT;
-    }
-
     public double getCurrentDraw() {
         return currentDraw.getValueAsDouble();
     }
@@ -107,7 +99,6 @@ public class ArmIOReal implements ArmIO {
 
     public double getPosition() {
         return ConvUtil.RotationsToDegrees(position.getValueAsDouble());
-        //return position.getValueAsDouble();
     }
 
 
@@ -134,11 +125,7 @@ public class ArmIOReal implements ArmIO {
     
     public void setAngleSetPoint(double angleSetPoint , double feedforward) {
         armMotor.setControl(motionMagicControl.withPosition(angleSetPoint).withSlot(ArmConstants.CONTROL_SLOT)
-        //.withLimitForwardMotion(getForwardLimit())
-        //.withLimitReverseMotion(getReversLimit())
-        .withFeedForward(feedforward));
-        System.out.println("PPPPPPPPPPPPPPPPPPPPPP");
-        
+        .withFeedForward(feedforward));        
     }
 
     
@@ -159,6 +146,6 @@ public class ArmIOReal implements ArmIO {
         velocityLog.update(getVelocity());
         currentDrawLog.update(getCurrentDraw());
         positionLog.update(getPosition());
-        System.out.println(test.getValueAsDouble());
+        // System.out.println(test.getValueAsDouble());
     }
 }

@@ -20,7 +20,7 @@ public class ArmConstants {
     public static final double INTAKE_POSE = 11.93;
     public static final double ZERO_POSE = INTAKE_POSE;
     public static final double AMP_POSE = 140;
-    public static final double SOURCE_INTAKE_POSE = 0;//TODO
+    public static final double SOURCE_INTAKE_POSE = 70;
 
     public static final double ARM_LENGTH = 0.35;
     public static final double ARM_WEIGHT = 8.5;
@@ -32,7 +32,7 @@ public class ArmConstants {
     public static final double kP = 120;
     public static final double kI = 0;
     public static final double kD = 0;
-    public static final double kCRUSIE_VELOCITY = ConvUtil.RPMtoRPS(30);
+    public static final double kCRUSIE_VELOCITY = ConvUtil.RPMtoRPS(35);
     public static final double kACCELERATION = 300;
     public static final double kJERK = 0;
     public static final double kTOLORANCE = 0.5;
@@ -44,11 +44,15 @@ public class ArmConstants {
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
-    public static final double ACTIVE_HOME_LIMIT_ANGLE = 30;
+    public static final double ACTIVE_HOME_LIMIT_ANGLE = 20;
     public static final double HOME_VOLTAGE = -1;
-    public static final double HOME_CURRENTLIMIT = -30;
+    public static final double HOME_CURRENTLIMIT = 20;
+    public static final double HOME_DELTA = 30;
+    public static final double REVERS_CURRENTLIMIT = 18;
 
-    public static double LOWER_LIMIT = 11;
+    public static final double INTAKE_HOLD_VALUE = -0.3;
+
+    public static double LOWER_LIMIT = 11.5;
     public static double UPPER_LIMIT = 180;
 
     public static final double MANUEL_VOLTAGE_LIMIT = 3;

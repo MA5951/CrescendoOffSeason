@@ -30,7 +30,7 @@ public class FeederConstants {
     public static final State REVERSE = new State("REVERSE");
     public static final State NOTE_ADJUSTING = new State("NOTE_ADJUSTING");
 
-    public static final State[] SYSTEM_STATES = {IDLE, FORWARD, REVERSE, AMP_REALES};
+    public static final State[] SYSTEM_STATES = {IDLE, FORWARD, REVERSE, AMP_REALES , NOTE_ADJUSTING};
 
     public static final FeederIO getFeederIO() {
         if (Robot.isReal()) {

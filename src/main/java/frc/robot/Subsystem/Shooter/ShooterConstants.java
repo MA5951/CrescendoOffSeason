@@ -31,11 +31,12 @@ public class ShooterConstants {
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
-    public static final double EJECTING_VOLTGE = -4;
-    public static final double SOURCE_INTAKE_VOLTAGE = -4;
+    public static final double EJECTING_SPEED =1000;
+    public static final double SOURCE_INTAKE_VOLTAGE = -3.5;
+    public static final double SOURCE_INTAKE_SPEED_LIMIT = 10;
 
-    public static final double PeakCurrentLimit = 40; 
-    public static final double ContinuesCurrentLimit = 25; 
+    public static final double PeakCurrentLimit = 60; 
+    public static final double ContinuesCurrentLimit = 40; 
     public static final double PeakCurrentTime = 0.1; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
