@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-
-
-
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Logger.MALog;
 
@@ -15,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
+import frc.robot.Subsystem.LED.LED;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.SwervePoseCalculator;
 
@@ -38,6 +36,7 @@ public class Robot extends TimedRobot {
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     PoseEstimator.getInstance();
     SwervePoseCalculator.getInstance();
+    LED.getInstance();
 
     currentRobotStateLog = new LoggedString("/RobotControl/Current Robot State");
     lastRobotStateLog = new LoggedString("/RobotControl/Last Robot State");
@@ -80,8 +79,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
       }
     MALog.getInstance().startLog();
-    
-    }
+  }
 
   @Override
   public void teleopPeriodic() {
@@ -90,7 +88,6 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
-    
   }
 
   @Override
