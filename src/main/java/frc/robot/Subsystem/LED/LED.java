@@ -48,52 +48,55 @@ public class LED extends LEDBase {
     }
 
     private Runnable getCurrentEffect() {
-        if (emergencyEffect != null) {
-            return () -> {
-                emergencyEffect.run();
-                if (Timer.getFPGATimestamp() >= emergencyEndTime) {
-                    emergencyEffect = null; // Reset emergency effect
-                }
-            };
-        }
+        // if (emergencyEffect != null) {
+        //     return () -> {
+        //         emergencyEffect.run();
+        //         if (Timer.getFPGATimestamp() >= emergencyEndTime) {
+        //             emergencyEffect = null; // Reset emergency effect
+        //         }
+        //     };
+        // }
 
-        if (DriverStation.isTeleopEnabled()) {
-            System.out.println("Teleop");
-            if (Feeder.getInstance().getTargetState() == FeederConstants.NOTE_ADJUSTING) {
-                return () -> blinkColorPattern(0.2, LedConstants.CONE_YELLOW, LedConstants.BLACK); 
-            } else if (RobotContainer.currentRobotState == RobotConstants.WARMING) {
-                return () -> smoothWaveColorPattern(2, 1, 1, new Color[]{LedConstants.GREEN, LedConstants.RED}); 
-            } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
-
-            } else if (RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE) {
-
-            } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
-
-            } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
-
-            }
-        } else if (DriverStation.isAutonomousEnabled()) {
-            System.out.println("Auto");
-            return () -> smoothWaveColorPattern(3, 1, 1, new Color[]{LedConstants.CONE_YELLOW, LedConstants.CUBE_PURPLE, LedConstants.CYAN});
-        } else if (DriverStation.isDisabled()) {
-            if (DriverStation.isFMSAttached()) {
-                if (DriverStation.getAlliance().get() == Alliance.Blue) {
-                    System.out.println("Blue Alliance");
-                    return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.BLUE}); 
-                } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-                    System.out.println("Red Alliance");
-                    return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.RED}); 
-                } else {
-                    System.out.println("None Alliance");
-                    return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.PURPLE}); 
-                }
-            } else {
-                System.out.println("Not Attached");
-                return () -> blinkColorPattern(1, LedConstants.PURPLE, LedConstants.BLACK); 
-            }
-        } else {
-            System.out.println("MAcolorrrrrrr");
-            return () -> setSolidColor(LedConstants.MAcolor); 
-        }
+        // if (DriverStation.isTeleopEnabled()) {
+        //     //System.out.println("Teleop");
+        //     if (Feeder.getInstance().getTargetState() == FeederConstants.NOTE_ADJUSTING) {
+        //         return () -> blinkColorPattern(0.2, LedConstants.CONE_YELLOW, LedConstants.BLACK);
+        //     } else if (RobotContainer.currentRobotState == RobotConstants.WARMING) {
+        //         return () -> smoothWaveColorPattern(2, 1, 2, new Color[]{LedConstants.GREEN, LedConstants.RED}); 
+        //     } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
+        //         return () -> smoothWaveColorPattern(2, 1, 1, new Color[]{LedConstants.PURPLE, LedConstants.CYAN}); 
+        //     } else if (RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE) {
+        //         return () -> smoothWaveColorPattern(2, 1, 1, new Color[]{LedConstants.BLUE, LedConstants.CYAN}); 
+        //     } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING) {
+        //         return () -> blinkColorPattern(0.2, LedConstants.WHITE, LedConstants.BLACK);
+        //     } else if (RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
+        //         return () -> blinkColorPattern(0.2, LedConstants.CYAN, LedConstants.RED);
+        //     } else {
+        //         return () -> smoothWaveColorPattern(2, 1, 1, new Color[]{LedConstants.GREEN, LedConstants.RED}); 
+        //     }  
+        // } else if (DriverStation.isAutonomousEnabled()) {
+        //     //System.out.println("Auto");
+        //     return () -> smoothWaveColorPattern(3, 1, 1, new Color[]{LedConstants.CONE_YELLOW, LedConstants.CUBE_PURPLE, LedConstants.CYAN});
+        // } else if (DriverStation.isDisabled()) {
+        //     if (DriverStation.isFMSAttached()) {
+        //         if (DriverStation.getAlliance().get() == Alliance.Blue) {
+        //             //System.out.println("Blue Alliance");
+        //             return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.BLUE}); 
+        //         } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+        //             //System.out.println("Red Alliance");
+        //             return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.RED}); 
+        //         } else {
+        //             //System.out.println("None Alliance");
+        //             return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.PURPLE}); 
+        //         }
+        //     } else {
+        //         //System.out.println("Not Attached");
+        //         return () -> blinkColorPattern(1, LedConstants.PURPLE, LedConstants.BLACK); 
+        //     }
+        // } else {
+        //     //System.out.println("MAcolorrrrrrr");
+        //     return () -> setSolidColor(LedConstants.MAcolor); 
+        // }
+        return () -> setSolidColor(LedConstants.MAcolor); 
     }
 }

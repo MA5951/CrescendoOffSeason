@@ -15,8 +15,6 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   private static Arm arm = Arm.getInstance();
   private boolean getAngle = false;
   private double angle = 0d;
-  private double delta = 0;
-  private boolean deltaArrive;
   
   public ArmDeafultCommand() {
     super(arm);
@@ -48,21 +46,16 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
     super.AutomaticLoop();
     switch (arm.getTargetState().getName()) {
       case "IDLE":
-        if (arm.getLastState() == ArmConstants.HOME ||arm.getLastState() == ArmConstants.INTAKE ) {
-          arm.setVoltage(-arm.getFeedForwardVoltage());
-        } else {
-          arm.setVoltage(arm.getFeedForwardVoltage());
-        }
+      if (arm.getLastState() == ArmConstants.HOME ||arm.getLastState() == ArmConstants.INTAKE ) {
+        arm.setVoltage(-arm.getFeedForwardVoltage() * 0.5);
+      } else {
+        arm.setVoltage(arm.getFeedForwardVoltage());
+      }
         
         getAngle = false;
-        deltaArrive = false;
         break;
       case "FOLLOW_SPEAKER":
-        if (!getAngle && RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle() != 62)  {
-          angle = RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle();
-          getAngle = true;
-        }
-        arm.runSetPoint(angle);
+        arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
         break;
       case "SOURCE_INTAKE":
         arm.runSetPoint(ArmConstants.SOURCE_INTAKE_POSE);
@@ -74,15 +67,10 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
         arm.runSetPoint(ArmConstants.AMP_POSE);
         break;
       case "INTAKE":
-        // if (arm.getArmPosition() < 13) {
-        //   arm.setVoltage(ArmConstants.INTAKE_HOLD_VALUE);
-        // } else {
-        //   arm.runSetPoint(ArmConstants.INTAKE_POSE);
-        // }
         arm.runSetPoint(ArmConstants.INTAKE_POSE);
         break;
       case "HOME":
-        if (Math.abs(arm.getCurrentDraw()) > ArmConstants.HOME_CURRENTLIMIT && arm.getArmPosition() < ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {
+        if (arm.getLimit()) {
           arm.resetPosition(ArmConstants.ZERO_POSE);
           arm.setTargetState(ArmConstants.IDLE);
         } else if (arm.getArmPosition() > ArmConstants.ACTIVE_HOME_LIMIT_ANGLE) {

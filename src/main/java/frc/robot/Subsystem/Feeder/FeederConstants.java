@@ -16,7 +16,7 @@ import frc.robot.Subsystem.Feeder.IOs.FeederIOSim;
 /** Add your docs here. */
 public class FeederConstants {
 
-    public static final double FORWARD_VOLTAGE = 6; //TODO
+    public static final double FORWARD_VOLTAGE = 5; //TODO
     public static final double REVERS_VOLTAG = -6; //TODO
 
     public static final double FORWARD_ADJUST_VOLTAG = 2; //TODO

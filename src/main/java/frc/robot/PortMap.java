@@ -54,6 +54,7 @@ public class PortMap {
 
     public class Arm {
         public static final int KrakenArmMotor  = 15;
+        public static final int DIO_LimitSwitch = 0;
     }
 
     public class Vision {
@@ -61,7 +62,7 @@ public class PortMap {
     }
 
     public class Leds {
-        public static final int ledPort = 9; 
+        public static final int ledPort = 8; 
     }
 
 }

@@ -20,7 +20,7 @@ public class PoseEstimator {
     private static PoseEstimator poseEstimator;
 
     private SwerveDrivePoseEstimator robotPoseEstimator;
-    private Vision vision = Vision.getInstance();
+    private Vision vision;
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
 
     private LoggedPose2d estimatedRobotPose;
@@ -29,6 +29,7 @@ public class PoseEstimator {
 
 
     public PoseEstimator() {
+        vision = Vision.getInstance();
         robotPoseEstimator = new SwerveDrivePoseEstimator(SwerveConstants.kinematics , swerve.getRotation2d() , 
         swerve.getSwerveModulePositions() ,
         new Pose2d(),

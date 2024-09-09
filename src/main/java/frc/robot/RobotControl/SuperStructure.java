@@ -91,7 +91,7 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-        return new ShootingParameters(4000, 8000, sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5, getDistanceToTag());
+        return new ShootingParameters(4000, 8000, (sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5) * 1.15, getDistanceToTag());
     }
 
     public ShootingParameters getFeedingPrameters() {

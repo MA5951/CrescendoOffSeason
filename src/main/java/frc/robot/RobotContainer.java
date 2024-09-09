@@ -18,6 +18,7 @@ import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
+import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
@@ -40,17 +41,18 @@ public class RobotContainer {
     Feeder.getInstance();
     Shooter.getInstance();
     SwerveSubsystem.getInstance();
+    Vision.getInstance();
     setDeafultCommands();
     configureBindings();
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
-    //new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
+    new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
   }
 
   public void setIDLE() {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
-      Arm.getInstance().setTargetState(ArmConstants.INTAKE);//TODO HOME
+      Arm.getInstance().setTargetState(ArmConstants.INTAKE);
       Feeder.getInstance().setTargetState(FeederConstants.IDLE);
       Intake.getInstance().setTargetState(IntakeConstants.IDLE);
       Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
@@ -113,10 +115,10 @@ public class RobotContainer {
   public void setSTATIONARY_SHOOTING() {
     lastRobotState = currentRobotState;
     currentRobotState = RobotConstants.STATIONARY_SHOOTING;
-    //Arm.getInstance().setTargetState(ArmConstants.FOLLOW_SPEAKER);
-    //Intake.getInstance().setTargetState(IntakeConstants.IDLE);
-    //Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
-    //Shooter.getInstance().setTargetState(ShooterConstants.SHOOTING);
+    Arm.getInstance().setTargetState(ArmConstants.FOLLOW_SPEAKER);
+    Intake.getInstance().setTargetState(IntakeConstants.IDLE);
+    Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
+    Shooter.getInstance().setTargetState(ShooterConstants.SHOOTING);
   }
 
   public void setPRESET_SHOOTING() {
@@ -155,7 +157,7 @@ public class RobotContainer {
 
     //Starts and stops Shooting 
     new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
-    //new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
     
 
     //Preset Shooting

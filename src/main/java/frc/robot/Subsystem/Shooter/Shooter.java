@@ -110,7 +110,7 @@ public class Shooter extends StateControlledSubsystem {
 
   public void setVoltage(double voltage) {
     setRightVoltage(voltage);
-    setLeftVoltage(voltage * 0.5);
+    setLeftVoltage(voltage);
   }
 
   public void setRightPower(double power) {

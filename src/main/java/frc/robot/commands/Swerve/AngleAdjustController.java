@@ -54,7 +54,7 @@ public class AngleAdjustController extends Command {
   public void execute() {
     pid.setSetpoint(angle.get());
     //System.out.println(angle.get());
-    Supplier<Double> getMeserment = useGyro ? () -> Math.toRadians(swerve.getFusedHeading()) : PoseEstimator.getInstance().getEstimatedRobotPose().getRotation()::getRadians;
+    Supplier<Double> getMeserment = useGyro ? () -> Math.toRadians(swerve.getFusedHeading() - 180) : PoseEstimator.getInstance().getEstimatedRobotPose().getRotation()::getRadians;
     speeds = new ChassisSpeeds(0, 0, pid.calculate(getMeserment.get()));
   }
 

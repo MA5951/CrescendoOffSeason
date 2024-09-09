@@ -14,6 +14,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Arm.ArmConstants;
 
@@ -23,6 +24,7 @@ public class ArmIOReal implements ArmIO {
     private TalonFX armMotor;
     private MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
     private TalonFXConfiguration motorConfig = new TalonFXConfiguration();
+    private DigitalInput limit;
     
     private StatusSignal<Double> currentDraw;
     private StatusSignal<Double> velocity;
@@ -39,6 +41,7 @@ public class ArmIOReal implements ArmIO {
     
     public ArmIOReal() {
         armMotor = new TalonFX(PortMap.Arm.KrakenArmMotor , PortMap.CanBus.CANivoreBus);
+        limit = new DigitalInput(PortMap.Arm.DIO_LimitSwitch);
 
 
         motorTempLog = new LoggedDouble("/Subsystems/Arm/Real/Motor Temp");
@@ -79,6 +82,10 @@ public class ArmIOReal implements ArmIO {
         motorConfig.CurrentLimits.SupplyTimeThreshold = ArmConstants.PeakCurrentTime;
 
         armMotor.getConfigurator().apply(motorConfig);
+    }
+
+    public boolean getLimitSwitch() {
+        return limit.get();
     }
 
     public double getCurrentDraw() {

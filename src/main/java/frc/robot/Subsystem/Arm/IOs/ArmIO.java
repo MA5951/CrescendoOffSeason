@@ -7,6 +7,8 @@ package frc.robot.Subsystem.Arm.IOs;
 /** Add your docs here. */
 public interface ArmIO {
 
+    boolean getLimitSwitch();
+
     double getCurrentDraw();
 
     double getAppliedVolts();

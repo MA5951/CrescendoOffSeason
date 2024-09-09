@@ -35,6 +35,7 @@ public class Arm extends StateControlledSubsystem {
   private LoggedPose3d armPose3d;
   private LoggedBool CanMove;
   private LoggedDouble feedForawdLog;
+  private LoggedBool LimitLog;
 
 
   private pidControllerGainSupplier pidSupplier;
@@ -48,6 +49,7 @@ public class Arm extends StateControlledSubsystem {
     armOffset = new LoggedDouble("/Subsystems/Arm/Angle Offset");
     armPose3d = new LoggedPose3d("/Subsystems/Arm/Position");
     CanMove = new LoggedBool("/Subsystems/Arm/Can Move");
+    LimitLog = new LoggedBool("/Subsystems/Arm/Limit");
     feedForawdLog = new LoggedDouble("/Subsystems/Arm/FeedForward");
     armIO.setNutralMode(true);
     pidSupplier = board.getPidControllerGainSupplier("Arm PID");
@@ -55,6 +57,10 @@ public class Arm extends StateControlledSubsystem {
 
     board.addCommand("Reset Pose", new InstantCommand(() -> resetPosition(ArmConstants.ZERO_POSE)));
     resetPosition(ArmConstants.ZERO_POSE);
+  }
+
+  public boolean getLimit() {
+    return !armIO.getLimitSwitch();
   }
 
   public boolean isArmMoving() {
@@ -108,7 +114,8 @@ public class Arm extends StateControlledSubsystem {
     return (((getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
      (getArmPosition() > ArmConstants.UPPER_LIMIT && getVoltage() < 0) ||
     (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0) )|| getSystemFunctionState() == StatesConstants.MANUEL 
-    )&& Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING || getTargetState() == ArmConstants.HOME;
+    )&& Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING || getTargetState() == ArmConstants.HOME && 
+    Math.abs(getCurrentDraw()) < ArmConstants.CAN_MOVE_CURRENT_LIMIT;
   } 
 
   @Override
@@ -133,6 +140,7 @@ public class Arm extends StateControlledSubsystem {
     armOffset.update(board.getNum("Angle Offset"));
     CanMove.update(canMove());
     feedForawdLog.update(getFeedForwardVoltage());
+    LimitLog.update(getLimit());
 
     board.addNum("Set Point", getSetPoint());
     board.addNum("Current Pose", getArmPosition());

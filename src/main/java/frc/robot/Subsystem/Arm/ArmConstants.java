@@ -35,7 +35,7 @@ public class ArmConstants {
     public static final double kCRUSIE_VELOCITY = ConvUtil.RPMtoRPS(35);
     public static final double kACCELERATION = 300;
     public static final double kJERK = 0;
-    public static final double kTOLORANCE = 0.5;
+    public static final double kTOLORANCE = 0.8;
     public static final double GEAR = 1/ 0.0073;
 
     public static final double kARM_MOVING_THRSHOLD_RPM = 2;
@@ -44,18 +44,18 @@ public class ArmConstants {
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
-    public static final double ACTIVE_HOME_LIMIT_ANGLE = 20;
-    public static final double HOME_VOLTAGE = -1;
-    public static final double HOME_CURRENTLIMIT = 20;
-    public static final double HOME_DELTA = 30;
-    public static final double REVERS_CURRENTLIMIT = 18;
+    public static final double ACTIVE_HOME_LIMIT_ANGLE = 15;
+    public static final double HOME_VOLTAGE = -0.5;
 
-    public static final double INTAKE_HOLD_VALUE = -0.3;
+    public static final double CAN_MOVE_CURRENT_LIMIT = 25;
 
-    public static double LOWER_LIMIT = 11.5;
+    public static final double INTAKE_HOLD_VALUE = -0.1;
+
+    public static double LOWER_LIMIT = 10;
     public static double UPPER_LIMIT = 180;
 
     public static final double MANUEL_VOLTAGE_LIMIT = 3;
+
 
     public static final Pose3d SIM_ARM_OFFSET = new Pose3d(0.035, -0.002 ,  0.613, new Rotation3d(0, 0, 0));
 

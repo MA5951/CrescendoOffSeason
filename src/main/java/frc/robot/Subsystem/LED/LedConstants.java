@@ -16,9 +16,7 @@ public class LedConstants {
   public static final Color CONE_YELLOW = new Color(255, 237, 70);
   public static final Color CUBE_PURPLE = new Color(230, 0, 255);
 
-  public static final int ledLength = 81;
-  public static final int hpLedLength = 33;
-  public static final int driversLedLength = 45;
+  public static final int ledLength = 150;
 
   public static final int activateTime = 10;
 }
