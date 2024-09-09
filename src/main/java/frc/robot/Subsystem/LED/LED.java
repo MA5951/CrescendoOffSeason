@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.PortMap;
+import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
+import frc.robot.Subsystem.Feeder.Feeder;
+import frc.robot.Subsystem.Feeder.FeederConstants;
 
 public class LED extends LEDBase {
 
@@ -53,23 +57,42 @@ public class LED extends LEDBase {
             };
         }
 
-        if (DriverStation.isEnabled()) {
-            return this::rainbowColorPatternDrivers; 
-        } else if (DriverStation.isAutonomous()) {
+        if (DriverStation.isTeleopEnabled()) {
+            System.out.println("Teleop");
+            if (Feeder.getInstance().getTargetState() == FeederConstants.NOTE_ADJUSTING) {
+                return () -> blinkColorPattern(0.2, LedConstants.CONE_YELLOW, LedConstants.BLACK); 
+            } else if (RobotContainer.currentRobotState == RobotConstants.WARMING) {
+                return () -> smoothWaveColorPattern(2, 1, 1, new Color[]{LedConstants.GREEN, LedConstants.RED}); 
+            } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
+
+            } else if (RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE) {
+
+            } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
+
+            } else if (RobotContainer.currentRobotState == RobotConstants.INTAKE) {
+
+            }
+        } else if (DriverStation.isAutonomousEnabled()) {
+            System.out.println("Auto");
             return () -> smoothWaveColorPattern(3, 1, 1, new Color[]{LedConstants.CONE_YELLOW, LedConstants.CUBE_PURPLE, LedConstants.CYAN});
         } else if (DriverStation.isDisabled()) {
             if (DriverStation.isFMSAttached()) {
                 if (DriverStation.getAlliance().get() == Alliance.Blue) {
+                    System.out.println("Blue Alliance");
                     return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.BLUE}); 
                 } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+                    System.out.println("Red Alliance");
                     return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.RED}); 
                 } else {
+                    System.out.println("None Alliance");
                     return () -> smoothWaveColorPattern(2, 1, 0.2, new Color[]{LedConstants.BLACK, LedConstants.PURPLE}); 
                 }
             } else {
+                System.out.println("Not Attached");
                 return () -> blinkColorPattern(1, LedConstants.PURPLE, LedConstants.BLACK); 
             }
         } else {
+            System.out.println("MAcolorrrrrrr");
             return () -> setSolidColor(LedConstants.MAcolor); 
         }
     }

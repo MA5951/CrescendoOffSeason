@@ -35,25 +35,18 @@ public class LEDBase extends SubsystemBase {
     }
 
     public void setSolidColorDrivers(Color color) {
-        for (var i = 0; i < LedConstants.driversLedLength; i++) {
+        for (var i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setLED(i, color);
         }
         leds.setData(ledBuffer);
     }
 
-    public void setSolidColorHP(Color color) {
-        for (var i = LedConstants.driversLedLength + 1; i < LedConstants.ledLength; i++) {
-            ledBuffer.setLED(i, color);
-        }
-        leds.setData(ledBuffer);
-    }
 
-    public void rainbowColorPatternDrivers() {
+    public void rainbowColorPattern() {
         int currentHue;
-        int length = LedConstants.driversLedLength;
 
-        for (int i = 0; i < length; i++) {
-            currentHue = (firstHue + (i * 180 / length)) % 180;
+        for (int i = 0; i < ledBuffer.getLength(); i++) {
+            currentHue = (firstHue + (i * 180 / ledBuffer.getLength())) % 180;
             ledBuffer.setHSV(i, currentHue, 255, 128);
         }
 
@@ -61,20 +54,7 @@ public class LEDBase extends SubsystemBase {
         leds.setData(ledBuffer);
     }
 
-    public void rainbowColorPatternHP() {
-        int currentHue;
-        int length = LedConstants.ledLength;
-
-        for (int i = LedConstants.driversLedLength + 1; i < length; i++) {
-            currentHue = (firstHue + (i * 180 / length)) % 180;
-            ledBuffer.setHSV(i, currentHue, 255, 128);
-        }
-
-        firstHue = (firstHue + 3) % 180;
-        leds.setData(ledBuffer);
-    }
-
-    public void blinkColorPatternHP(double interval, Color colorOne, Color colorTwo) {
+    public void blinkColorPattern(double interval, Color colorOne, Color colorTwo) {
         double timestamp = Timer.getFPGATimestamp();
 
         if (timestamp - lastChange > interval) {
@@ -82,16 +62,16 @@ public class LEDBase extends SubsystemBase {
             lastChange = timestamp;
         }
         if (on) {
-            setSolidColorHP(colorOne);
+            setSolidColor(colorOne);
         } else {
-            setSolidColorHP(colorTwo);
+            setSolidColor(colorTwo);
         }
     }
 
-    public void waveColorPatternDrivers(int period, int numColors, Color[] colors) {
+    public void waveColorPattern(int period, int numColors, Color[] colors) {
         double elapsedTime = Timer.getFPGATimestamp() % period;
         double progress = elapsedTime / period;
-        int numLeds = LedConstants.driversLedLength;
+        int numLeds = ledBuffer.getLength();
 
         for (int i = 0; i < numLeds; i++) {
             double position = (double) i / (double) numLeds;
@@ -103,75 +83,11 @@ public class LEDBase extends SubsystemBase {
         }
 
         leds.setData(ledBuffer);
-    }
-
-    public void waveColorPatternHP(int period, int numColors, Color[] colors) {
-        double elapsedTime = Timer.getFPGATimestamp() % period;
-        double progress = elapsedTime / period;
-        int numLeds = LedConstants.ledLength;
-
-        for (int i = LedConstants.driversLedLength + 1; i < numLeds; i++) {
-            double position = (double) i / (double) numLeds;
-            double wavePosition = (position + progress) % 1.0;
-            int colorIndex = (int) (wavePosition * numColors);
-
-            Color currentColor = colors[colorIndex];
-            ledBuffer.setLED(i, currentColor);
-        }
-        leds.setData(ledBuffer);
-    }
-
-    public void smoothWaveColorPatternDrivers(int numColors, double period, double speed, Color[] colors) {
-        double elapsedTime = Timer.getFPGATimestamp();
-
-        for (int i = 0; i < LedConstants.driversLedLength; i++) {
-            double position = ((double) i / LedConstants.driversLedLength) + (elapsedTime * speed / period);
-            double progress = position - (int) position;
-
-            int startColorIndex = (int) (position % numColors);
-            int endColorIndex = (startColorIndex + 1) % numColors;
-            Color startColor = colors[startColorIndex];
-            Color endColor = colors[endColorIndex];
-
-            Color currentColor = new Color(
-                (int) (startColor.red + (endColor.red - startColor.red) * progress),
-                (int) (startColor.green + (endColor.green - startColor.green) * progress),
-                (int) (startColor.blue + (endColor.blue - startColor.blue) * progress)
-            );
-
-            ledBuffer.setLED(i, currentColor);
-        }
-
-        leds.setData(ledBuffer);
-    }
-
-    public void smoothWaveColorPatternHP(int numColors, double period, double speed, Color[] colors) {
-        double elapsedTime = Timer.getFPGATimestamp();
-
-        for (int i = LedConstants.driversLedLength + 1; i < LedConstants.ledLength; i++) {
-            double position = ((double) i / LedConstants.hpLedLength) + (elapsedTime * speed / period);
-            double progress = position - (int) position;
-
-            int startColorIndex = (int) (position % numColors);
-            int endColorIndex = (startColorIndex + 1) % numColors;
-            Color startColor = colors[startColorIndex];
-            Color endColor = colors[endColorIndex];
-
-            Color currentColor = new Color(
-                (int) (startColor.red + (endColor.red - startColor.red) * progress),
-                (int) (startColor.green + (endColor.green - startColor.green) * progress),
-                (int) (startColor.blue + (endColor.blue - startColor.blue) * progress)
-            );
-
-            ledBuffer.setLED(i, currentColor);
-        }
-
-        leds.setData(ledBuffer);
+        updateLeds();
     }
 
     public void smoothWaveColorPattern(int numColors, double period, double speed, Color[] colors) {
         double elapsedTime = Timer.getFPGATimestamp();
-
         for (int i = 0; i < ledBuffer.getLength(); i++) {
             double position = ((double) i / ledBuffer.getLength()) + (elapsedTime * speed / period);
             double progress = position - (int) position;
@@ -182,30 +98,14 @@ public class LEDBase extends SubsystemBase {
             Color endColor = colors[endColorIndex];
 
             Color currentColor = new Color(
-                (int) (startColor.red + (endColor.red - startColor.red) * progress),
-                (int) (startColor.green + (endColor.green - startColor.green) * progress),
-                (int) (startColor.blue + (endColor.blue - startColor.blue) * progress)
+                    startColor.red + (endColor.red - startColor.red) * progress,
+                    startColor.green + (endColor.green - startColor.green) * progress,
+                    startColor.blue + (endColor.blue - startColor.blue) * progress
             );
 
             ledBuffer.setLED(i, currentColor);
+            leds.setData(ledBuffer);
         }
-
-        leds.setData(ledBuffer);
-    }
-
-    public void blinkColorPattern(double interval, Color colorOne, Color colorTwo) {
-        double timestamp = Timer.getFPGATimestamp();
-        if (timestamp - lastChange > interval) {
-            on = !on;
-            lastChange = timestamp;
-        }
-        if (on) {
-            setSolidColor(colorOne);
-        } else {
-            setSolidColor(colorTwo);
-        }
-
-        leds.setData(ledBuffer);
     }
 
     public void updateLeds() {
