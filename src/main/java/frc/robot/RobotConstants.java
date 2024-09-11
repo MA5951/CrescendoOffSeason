@@ -41,12 +41,14 @@ public class RobotConstants {
     public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
     public static final ShootingParameters LOW_FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(4000, 4000, 12 , 0);
     public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 61, 0);
-    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(3000, 6000, 36 , 0);
+    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(4000, 8000,  36.4 , 3.5);
+//    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(3000, 6000, 36 , 0);
 
 
     //Interpolation\[]
     //Shooting Points
     private static final ShootingParameters Point1 = new ShootingParameters(0, 0, 0 , 0);
+
     private static final ShootingParameters Point2 = new ShootingParameters(0, 0, 0 , 0);
     private static final ShootingParameters Point3 = new ShootingParameters(0, 0, 0 , 0);
     private static final ShootingParameters Point4 = new ShootingParameters(0, 0, 0 , 0);
@@ -77,33 +79,31 @@ public class RobotConstants {
     public static final double DISTANCE_TO_CLOSE_ARM = 0.2;//
 
     public static final double[][] BUMPER_TO_SUBWOOFER_DISTANCE = {
-       {0  , 0.25 ,   0.5 ,  0.75 ,    1 , 1.25 , 1.5  , 1.75 ,    2 , 2.25 ,  2.5 , 2.75 , 3     , 3.25 , 3.5  , 3.75 ,  4   , 4.25 , 4.5 , 4.75 ,  5  , 5.25},
-       {59 , 52.6 , 42.96 , 42.17 , 40.1 , 36.6 , 31.57, 32.95, 26.67, 23.2, 22.3, 21.7 , 19.88 , 18.61, 17.46, 16.41, 15.46, 14.59, 13.8, 13.06, 12.4, 11.75} 
-    };
+       {0  , 0.25 ,   0.5 ,  0.75 ,    1 , 1.25 , 1.5  , 1.75 ,    2 , 2.30 ,  2.5 , 2.75 , 3 , 3.25 , 3.5  , 3.75 ,  4   , 4.25 , 4.5 , 4.75 },
+       {64 , 57.6 , 54.96 , 47.17 , 45.1 , 41.6 , 36.57,36.4, 33.2, 30.2, 27.3, 28.5 , 26.7, 25.7, 24.7, 24.4   , 24.1, 23.9, 23.7, 23.7} 
+    };                                                                           
 
     public static final double[][] shootingPoses = {
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][0], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][0], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][1], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][1], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][2], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][2], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][3], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][3], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][4], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][4], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][5], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][5], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][6], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][6], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][7], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][7], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][8], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][8], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][9], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][9], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][10], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][10], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][11], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][11], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][12], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][12], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][13], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][13], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][14], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][14], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][15], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][15], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][16], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][16], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][17], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][17], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][18], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][18], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][19], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][19], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][20], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][20], 0},
-        {Math.sqrt(Math.pow(VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][21], 2) + Math.pow(VisionConstants.CAMERA_TO_TAG, 2)), BUMPER_TO_SUBWOOFER_DISTANCE[1][21], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][0], BUMPER_TO_SUBWOOFER_DISTANCE[1][0], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][1], BUMPER_TO_SUBWOOFER_DISTANCE[1][1], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][2], BUMPER_TO_SUBWOOFER_DISTANCE[1][2], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][3], BUMPER_TO_SUBWOOFER_DISTANCE[1][3], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][4], BUMPER_TO_SUBWOOFER_DISTANCE[1][4], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][5], BUMPER_TO_SUBWOOFER_DISTANCE[1][5], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][6], BUMPER_TO_SUBWOOFER_DISTANCE[1][6], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][7], BUMPER_TO_SUBWOOFER_DISTANCE[1][7], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][8], BUMPER_TO_SUBWOOFER_DISTANCE[1][8], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][9], BUMPER_TO_SUBWOOFER_DISTANCE[1][9], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][10], BUMPER_TO_SUBWOOFER_DISTANCE[1][10], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][11], BUMPER_TO_SUBWOOFER_DISTANCE[1][11], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][12], BUMPER_TO_SUBWOOFER_DISTANCE[1][12], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][13], BUMPER_TO_SUBWOOFER_DISTANCE[1][13], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][14], BUMPER_TO_SUBWOOFER_DISTANCE[1][14], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][15], BUMPER_TO_SUBWOOFER_DISTANCE[1][15], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][16], BUMPER_TO_SUBWOOFER_DISTANCE[1][16], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][17], BUMPER_TO_SUBWOOFER_DISTANCE[1][17], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][18], BUMPER_TO_SUBWOOFER_DISTANCE[1][18], 0},
+        {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][19], BUMPER_TO_SUBWOOFER_DISTANCE[1][19], 0}
 
     };
 }

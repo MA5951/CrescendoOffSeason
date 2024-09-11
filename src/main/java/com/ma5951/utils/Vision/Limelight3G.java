@@ -7,6 +7,8 @@
 
 package com.ma5951.utils.Vision;
 
+import java.util.function.Supplier;
+
 import com.ma5951.utils.Vision.LimelightHelpers.RawDetection;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,15 +21,21 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Limelight3G {
   private String name;
+  private double cammeraHight;
+  private double cammeraAngle;
+  private Supplier<Double> robotAngleSupplier;
 
 
   public Limelight3G(
-    String cammeraName){
+    String cammeraName , double cammeraHight , double cammeraAngle , Supplier<Double> angleSupplier){
       name  = cammeraName;
+      this.cammeraHight = cammeraHight;
+      this.cammeraAngle = cammeraAngle;
+      robotAngleSupplier = angleSupplier;
   }
 
   public LimelightHelpers.PoseEstimate getEstimatedPose() {
-    return LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+    return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
   }
 
   public boolean isTarget() {
@@ -54,11 +62,43 @@ public class Limelight3G {
     }
   }
 
-  public double getTx() {
-    return LimelightHelpers.getTX(name);
+  
+  /*
+   * Trigo
+   */
+  public double distance(double[] tagHights) {
+    if (getTagID() <= 0) {
+      return -1;
+    }
+    if (getTagID() - 1 < 0 || getTagID() - 1 >= tagHights.length) {
+      return -1;
+    }
+    double deltaHight = tagHights[getTagID() - 1] - cammeraHight;
+    double deltaAngle = getTy() + cammeraAngle;
+    return deltaHight / Math.tan(Math.toRadians(deltaAngle));
   }
 
-  public double getTagID() {
-    return LimelightHelpers.getFiducialID(name);
+  public double getTx() {
+    if (isTarget()) {
+      return LimelightHelpers.getTX(name);
+    } else {
+      return 0;
+    }
+  }
+
+  public double getTy() {
+    if (isTarget()) {
+      return LimelightHelpers.getTY(name);
+    } else {
+      return 0;
+    }
+  }
+
+  public int getTagID() {
+    return ((int)LimelightHelpers.getFiducialID(name));
+  }
+
+  public void update() {
+    LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() +180, 0, 0, 0, 0, 0);
   }
 }

@@ -16,7 +16,7 @@ import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 /** Add your docs here. */
 public class PoseEstimatorConstants {
 
-    public final static Vector<N3> ODOMETRY_DEVS = VecBuilder.fill(0.1, 0.1, 0.1);
+    public final static Vector<N3> ODOMETRY_DEVS = VecBuilder.fill(0.7, 0.7, 0.7);
     public final static Vector<N3> VISION_DEVS = VecBuilder.fill(0.1, 0.1, 0.1);
     
     public final static double MAX_LINEAR_VELOCITY_FOR_UPDATE = 0;//Meters per second

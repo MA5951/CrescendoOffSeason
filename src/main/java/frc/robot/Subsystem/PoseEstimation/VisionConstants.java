@@ -8,12 +8,16 @@ package frc.robot.Subsystem.PoseEstimation;
 public class VisionConstants {
 
     public final static double CAMERA_HIGHT = 0.645;
-    public final static double CAMERA_ANGLE = 18.4;
+    public final static double CAMERA_ANGLE = 19.5;//18.44
 
-    public final static double CAMERA_TO_TAG = 0.95 - (0.645  - 0.42);
-
-    public final static double CAMERA_TO_BUPMER = 0.36;
+    public final static double CAMERA_TO_BUPMER = 0.504;
     public final static double SPEAKER_TO_SUBWOOFER = 0.91;
+
+    public final static double[] aprilTagsHights = { //TODO
+        1.22, 1.22, 1.32, 1.32, 1.22,
+         1.22, 1.42, 1.32, 1.22, 1.22,
+         1.21, 1.21, 1.21, 1.21, 1.21, 1.21
+       };
 
 
 }

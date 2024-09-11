@@ -29,13 +29,13 @@ public class ArmConstants {
 
     public static final double kSTALL_TOURQE = 7;
     public static final int CONTROL_SLOT = 0;
-    public static final double kP = 120;
+    public static final double kP = 200;
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double kCRUSIE_VELOCITY = ConvUtil.RPMtoRPS(35);
     public static final double kACCELERATION = 300;
     public static final double kJERK = 0;
-    public static final double kTOLORANCE = 0.8;
+    public static final double kTOLORANCE = 0.5;
     public static final double GEAR = 1/ 0.0073;
 
     public static final double kARM_MOVING_THRSHOLD_RPM = 2;

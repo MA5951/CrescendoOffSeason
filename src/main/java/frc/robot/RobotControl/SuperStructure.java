@@ -4,6 +4,7 @@
 
 package frc.robot.RobotControl;
 
+import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
@@ -19,6 +20,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.Vision;
+import frc.robot.Subsystem.PoseEstimation.VisionConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 import frc.robot.Utils.ShootingParameters;
@@ -45,6 +47,7 @@ public class SuperStructure {
     private LoggedDouble distanceToSpeakerLog;
     private LoggedDouble robotHeadingLog;
     private LoggedDouble angleToSpaekerLog;
+    private MAShuffleboard board;
         
     public SuperStructure() {
         isNoteLog = new LoggedBool("/SuperStructure/Is Note");
@@ -55,6 +58,9 @@ public class SuperStructure {
         distanceToSpeakerLog = new LoggedDouble("/SuperStructure/Distance To Speaker");
         robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
         angleToSpaekerLog = new LoggedDouble("/SuperStructure/Angle To Speaker");
+        board = new MAShuffleboard("SuperStructure");
+        board.addNum("Distance", 3);
+
         
     }
 
@@ -91,7 +97,9 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-        return new ShootingParameters(4000, 8000, (sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5) * 1.15, getDistanceToTag());
+            return new ShootingParameters(4000, 8000, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0]),
+                getDistanceToTag());
     }
 
     public ShootingParameters getFeedingPrameters() {
@@ -131,7 +139,17 @@ public class SuperStructure {
     }
 
     public double getDistanceToTag() {
-        return Vision.getInstance().getDistanceToTag();
+        if (Vision.getInstance().isTag()) {
+            return Vision.getInstance().getDistance();
+        } else {
+            if (DriverStation.getAlliance().get() == Alliance.Blue) {
+                return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
+            } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+                return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.RED_SPEAKER.getTranslation()) + 0.04;
+            } else {
+                return 0;
+            }
+        }
     }
 
     public double getSetPointForAline() {
