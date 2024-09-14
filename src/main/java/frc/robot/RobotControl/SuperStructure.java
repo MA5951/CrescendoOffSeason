@@ -11,7 +11,6 @@ import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -20,7 +19,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.Vision;
-import frc.robot.Subsystem.PoseEstimation.VisionConstants;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 import frc.robot.Utils.ShootingParameters;
@@ -30,13 +28,9 @@ public class SuperStructure {
 
 
     private ShootingParameters presetParameters;
-    private ShootingParameters point;
     private Pose2d ampPose;
     private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());
     private Pose2d feedingPose = new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());;
-    private InterpolatingDoubleTreeMap leftShooterInterpolation = new InterpolatingDoubleTreeMap();
-    private InterpolatingDoubleTreeMap rightShooterInterpolation = new InterpolatingDoubleTreeMap();
-    private InterpolatingDoubleTreeMap angleInterpolation = new InterpolatingDoubleTreeMap();
     private boolean updatedAfterDS = false;
 
     private LoggedBool isNoteLog;
@@ -98,8 +92,9 @@ public class SuperStructure {
 
     public ShootingParameters getShootingPrameters() {
             return new ShootingParameters(4000, 8000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0]),
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5),
                 getDistanceToTag());
+            //return new ShootingParameters(0, 0, 0, 0);
     }
 
     public ShootingParameters getFeedingPrameters() {
@@ -139,7 +134,7 @@ public class SuperStructure {
     }
 
     public double getDistanceToTag() {
-        if (Vision.getInstance().isTag()) {
+        if (Vision.getInstance().isTag() && Vision.getInstance().getDistance() < 3 && Vision.getInstance().getTagID() ==7) {
             return Vision.getInstance().getDistance();
         } else {
             if (DriverStation.getAlliance().get() == Alliance.Blue) {
@@ -150,6 +145,15 @@ public class SuperStructure {
                 return 0;
             }
         }
+        // if (DriverStation.getAlliance().get() == Alliance.Blue) {
+        //         return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
+        //     } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+        //         return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.RED_SPEAKER.getTranslation()) + 0.04;
+        //     } else {
+        //         return 0;
+        //     }
+        //return Vision.getInstance().getDistance();
+        //return 0d;
     }
 
     public double getSetPointForAline() {

@@ -184,12 +184,12 @@ public class SwerveConstants {
         public final static double KI_TRANSLATION = 0; //0.0009;
 
         //Swerve theta PID_CONTROLLER radians
-        public final static double THATA_KP = 1.1;
+        public final static double THATA_KP = 0.4;
         public final static double THATA_KI = 0;
         public final static double THATA_KD = 0.0;
         public final static double ANGLE_PID_TOLORANCE = Math.toRadians(6);
 
-        public final static double RELATIV_THATA_KP = 0.01;
+        public final static double RELATIV_THATA_KP = 0.002;
         public final static double RELATIV_THATA_KI = 0;
         public final static double RELATIV_THATA_KD = 0.0016;
         public final static double RELATIV_ANGLE_PID_TOLORANCE = 1;

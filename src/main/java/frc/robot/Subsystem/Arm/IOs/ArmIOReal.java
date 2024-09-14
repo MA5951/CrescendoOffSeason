@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.ReverseLimitTypeValue;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
 
@@ -84,6 +85,10 @@ public class ArmIOReal implements ArmIO {
         armMotor.getConfigurator().apply(motorConfig);
     }
 
+    public boolean getReverseLimit() {
+        return getPosition() < ArmConstants.LOWER_LIMIT;
+    }
+
     public boolean getLimitSwitch() {
         return limit.get();
     }
@@ -132,7 +137,8 @@ public class ArmIOReal implements ArmIO {
     
     public void setAngleSetPoint(double angleSetPoint , double feedforward) {
         armMotor.setControl(motionMagicControl.withPosition(angleSetPoint).withSlot(ArmConstants.CONTROL_SLOT)
-        .withFeedForward(feedforward));        
+        .withFeedForward(feedforward)
+        .withLimitReverseMotion(getReverseLimit()));        
     }
 
     

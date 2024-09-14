@@ -4,12 +4,15 @@
 
 package frc.robot.Subsystem.PoseEstimation;
 
+
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedPose2d;
 import com.ma5951.utils.Vision.Limelight3G;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.PortMap;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
@@ -22,6 +25,7 @@ public class Vision extends SubsystemBase {
   private LoggedPose2d poseLog;
   private LoggedDouble tagIdLog;
   private LoggedDouble tXLog;
+  private LoggedDouble tYLog;
   private LoggedBool isTagLog;
 
   private Vision() {
@@ -31,12 +35,18 @@ public class Vision extends SubsystemBase {
     ditanceToSpeakerLog = new LoggedDouble("/Vision/Distance To Speaker");
     tagIdLog = new LoggedDouble("/Vision/Tag Id");
     tXLog = new LoggedDouble("/Vision/Tx");
+    tYLog = new LoggedDouble("/Vision/Ty");
     isTagLog = new LoggedBool("/Vision/Is Tag");
     poseLog = new LoggedPose2d("/Vision/Pose");
   }
 
   public Pose2d getEstiman() {
-    return limelight.getEstimatedPose().pose;
+    if (limelight.getEstimatedPose().pose != null) {
+      return limelight.getEstimatedPose().pose;
+    } else {
+      return new Pose2d();
+    }
+    //return new Pose2d();
   }
 
   public double getTimeStamp() {
@@ -55,12 +65,32 @@ public class Vision extends SubsystemBase {
     return limelight.getTx();
   }
 
+  public double getTy() {
+    return limelight.getTy();
+  }
+
   public double getDistanceToTag() {
     return limelight.getDistanceToTag();
   }
 
   public double getDistance() {
     return limelight.distance(VisionConstants.aprilTagsHights);
+  }
+
+  public void filterSpeaker() {
+    if (DriverStation.getAlliance().isPresent()) {
+      if (DriverStation.getAlliance().get() == Alliance.Blue) {
+        limelight.filterTags(new int[] {7});
+      } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+        limelight.filterTags(new int[] {4});
+      } else {
+        limelight.filterTags(new int[] {});
+      }
+    }
+  }
+
+  public void resetFilter() {
+    limelight.filterTags(new int[] {});
   }
 
   public static Vision getInstance() {
@@ -78,6 +108,7 @@ public class Vision extends SubsystemBase {
     ditanceToSpeakerLog.update(getDistance());
     tagIdLog.update(getTagID());
     tXLog.update(getTx());
+    tYLog.update(getTy());
     isTagLog.update(isTag());
   }
 

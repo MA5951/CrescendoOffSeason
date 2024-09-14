@@ -47,12 +47,10 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
     switch (arm.getTargetState().getName()) {
       case "IDLE":
       if (arm.getLastState() == ArmConstants.HOME ||arm.getLastState() == ArmConstants.INTAKE ) {
-        arm.setVoltage(-arm.getFeedForwardVoltage() * 0.5);
+        arm.setVoltage(arm.getFeedForwardVoltage() * 1);
       } else {
         arm.setVoltage(arm.getFeedForwardVoltage());
       }
-        
-        getAngle = false;
         break;
       case "FOLLOW_SPEAKER":
         arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
@@ -67,7 +65,11 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
         arm.runSetPoint(ArmConstants.AMP_POSE);
         break;
       case "INTAKE":
-        arm.runSetPoint(ArmConstants.INTAKE_POSE);
+        if (arm.atPoint() && arm.getSetPoint() == ArmConstants.INTAKE_POSE && RobotContainer.currentRobotState != RobotConstants.INTAKE) {
+          arm.setTargetState(ArmConstants.IDLE);
+        } else {
+          arm.runSetPoint(ArmConstants.INTAKE_POSE);
+        }
         break;
       case "HOME":
         if (arm.getLimit()) {

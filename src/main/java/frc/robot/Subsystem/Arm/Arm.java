@@ -108,10 +108,14 @@ public class Arm extends StateControlledSubsystem {
     armIO.setVoltage(power * 12);
   }
 
+  public void setSetPoint(double setPoint) {
+    this.setPoint = setPoint;
+  }
+
 
   //Can Move
   private boolean LimitsCanMove(){
-    return (((getArmPosition() > ArmConstants.LOWER_LIMIT && getArmPosition() < ArmConstants.UPPER_LIMIT) ||
+    return (((getArmPosition() > ArmConstants.LOWER_LIMIT) ||
      (getArmPosition() > ArmConstants.UPPER_LIMIT && getVoltage() < 0) ||
     (getArmPosition() < ArmConstants.LOWER_LIMIT && getVoltage() > 0) )|| getSystemFunctionState() == StatesConstants.MANUEL 
     )&& Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING || getTargetState() == ArmConstants.HOME && 

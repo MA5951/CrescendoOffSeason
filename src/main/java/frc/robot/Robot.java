@@ -37,6 +37,8 @@ public class Robot extends TimedRobot {
     PoseEstimator.getInstance();
     SwervePoseCalculator.getInstance();
     LED.getInstance();
+    addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 0.01 , 0);
+    
 
     currentRobotStateLog = new LoggedString("/RobotControl/Current Robot State");
     lastRobotStateLog = new LoggedString("/RobotControl/Last Robot State");

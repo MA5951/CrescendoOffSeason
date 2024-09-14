@@ -20,7 +20,7 @@ public class IntakeConstants {
     
     public static final double Gear = 0.333;
     
-    public static final double PeakCurrentLimit = 40; 
+    public static final double PeakCurrentLimit = 30; 
     public static final double ContinuesCurrentLimit = 25; 
     public static final double PeakCurrentTime = 0.1; 
     public static final boolean IsCurrentLimitEnabled = true; 

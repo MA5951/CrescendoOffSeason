@@ -50,6 +50,10 @@ public class Limelight3G {
     }
   }
 
+  public void filterTags(int[] tagsArry) {
+    LimelightHelpers.SetFiducialIDFiltersOverride(name , tagsArry);
+  }
+
   public double getDistanceToTag() {
     if (isTarget()) {
       if (getEstimatedPose().rawFiducials.length > 0 ) {
@@ -74,7 +78,7 @@ public class Limelight3G {
       return -1;
     }
     double deltaHight = tagHights[getTagID() - 1] - cammeraHight;
-    double deltaAngle = getTy() + cammeraAngle;
+    double deltaAngle = getTy() + cammeraAngle; 
     return deltaHight / Math.tan(Math.toRadians(deltaAngle));
   }
 

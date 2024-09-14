@@ -10,8 +10,6 @@ import com.ma5951.utils.Logger.LoggedPose2d;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -59,6 +57,10 @@ public class PoseEstimator {
     public Pose2d getEstimatedRobotPose() {
         return robotPoseEstimator.getEstimatedPosition();
     }
+
+    // public double getXYVisionDeviation() {
+    //     return PoseEstimatorConstants.xyDEVS_COEFFICIENT * Math.pow(avgDistance, 2) / tagPoses.size();
+    // }
 
     public void update() {
         updateOdometry();
