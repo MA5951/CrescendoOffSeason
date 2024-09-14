@@ -65,6 +65,10 @@ public class ArmIOReal implements ArmIO {
     public void configMotor() {
         motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         motorConfig.Feedback.SensorToMechanismRatio = ArmConstants.GEAR;
+
+        motorConfig.Voltage.PeakForwardVoltage = 12;
+        motorConfig.Voltage.PeakReverseVoltage = -12;
+        
         
         motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;

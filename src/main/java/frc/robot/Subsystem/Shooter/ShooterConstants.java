@@ -38,7 +38,7 @@ public class ShooterConstants {
     public static final double PeakCurrentLimit = 60; 
     public static final double ContinuesCurrentLimit = 40; 
     public static final double PeakCurrentTime = 0.1; 
-    public static final boolean IsCurrentLimitEnabled = true; 
+    public static final boolean IsCurrentLimitEnabled = false; 
 
     public static final State IDLE = StatesConstants.IDLE;
     public static final State WARM = new State("WARM");

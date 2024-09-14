@@ -7,6 +7,8 @@ package frc.robot.Subsystem.PoseEstimation;
 
 import java.util.function.Supplier;
 
+import com.ma5951.utils.Utils.ConvUtil;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.numbers.N3;
@@ -19,10 +21,10 @@ public class PoseEstimatorConstants {
     public final static Vector<N3> ODOMETRY_DEVS = VecBuilder.fill(0.7, 0.7, 0.7);
     public final static Vector<N3> VISION_DEVS = VecBuilder.fill(0.1, 0.1, 0.1);
     
-    public final static double MAX_LINEAR_VELOCITY_FOR_UPDATE = 0;//Meters per second
-    public final static double MAX_ANGULAR_VELOCITY_FOR_UPDATE = 0;//Radians per second
+    public final static double MAX_LINEAR_VELOCITY_FOR_UPDATE = 2.5;//Meters per second
+    public final static double MAX_ANGULAR_VELOCITY_FOR_UPDATE = ConvUtil.DegreesToRadians(720);//Radians per second
 
-    //TODO
+    
     public static Supplier<Boolean> VISION_UPDATE_CONSTRAINS = () -> SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vxMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE 
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vyMetersPerSecond < MAX_LINEAR_VELOCITY_FOR_UPDATE
     && SwerveSubsystem.getInstance().getRobotRelativeSpeeds().omegaRadiansPerSecond < MAX_ANGULAR_VELOCITY_FOR_UPDATE; 

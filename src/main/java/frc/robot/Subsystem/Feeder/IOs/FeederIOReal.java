@@ -15,6 +15,7 @@ import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.PortMap;
+import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 
 public class FeederIOReal implements FeederIO {
@@ -43,22 +44,25 @@ public class FeederIOReal implements FeederIO {
         motorTemp = feederMotor.getDeviceTemp();
         appliedVolts = feederMotor.getMotorVoltage();
 
-        motorTempLog = new LoggedDouble("/Subsystems/Intake/Real/Motor Temp");
-        appliedVoltsLog = new LoggedDouble("/Subsystems/Intake/Real/Applied Voltage");
-        velocityLog = new LoggedDouble("/Subsystems/Intake/Real/Intake Velocity");
-        currentDrawLog = new LoggedDouble("/Subsystems/Intake/Real/Motor Current");
+        motorTempLog = new LoggedDouble("/Subsystems/Feeder/Real/Motor Temp");
+        appliedVoltsLog = new LoggedDouble("/Subsystems/Feeder/Real/Applied Voltage");
+        velocityLog = new LoggedDouble("/Subsystems/Feeder/Real/Feeder Velocity");
+        currentDrawLog = new LoggedDouble("/Subsystems/Feeder/Real/Motor Current");
     }
 
     public void configTalonFX() {
         motorConfig.Feedback.SensorToMechanismRatio = IntakeConstants.Gear;
-        
+
+        motorConfig.Voltage.PeakForwardVoltage = 12;
+        motorConfig.Voltage.PeakReverseVoltage = -12;
+
         motorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-        motorConfig.CurrentLimits.SupplyCurrentLimitEnable = IntakeConstants.IsCurrentLimitEnabled;
-        motorConfig.CurrentLimits.SupplyCurrentLimit = IntakeConstants.ContinuesCurrentLimit;
-        motorConfig.CurrentLimits.SupplyCurrentThreshold = IntakeConstants.PeakCurrentLimit;
-        motorConfig.CurrentLimits.SupplyTimeThreshold = IntakeConstants.PeakCurrentTime;
+        motorConfig.CurrentLimits.SupplyCurrentLimitEnable = FeederConstants.IsCurrentLimitEnabled;
+        motorConfig.CurrentLimits.SupplyCurrentLimit = FeederConstants.ContinuesCurrentLimit;
+        motorConfig.CurrentLimits.SupplyCurrentThreshold = FeederConstants.PeakCurrentLimit;
+        motorConfig.CurrentLimits.SupplyTimeThreshold = FeederConstants.PeakCurrentTime;
 
         feederMotor.getConfigurator().apply(motorConfig);
     }

@@ -16,13 +16,19 @@ import frc.robot.Subsystem.Feeder.IOs.FeederIOSim;
 /** Add your docs here. */
 public class FeederConstants {
 
-    public static final double FORWARD_VOLTAGE = 5; //TODO
-    public static final double REVERS_VOLTAG = -6; //TODO
+    public static final double FORWARD_VOLTAGE = 4; 
+    public static final double REVERS_VOLTAG = -6; 
 
-    public static final double FORWARD_ADJUST_VOLTAG = 2; //TODO
-    public static final double REVERS_ADJUST_VOLTAG = -2; //TODO
+    public static final double FORWARD_ADJUST_VOLTAG = 2; 
+    public static final double REVERS_ADJUST_VOLTAG = -2; 
 
-    public static final double GEAR = 2.66; //TODO
+    public static final double GEAR = 2.66; 
+
+    public static final double PeakCurrentLimit = 30; 
+    public static final double ContinuesCurrentLimit = 25; 
+    public static final double PeakCurrentTime = 0.1; 
+    public static final boolean IsCurrentLimitEnabled = true; 
+
 
     public static final State IDLE = StatesConstants.IDLE;
     public static final State FORWARD = new State("FORWARD");

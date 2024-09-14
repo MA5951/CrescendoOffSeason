@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Feeder.IOs.FeederIO;
 import frc.robot.Subsystem.Shooter.Shooter;
+import frc.robot.commands.Swerve.TeleopSwerveController;
 
 public class Feeder extends StateControlledSubsystem {
   private static Feeder feeder;
@@ -97,7 +98,7 @@ public class Feeder extends StateControlledSubsystem {
 
   private boolean StationaryShootCanMove() {
     return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-         ;// && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
+         && TeleopSwerveController.atPoint;// && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
     //return false;
   }
 

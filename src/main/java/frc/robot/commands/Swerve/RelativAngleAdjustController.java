@@ -52,6 +52,10 @@ public class RelativAngleAdjustController extends Command {
     return speeds;
   }
 
+  public boolean getAtPoint() {
+    return pid.atSetpoint();
+  }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

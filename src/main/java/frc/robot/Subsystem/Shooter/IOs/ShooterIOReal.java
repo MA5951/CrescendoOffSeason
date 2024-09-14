@@ -99,6 +99,9 @@ public class ShooterIOReal implements ShooterIO{
         leftMotorConfig.Slot0.kI = ShooterConstants.kI;
         leftMotorConfig.Slot0.kD = ShooterConstants.kD;
 
+        leftMotorConfig.Voltage.PeakForwardVoltage = 12;
+        leftMotorConfig.Voltage.PeakReverseVoltage = -12;
+
 
         leftMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.IsCurrentLimitEnabled;
         leftMotorConfig.CurrentLimits.SupplyCurrentLimit = ShooterConstants.ContinuesCurrentLimit;
@@ -112,6 +115,9 @@ public class ShooterIOReal implements ShooterIO{
         rightMotorConfig.Slot0.kP = ShooterConstants.kP;
         rightMotorConfig.Slot0.kI = ShooterConstants.kI;
         rightMotorConfig.Slot0.kD = ShooterConstants.kD;
+
+        rightMotorConfig.Voltage.PeakForwardVoltage = 12;
+        rightMotorConfig.Voltage.PeakReverseVoltage = -12;
 
 
         rightMotorConfig.CurrentLimits.SupplyCurrentLimitEnable = ShooterConstants.IsCurrentLimitEnabled;

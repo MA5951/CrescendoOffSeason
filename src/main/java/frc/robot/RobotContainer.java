@@ -52,6 +52,7 @@ public class RobotContainer {
   public void setIDLE() {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
+      RobotConstants.SUPER_STRUCTURE.isOdometry = false;
       Arm.getInstance().setTargetState(ArmConstants.INTAKE);
       Feeder.getInstance().setTargetState(FeederConstants.IDLE);
       Intake.getInstance().setTargetState(IntakeConstants.IDLE);

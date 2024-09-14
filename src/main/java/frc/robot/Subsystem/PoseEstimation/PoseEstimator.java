@@ -8,6 +8,7 @@ package frc.robot.Subsystem.PoseEstimation;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedPose2d;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
@@ -49,7 +50,8 @@ public class PoseEstimator {
     }
 
     public void updateVision() {
-        if (vision.isTag()) {
+        if (vision.isTag() && PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
+            //robotPoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(getXYVisionDeviation(), getXYVisionDeviation(), 9999999));
             robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
         }
     }
@@ -58,9 +60,9 @@ public class PoseEstimator {
         return robotPoseEstimator.getEstimatedPosition();
     }
 
-    // public double getXYVisionDeviation() {
-    //     return PoseEstimatorConstants.xyDEVS_COEFFICIENT * Math.pow(avgDistance, 2) / tagPoses.size();
-    // }
+    public double getXYVisionDeviation() {
+        return PoseEstimatorConstants.xyDEVS_COEFFICIENT * Math.pow(vision.getDistance(), 2) / vision.getTagArea();
+    }
 
     public void update() {
         updateOdometry();

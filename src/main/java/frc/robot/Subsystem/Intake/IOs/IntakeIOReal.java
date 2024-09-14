@@ -53,6 +53,9 @@ public class IntakeIOReal implements IntakeIO {
         motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         motorConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
+        motorConfig.Voltage.PeakForwardVoltage = 12;
+        motorConfig.Voltage.PeakReverseVoltage = -12;
+
         motorConfig.CurrentLimits.SupplyCurrentLimitEnable = IntakeConstants.IsCurrentLimitEnabled;
         motorConfig.CurrentLimits.SupplyCurrentLimit = IntakeConstants.ContinuesCurrentLimit;
         motorConfig.CurrentLimits.SupplyCurrentThreshold = IntakeConstants.PeakCurrentLimit;

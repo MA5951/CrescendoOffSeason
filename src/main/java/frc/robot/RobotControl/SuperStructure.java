@@ -32,6 +32,7 @@ public class SuperStructure {
     private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());
     private Pose2d feedingPose = new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());;
     private boolean updatedAfterDS = false;
+    public boolean isOdometry;
 
     private LoggedBool isNoteLog;
     private LoggedBool isInWarmupLog;
@@ -53,9 +54,6 @@ public class SuperStructure {
         robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
         angleToSpaekerLog = new LoggedDouble("/SuperStructure/Angle To Speaker");
         board = new MAShuffleboard("SuperStructure");
-        board.addNum("Distance", 3);
-
-        
     }
 
     public void updateAfterDSConnect() {//TODO
@@ -92,7 +90,7 @@ public class SuperStructure {
 
     public ShootingParameters getShootingPrameters() {
             return new ShootingParameters(4000, 8000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5),
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 1),
                 getDistanceToTag());
             //return new ShootingParameters(0, 0, 0, 0);
     }
@@ -134,9 +132,10 @@ public class SuperStructure {
     }
 
     public double getDistanceToTag() {
-        if (Vision.getInstance().isTag() && Vision.getInstance().getDistance() < 3 && Vision.getInstance().getTagID() ==7) {
+        if (Vision.getInstance().isTag() && Vision.getInstance().getTagID() ==7 && !isOdometry) {
             return Vision.getInstance().getDistance();
         } else {
+            isOdometry = true;
             if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
             } else if (DriverStation.getAlliance().get() == Alliance.Red) {
@@ -145,15 +144,6 @@ public class SuperStructure {
                 return 0;
             }
         }
-        // if (DriverStation.getAlliance().get() == Alliance.Blue) {
-        //         return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
-        //     } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-        //         return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.RED_SPEAKER.getTranslation()) + 0.04;
-        //     } else {
-        //         return 0;
-        //     }
-        //return Vision.getInstance().getDistance();
-        //return 0d;
     }
 
     public double getSetPointForAline() {

@@ -23,6 +23,7 @@ public class TeleopSwerveController extends Command {
   private ChassisSpeeds angleAdjustControllerSpeeds;
   private ChassisSpeeds relativAngleAdjustControllerSpeeds;
   private boolean isOdometry;
+  public static boolean atPoint;
 
   private SwerveSubsystem swerve;
   private ChassisSpeeds robotSpeeds;
@@ -47,6 +48,10 @@ public class TeleopSwerveController extends Command {
     relativAngleAdjustCommand.initialize();
   }
 
+  public boolean getAtPoint() {
+    return angleAdjustCommand.getAtPoint() || relativAngleAdjustCommand.getAtPoint();
+  }
+
   @Override
   public void execute() {
     driveCommand.execute();
@@ -55,6 +60,8 @@ public class TeleopSwerveController extends Command {
     driveControllerSpeeds = driveCommand.getChassisSpeeds();
     angleAdjustControllerSpeeds = angleAdjustCommand.getChassisSpeeds();
     relativAngleAdjustControllerSpeeds = relativAngleAdjustCommand.getChassisSpeeds();
+
+    atPoint = angleAdjustCommand.getAtPoint() || relativAngleAdjustCommand.getAtPoint();
 
     if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
     || Vision.getInstance().getTagID() == 4 )&& !isOdometry) {

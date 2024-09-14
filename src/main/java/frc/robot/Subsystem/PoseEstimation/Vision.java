@@ -93,6 +93,10 @@ public class Vision extends SubsystemBase {
     limelight.filterTags(new int[] {});
   }
 
+  public double getTagArea() {
+    return limelight.getRawDetection().ta;
+  }
+
   public static Vision getInstance() {
     if (vision == null) {
       vision = new Vision();

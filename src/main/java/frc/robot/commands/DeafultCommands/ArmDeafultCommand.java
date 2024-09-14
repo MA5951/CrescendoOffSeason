@@ -47,9 +47,9 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
     switch (arm.getTargetState().getName()) {
       case "IDLE":
       if (arm.getLastState() == ArmConstants.HOME ||arm.getLastState() == ArmConstants.INTAKE ) {
-        arm.setVoltage(arm.getFeedForwardVoltage() * 1);
+        arm.setVoltage(-arm.getFeedForwardVoltage() * 1);
       } else {
-        arm.setVoltage(arm.getFeedForwardVoltage());
+        arm.setVoltage(-arm.getFeedForwardVoltage());
       }
         break;
       case "FOLLOW_SPEAKER":

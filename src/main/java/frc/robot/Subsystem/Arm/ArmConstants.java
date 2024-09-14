@@ -33,7 +33,7 @@ public class ArmConstants {
     public static final double kI = 0;
     public static final double kD = 0;
     public static final double kCRUSIE_VELOCITY = ConvUtil.RPMtoRPS(35);
-    public static final double kACCELERATION = 300;
+    public static final double kACCELERATION = 270;
     public static final double kJERK = 0;
     public static final double kTOLORANCE = 0.5;
     public static final double GEAR = 1/ 0.0073;
@@ -60,7 +60,7 @@ public class ArmConstants {
     public static final Pose3d SIM_ARM_OFFSET = new Pose3d(0.035, -0.002 ,  0.613, new Rotation3d(0, 0, 0));
 
     public static final double PeakCurrentLimit = 40; 
-    public static final double ContinuesCurrentLimit = 35; 
+    public static final double ContinuesCurrentLimit = 30; 
     public static final double PeakCurrentTime = 0.1; 
     public static final boolean IsCurrentLimitEnabled = true; 
 

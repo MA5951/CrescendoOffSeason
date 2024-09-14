@@ -189,7 +189,7 @@ public class SwerveConstants {
         public final static double THATA_KD = 0.0;
         public final static double ANGLE_PID_TOLORANCE = Math.toRadians(6);
 
-        public final static double RELATIV_THATA_KP = 0.002;
+        public final static double RELATIV_THATA_KP = 0.0025;
         public final static double RELATIV_THATA_KI = 0;
         public final static double RELATIV_THATA_KD = 0.0016;
         public final static double RELATIV_ANGLE_PID_TOLORANCE = 1;
