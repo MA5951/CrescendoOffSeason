@@ -15,7 +15,7 @@ public class VisionConstants {
 
     public final static double[] aprilTagsHights = { //TODO
         1.22, 1.22, 1.32, 1.32, 1.22,
-         1.22, 1.425, 1.425, 1.22, 1.22,
+         1.22, 1.455, 1.455, 1.22, 1.22,
          1.21, 1.21, 1.21, 1.21, 1.21, 1.21
        };
 

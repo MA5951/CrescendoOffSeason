@@ -32,9 +32,9 @@ public class DriveController extends Command {
     ySpeed = Controller.getLeftY();
     turningSpeed = Controller.getRightX();
 
-    xSpeed = Math.abs(xSpeed) < 0.1 ? 0 : xSpeed * -1 * 0.2;
-    ySpeed = Math.abs(ySpeed) < 0.1 ? 0 : ySpeed * -1 * 0.2;
-    turningSpeed = (Math.abs(turningSpeed) < 0.1 ? 0 : turningSpeed) * -1 * 0.2;
+    xSpeed = Math.abs(xSpeed) < 0.1 ? 0 : xSpeed * -1 * 0.4;
+    ySpeed = Math.abs(ySpeed) < 0.1 ? 0 : ySpeed * -1 * 0.4;
+    turningSpeed = (Math.abs(turningSpeed) < 0.1 ? 0 : turningSpeed) * -1 * 0.4;
 
     speed = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed,
                   new Rotation2d(

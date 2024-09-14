@@ -60,6 +60,16 @@ public class RobotContainer {
       Vision.getInstance().resetFilter();
   }
 
+  public void setIDLE_AFTER_INTAKE() {
+      lastRobotState = currentRobotState;
+      currentRobotState = RobotConstants.IDLE;
+      RobotConstants.SUPER_STRUCTURE.isOdometry = false;
+      Arm.getInstance().setTargetState(ArmConstants.INTAKE);
+      Intake.getInstance().setTargetState(IntakeConstants.IDLE);
+      Shooter.getInstance().setTargetState(ShooterConstants.IDLE);
+      Vision.getInstance().resetFilter();
+  }
+
   public void setINTAKE() {
       lastRobotState = currentRobotState;  
       currentRobotState = RobotConstants.INTAKE;
@@ -146,8 +156,8 @@ public class RobotContainer {
     //Start, stop  and inturupt intake
     new Trigger(() -> driverController.getHID().getR1Button() && !RobotConstants.SUPER_STRUCTURE.isNote()).onTrue(new InstantCommand(() -> setINTAKE()));
     
-    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE())
-    .andThen(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))));
+    new Trigger(() -> currentRobotState == RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))
+    .andThen(new InstantCommand(() -> setIDLE_AFTER_INTAKE())));
 
 
     //Start, stop and inturupt amp
@@ -158,11 +168,13 @@ public class RobotContainer {
     && RobotConstants.SUPER_STRUCTURE.shouldCloseArmAfterAmp()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Start and stop warm up //add not amp
-    // new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNote() && currentRobotState != RobotConstants.SOURCE_INTAKE).onTrue(new InstantCommand(() -> setWARMING()));
-    // new Trigger(() -> !RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && currentRobotState == RobotConstants.WARMING).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && currentRobotState != RobotConstants.SOURCE_INTAKE
+    && currentRobotState != RobotConstants.INTAKE && Feeder.getInstance().getTargetState() ==  FeederConstants.IDLE).onTrue(new InstantCommand(() -> setWARMING()));
+    new Trigger(() -> (!RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() || !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) && currentRobotState == RobotConstants.WARMING ).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Starts and stops Shooting 
-    new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+    new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING
+    && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() <= 3.5).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
     
     new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
 
@@ -175,8 +187,7 @@ public class RobotContainer {
     .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.SUBWOOF_SHOOTING_PARAMETERS))
     .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
     
-    new Trigger(() -> currentRobotState == RobotConstants.PRESET_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNote() 
-    && RobotConstants.SUPER_STRUCTURE.getFeedingPrameters().getArmAngle() != RobotConstants.LOW_FEEDING_SHOOTING_PARAMETERS.getArmAngle()).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> currentRobotState == RobotConstants.PRESET_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Ejecting while held
     new Trigger(() -> driverController.getHID().getCrossButton() )
@@ -187,7 +198,7 @@ public class RobotContainer {
 
     //Feeding?
     new Trigger(() -> driverController.getHID().getPOV() == 270 && currentRobotState != RobotConstants.SOURCE_INTAKE)
-    .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.LOW_FEEDING_SHOOTING_PARAMETERS))
+    .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.FEEDING_SHOOTING_PARAMETERS.get()))
     .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
 
     // //Low Feed

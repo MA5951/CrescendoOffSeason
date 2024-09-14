@@ -20,7 +20,7 @@ public class ShooterConstants {
     public static final double kP = 0.4;
     public static final double kI = 0.0002;
     public static final double kD = 0;
-    public static final double kTOLORANCE = 50;
+    public static final double kTOLORANCE = 200;//50
     public static final double GEAR = 0.5;
     public static final Supplier<Double> kTOLORANCE_BETWEEN_SIDES = () ->
         Math.abs(Shooter.getInstance().getRightSetPoint() - Shooter.getInstance().getLeftSetPoint()) + 100;
@@ -31,7 +31,7 @@ public class ShooterConstants {
     public static final double SIM_kD = 0;
     public static final double SIM_kI = 0;
 
-    public static final double EJECTING_SPEED =1000;
+    public static final double EJECTING_SPEED =4500;//1000
     public static final double SOURCE_INTAKE_VOLTAGE = -3.5;
     public static final double SOURCE_INTAKE_SPEED_LIMIT = 10;
 

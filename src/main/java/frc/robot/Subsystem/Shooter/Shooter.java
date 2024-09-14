@@ -89,15 +89,18 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public boolean leftAtPoint() {
-    return shooterIO.getLeftError() <= ShooterConstants.kTOLORANCE;
+    //return shooterIO.getLeftError() <= ShooterConstants.kTOLORANCE;
+    return Math.abs(getLeftSetPoint() - getLeftSpeed()) <= ShooterConstants.kTOLORANCE;
   }
 
   public boolean rightAtPoint() {
-    return shooterIO.getRightError() <= ShooterConstants.kTOLORANCE;
+    //return shooterIO.getRightError() <= ShooterConstants.kTOLORANCE;
+    return Math.abs(getRightSetPoint() - getRightSpeed()) <= ShooterConstants.kTOLORANCE;
   }
 
   public boolean atPoint() {
-    return leftAtPoint() && rightAtPoint() && Math.abs(getRightSetPoint() - getLeftSetPoint()) <= ShooterConstants.kTOLORANCE_BETWEEN_SIDES.get();
+    return leftAtPoint() && rightAtPoint() && Math.abs(getRightSetPoint() - getLeftSetPoint()) <= ShooterConstants.kTOLORANCE_BETWEEN_SIDES.get() 
+    && getLeftSetPoint() != 1000;
   }
 
   public void setRightVoltage(double voltage) {

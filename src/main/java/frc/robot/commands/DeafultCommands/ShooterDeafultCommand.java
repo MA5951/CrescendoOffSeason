@@ -47,7 +47,9 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
         shooter.setVoltage(0);
         break;
       case "WARM":
-        shooter.setShootingParameterSpeeds(RobotConstants.SUPER_STRUCTURE.getWarmingParameters());
+        //shooter.setVoltage(RobotConstants.WARM_VOLTAGE);
+        shooter.setShootingParameterSpeeds(new ShootingParameters(4000, 4000, 0, 0));
+        break;
       case "SHOOTING":
         shooter.setShootingParameterSpeeds(RobotConstants.SUPER_STRUCTURE.getShootingPrameters());
         break;

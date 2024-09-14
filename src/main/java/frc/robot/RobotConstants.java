@@ -5,11 +5,14 @@
 package frc.robot;
 
 
+import java.util.function.Supplier;
+
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.RobotControl.SuperStructure;
+import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.VisionConstants;
 import frc.robot.Utils.ShootingParameters;
 
@@ -36,10 +39,13 @@ public class RobotConstants {
     public static final double FeedingOffsetX = 1;
     public static final double FeedingTolerance = 15;
 
-    public static final ShootingParameters WARM_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
+    public static final double WARM_VOLTAGE = 2;
 
-    public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(0, 0, 0 , 0);
-    public static final ShootingParameters LOW_FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(4000, 4000, 12 , 0);
+    public static final double DISTANCE_TO_WARM = 6;//Warm raidus in meters
+    public static final double DISTANCE_TO_CLOSE_ARM = 0.2;//
+    public static final double DISTANCE_TO_HIGH_FEED = 5;
+
+    public static final Supplier<ShootingParameters> FEEDING_SHOOTING_PARAMETERS = () -> new ShootingParameters(3000, 3000, 40, 0);;
     public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 61, 0);
     public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(4000, 8000,  36.4 , 3.5);
 //    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(3000, 6000, 36 , 0);
@@ -74,9 +80,6 @@ public class RobotConstants {
     public static final Pose2d RED_SPEAKER = new Pose2d(16.579 , 5.548 , new Rotation2d(0));
     public static final Pose2d BLUE_AMP = new Pose2d(1.842 , 8.204 , new Rotation2d(0));
     public static final Pose2d RED_AMP = new Pose2d(14.701 , 8.204 , new Rotation2d(0));
-
-    public static final double DISTANCE_TO_WARM = 5;//Warm raidus in meters
-    public static final double DISTANCE_TO_CLOSE_ARM = 0.2;//
 
     public static final double[][] BUMPER_TO_SUBWOOFER_DISTANCE = {
        {0  , 0.25 ,   0.5 ,  0.75 ,    1 , 1.25 , 1.5  , 1.75 ,    2 , 2.30 ,  2.5 , 2.75 , 3 , 3.25 , 3.5  , 3.75 ,  4   , 4.25 , 4.5 , 4.75 },

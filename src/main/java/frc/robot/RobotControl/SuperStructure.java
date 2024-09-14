@@ -80,23 +80,19 @@ public class SuperStructure {
         presetParameters = parameters;
     }
 
-    public ShootingParameters getWarmingParameters() {
-        return RobotConstants.WARM_SHOOTING_PARAMETERS;
-    }
-
     public ShootingParameters getPRESETParameters() {
         return presetParameters;
     }
 
     public ShootingParameters getShootingPrameters() {
-            return new ShootingParameters(4000, 8000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 1),
+            return new ShootingParameters(4000, 4000, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.5),//1//5
                 getDistanceToTag());
             //return new ShootingParameters(0, 0, 0, 0);
     }
 
     public ShootingParameters getFeedingPrameters() {
-        return RobotConstants.FEEDING_SHOOTING_PARAMETERS;
+        return RobotConstants.FEEDING_SHOOTING_PARAMETERS.get();
     }
 
     //Cirecle between 0 to 360 //Always positive
@@ -104,9 +100,9 @@ public class SuperStructure {
         return Math.abs((SwerveSubsystem.getInstance().getFusedHeading() - SwerveSubsystem.getInstance().getOffsetAngle()) % 360);
     }
  
-    // public boolean isInWarmUpZone() {
-    //     return getDistanceToSpeaker() < RobotConstants.DISTANCE_TO_WARM;
-    // }
+    public boolean isInWarmUpZone() {
+        return getDistanceToTag() < RobotConstants.DISTANCE_TO_WARM;
+    }
 
     public boolean isHeading(Pose2d point, double tolerance) {
         double angle = getAngleBetween(speakerPose, PoseEstimator.getInstance().getEstimatedRobotPose());
@@ -132,7 +128,7 @@ public class SuperStructure {
     }
 
     public double getDistanceToTag() {
-        if (Vision.getInstance().isTag() && Vision.getInstance().getTagID() ==7 && !isOdometry) {
+        if (Vision.getInstance().isTag() && Vision.getInstance().getTagID() ==7 && !isOdometry && Vision.getInstance().getDistance() < 4.5) {
             return Vision.getInstance().getDistance();
         } else {
             isOdometry = true;

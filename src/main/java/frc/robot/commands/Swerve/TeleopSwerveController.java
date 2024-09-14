@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
+import frc.robot.Subsystem.Feeder.Feeder;
+import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -65,14 +67,14 @@ public class TeleopSwerveController extends Command {
 
     if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
     || Vision.getInstance().getTagID() == 4 )&& !isOdometry) {
-      robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond , driveControllerSpeeds.vyMetersPerSecond, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Relativ Adjust");
     } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING){
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust");
       isOdometry = true;
-      robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond , driveControllerSpeeds.vyMetersPerSecond, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } else {
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Drive Controller");
