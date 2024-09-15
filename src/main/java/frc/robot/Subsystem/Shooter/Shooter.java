@@ -99,8 +99,7 @@ public class Shooter extends StateControlledSubsystem {
   }
 
   public boolean atPoint() {
-    return leftAtPoint() && rightAtPoint() && Math.abs(getRightSetPoint() - getLeftSetPoint()) <= ShooterConstants.kTOLORANCE_BETWEEN_SIDES.get() 
-    && getLeftSetPoint() != 1000;
+    return leftAtPoint() && rightAtPoint() && Math.abs(getRightSetPoint() - getLeftSetPoint()) <= ShooterConstants.kTOLORANCE_BETWEEN_SIDES.get();
   }
 
   public void setRightVoltage(double voltage) {

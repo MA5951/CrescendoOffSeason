@@ -98,7 +98,7 @@ public class Feeder extends StateControlledSubsystem {
 
   private boolean StationaryShootCanMove() {
     return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-         && TeleopSwerveController.atPoint; // && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
+         && TeleopSwerveController.atPoint && !RobotConstants.SUPER_STRUCTURE.isRobotMoving(); // && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
     //return false;
   }
 

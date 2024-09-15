@@ -140,7 +140,7 @@ public class SwerveConstants {
         public final static int SLOT_CONFIG = 0;
         
         // MotionMagic PIDF
-        public final static double TURNING_kP = 23;
+        public final static double TURNING_kP = 40;
         public final static double TURNING_kI = 0;
         public final static double TURNING_kD = 0;
         public final static double TURNING_kS = 0;
@@ -189,15 +189,15 @@ public class SwerveConstants {
         public final static double THATA_KD = 0.0;
         public final static double ANGLE_PID_TOLORANCE = Math.toRadians(6);
 
-        public final static double RELATIV_THATA_KP = 0.01;
+        public final static double RELATIV_THATA_KP = 0.013;
         public final static double RELATIV_THATA_KI = 0;
         public final static double RELATIV_THATA_KD = 0.0016;
         public final static double RELATIV_ANGLE_PID_TOLORANCE = 2;
 
         //Module Limits
-        public final static ModuleLimits DEFUALT =  new ModuleLimits(4.5, Units.feetToMeters(75.0) , Units.degreesToRadians(600)); 
-        public final static ModuleLimits Slow40Precent = new ModuleLimits(4.5 * 0.4, Units.feetToMeters(75.0), Units.degreesToRadians(600)); 
-        public final static ModuleLimits Slow10Precent = new ModuleLimits(4.5 * 0.1, Units.feetToMeters(75.0), Units.degreesToRadians(600)); 
+        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(800)); 
+        public final static ModuleLimits Slow40Precent = new ModuleLimits(4.5 * 0.4, Units.feetToMeters(75.0), Units.degreesToRadians(800)); 
+        public final static ModuleLimits Slow10Precent = new ModuleLimits(4.5 * 0.1, Units.feetToMeters(75.0), Units.degreesToRadians(800)); 
         
         
         //Collision Detector

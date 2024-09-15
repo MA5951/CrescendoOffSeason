@@ -41,7 +41,7 @@ public class RobotConstants {
 
     public static final double WARM_VOLTAGE = 2;
 
-    public static final double DISTANCE_TO_WARM = 6;//Warm raidus in meters
+    public static final double DISTANCE_TO_WARM = 7.5;//Warm raidus in meters
     public static final double DISTANCE_TO_CLOSE_ARM = 0.2;//
     public static final double DISTANCE_TO_HIGH_FEED = 5;
 
@@ -53,6 +53,7 @@ public class RobotConstants {
 
     //Interpolation\[]
     //Shooting Points
+
     private static final ShootingParameters Point1 = new ShootingParameters(0, 0, 0 , 0);
 
     private static final ShootingParameters Point2 = new ShootingParameters(0, 0, 0 , 0);

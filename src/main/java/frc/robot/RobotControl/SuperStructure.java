@@ -85,8 +85,8 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-            return new ShootingParameters(4000, 4000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.5),//1//5
+            return new ShootingParameters(5500, 5500, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 3),//1//5
                 getDistanceToTag());
             //return new ShootingParameters(0, 0, 0, 0);
     }
@@ -124,14 +124,14 @@ public class SuperStructure {
     }
 
     public boolean isRobotMoving() {
-        return SwerveSubsystem.getInstance().getRobotRelativeSpeeds() == new ChassisSpeeds(0,0,0);
+        return !(SwerveSubsystem.getInstance().getVelocity() < 0.1);
     }
 
     public double getDistanceToTag() {
-        if (Vision.getInstance().isTag() && Vision.getInstance().getTagID() ==7 && !isOdometry && Vision.getInstance().getDistance() < 4.5) {
+        if (Vision.getInstance().isTag() && Vision.getInstance().getTagID() ==7  && Vision.getInstance().getDistance() < 9) { //!isOdometry
             return Vision.getInstance().getDistance();
         } else {
-            isOdometry = true;
+            //isOdometry = true;
             if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
             } else if (DriverStation.getAlliance().get() == Alliance.Red) {

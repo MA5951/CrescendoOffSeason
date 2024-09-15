@@ -21,6 +21,7 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
@@ -174,7 +175,7 @@ public class RobotContainer {
 
     //Starts and stops Shooting 
     new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING
-    && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() <= 3.5).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+    && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() <= 4.5).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
     
     new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
 
@@ -212,6 +213,10 @@ public class RobotContainer {
     new Trigger(() -> currentRobotState == RobotConstants.SOURCE_INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInFeeder() 
     && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE())
      .andThen(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))));
+
+    new Trigger(() -> driverController.getHID().getR2Button()).whileTrue(
+      new InstantCommand(() -> SwerveSubsystem.getInstance().setCurrentLimits(SwerveConstants.Slow40Precent))
+    ).whileFalse(new InstantCommand(() -> SwerveSubsystem.getInstance().setCurrentLimits(SwerveConstants.DEFUALT)));
 
   }
 

@@ -53,11 +53,12 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
       }
         break;
       case "FOLLOW_SPEAKER":
-        if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() > 3.5) {
-          arm.runSetPoint(36);
-        } else {
-          arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
-        }
+        // if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() > 3.5) {
+        //   arm.runSetPoint(36);
+        // } else {
+        //   arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
+        // }
+        arm.runSetPoint(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle());
         break;
       case "SOURCE_INTAKE":
         arm.runSetPoint(ArmConstants.SOURCE_INTAKE_POSE);

@@ -51,7 +51,8 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
         case "FORWARD":
           if (RobotContainer.currentRobotState == RobotConstants.INTAKE || RobotContainer.currentRobotState == RobotConstants.EJECT) {
             feeder.turnOnForward();
-          } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
+          } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING
+          ) {
               feeder.turnOnForward();
           } 
           break;
