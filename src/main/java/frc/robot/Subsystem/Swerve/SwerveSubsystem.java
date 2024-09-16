@@ -7,7 +7,6 @@ package frc.robot.Subsystem.Swerve;
 import com.ma5951.utils.RobotConstantsMAUtil;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedSwerveStates;
-import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,7 +14,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //The orde of te modules is a STANDART and it is
 //Front Left
@@ -45,7 +43,6 @@ SwerveSubsystem extends SubsystemBase {
 
   private final SwerveModule[] modulesArry = SwerveConstants.getModulesArry();
   private final Gyro gyro = SwerveConstants.getGyro();
-  private double yaw = 0;
   private final SwerveDriveKinematics kinematics = SwerveConstants.kinematics;
   private SwerveModuleState[] optimizedSetpointStates = new SwerveModuleState[4];
   private SwerveModuleState[] currentStates = new SwerveModuleState[4];

@@ -4,8 +4,6 @@
 
 package frc.robot.Subsystem.Shooter;
 
-import com.ma5951.utils.DashBoard.MAShuffleboard;
-import com.ma5951.utils.DashBoard.MAShuffleboard.pidControllerGainSupplier;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
@@ -41,7 +39,6 @@ public class Shooter extends StateControlledSubsystem {
   private LoggedBool SourceIntakeCanMove;
   private LoggedBool CanMove;
 
-  private pidControllerGainSupplier pidSupplier;
 
   private Shooter() {
     super(ShooterConstants.SYSTEM_STATES , "Shooter");
@@ -50,7 +47,6 @@ public class Shooter extends StateControlledSubsystem {
     board.addNum("Left Speed Adjust", 0);
     board.addNum("Right Speed Adjust", 0);
     board.addBoolean("Shooter Manuel Mode", false);
-    pidSupplier = board.getPidControllerGainSupplier("Shooter PID");
 
     leftSpeed = new LoggedDouble("/Subsystems/Shooter/Left Speed");
     rightSpeed = new LoggedDouble("/Subsystems/Shooter/Right Speed");
@@ -210,7 +206,6 @@ public class Shooter extends StateControlledSubsystem {
     EjectCanMove.update(EjectCanMove());
     SourceIntakeCanMove.update(SourceIntakeCanMove());
 
-    //shooterIO.updatePIDValues(pidSupplier.getKP() , pidSupplier.getKI() , pidSupplier.getKD());
 
   }
 }

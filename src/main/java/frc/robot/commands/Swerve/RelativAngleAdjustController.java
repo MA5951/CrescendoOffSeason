@@ -9,17 +9,12 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
-import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
 public class RelativAngleAdjustController extends Command {
   private static PIDController pid;
 
-  private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-  private Supplier<Double> ty;
-  private boolean useGyro;
   private ChassisSpeeds speeds;
 
   public static boolean atPoint() {

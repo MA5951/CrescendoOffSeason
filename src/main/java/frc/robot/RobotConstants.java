@@ -12,7 +12,6 @@ import com.ma5951.utils.StateControl.StatesTypes.State;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.RobotControl.SuperStructure;
-import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.VisionConstants;
 import frc.robot.Utils.ShootingParameters;
 

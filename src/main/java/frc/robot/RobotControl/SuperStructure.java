@@ -4,14 +4,12 @@
 
 package frc.robot.RobotControl;
 
-import com.ma5951.utils.DashBoard.MAShuffleboard;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.RobotConstants;
@@ -42,7 +40,6 @@ public class SuperStructure {
     private LoggedDouble distanceToSpeakerLog;
     private LoggedDouble robotHeadingLog;
     private LoggedDouble angleToSpaekerLog;
-    private MAShuffleboard board;
         
     public SuperStructure() {
         isNoteLog = new LoggedBool("/SuperStructure/Is Note");
@@ -53,7 +50,6 @@ public class SuperStructure {
         distanceToSpeakerLog = new LoggedDouble("/SuperStructure/Distance To Speaker");
         robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
         angleToSpaekerLog = new LoggedDouble("/SuperStructure/Angle To Speaker");
-        board = new MAShuffleboard("SuperStructure");
     }
 
     public void updateAfterDSConnect() {//TODO
@@ -231,7 +227,7 @@ public class SuperStructure {
 
     public void update() {
         isNoteLog.update(isNote());
-        //isInWarmupLog.update(isInWarmUpZone());
+        isInWarmupLog.update(isInWarmUpZone());
         isHeadingForShootingLog.update(isHeadingForShooting());
         isHeadingForFeedingLog.update(isHeadingForFeeding());
         isRobotMovingLog.update(isRobotMoving());

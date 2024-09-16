@@ -18,24 +18,19 @@ public class SwerveConstants {
         
         
         // swerve constants
-        public final static double WIDTH = 0.75;
-        public final static double LENGTH = 0.75;
+        public final static double WIDTH = 0.58;
+        public final static double LENGTH = 0.59;
         public final static double RADIUS = Math.sqrt(
                         Math.pow(WIDTH, 2) + Math.pow(LENGTH, 2)) / 2.0;
 
         // Modules constants
-        public final static double TURNING_GEAR_RATIO = 150d / 7;//21.42
+        public final static double TURNING_GEAR_RATIO = 150d / 7;
         public final static double DRIVE_GEAR_RATIO = 6.12;
         public final static double WHEEL_RADIUS = 0.0508;
         public final static double WHEEL_CIRCUMFERENCE =  WHEEL_RADIUS * Math.PI;
 
         public final static double VELOCITY_TIME_UNIT_IN_SECONDS = 1;
 
-        // public final static double DISTANCE_PER_PULSE = (((2 * WHEEL_RADIUS * Math.PI)
-        //                 / DRIVE_GEAR_RATIO)); // * 0.92378753;
-        // public final static double ANGLE_PER_PULSE = 360d / TURNING_GEAR_RATIO;
-
-        //TODO revers motors
         // front left module
         public final static boolean FRONT_LEFT_MOUDLE_IS_DRIVE_MOTOR_REVERSED = true;
         public final static boolean FRONT_LEFT_MODULES_IS_TURNING_MOTOR_REVERSED = true;
@@ -72,10 +67,8 @@ public class SwerveConstants {
                 WIDTH / 2,
                 -LENGTH / 2);
         
-        public static final double distanceFromCenter = Math.sqrt(Math.pow(WIDTH, 2) + Math.pow(LENGTH, 2)) / 2;
 
-
-        //IO
+        //IOs
         public static final SwerveModule[] getModulesArry() {
                 if (Robot.isReal()) {
                         final SwerveModule frontLeftModule = new SwerveModuleTalonFX(
@@ -139,7 +132,7 @@ public class SwerveConstants {
         // Modules config
         public final static int SLOT_CONFIG = 0;
         
-        // MotionMagic PIDF
+        // MotionMagic PID
         public final static double TURNING_kP = 40;
         public final static double TURNING_kI = 0;
         public final static double TURNING_kD = 0;
@@ -172,7 +165,7 @@ public class SwerveConstants {
         public final static boolean DRIVE_ENBLE_CURRENT_LIMIT = true;
 
         //Swerve physics
-        public final static double MAX_VELOCITY =  5.1;
+        public final static double MAX_VELOCITY =  5.2;
         //public final static double MAX_ACCELERATION = (10.91 / 1.15) * 1.3; 
         public final static double MAX_ANGULAR_VELOCITY = MAX_VELOCITY / RADIUS;// Radians
         public final static SwerveDriveKinematics kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeftLocation, SwerveConstants.frontRightLocation,

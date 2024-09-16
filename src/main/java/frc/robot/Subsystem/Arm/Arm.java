@@ -4,8 +4,6 @@
 
 package frc.robot.Subsystem.Arm;
 
-import com.ma5951.utils.DashBoard.MAShuffleboard;
-import com.ma5951.utils.DashBoard.MAShuffleboard.pidControllerGainSupplier;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedPose3d;
@@ -38,8 +36,6 @@ public class Arm extends StateControlledSubsystem {
   private LoggedBool LimitLog;
 
 
-  private pidControllerGainSupplier pidSupplier;
-
   private Arm() {
     super(ArmConstants.SUBSYSTEM_STATES , "Arm");
     armPosition = ArmConstants.SIM_ARM_OFFSET;
@@ -52,7 +48,6 @@ public class Arm extends StateControlledSubsystem {
     LimitLog = new LoggedBool("/Subsystems/Arm/Limit");
     feedForawdLog = new LoggedDouble("/Subsystems/Arm/FeedForward");
     armIO.setNutralMode(true);
-    pidSupplier = board.getPidControllerGainSupplier("Arm PID");
     board.addNum("Angle Offset", 0);
 
     board.addCommand("Reset Pose", new InstantCommand(() -> resetPosition(ArmConstants.ZERO_POSE)));
@@ -149,7 +144,6 @@ public class Arm extends StateControlledSubsystem {
     board.addNum("Set Point", getSetPoint());
     board.addNum("Current Pose", getArmPosition());
 
-    //armIO.updatePIDValues(pidSupplier.getKP() , pidSupplier.getKI() , pidSupplier.getKD());
 
     armPosition = new Pose3d(armPosition.getX(), armPosition.getY(), armPosition.getZ(), 
   new Rotation3d(0, ConvUtil.DegreesToRadians(-getArmPosition()), 0));

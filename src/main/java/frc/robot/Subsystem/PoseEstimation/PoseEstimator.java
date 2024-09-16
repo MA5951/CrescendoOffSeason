@@ -8,7 +8,6 @@ package frc.robot.Subsystem.PoseEstimation;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedPose2d;
 
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
