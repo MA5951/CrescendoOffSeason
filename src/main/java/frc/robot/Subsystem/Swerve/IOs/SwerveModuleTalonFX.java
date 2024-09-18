@@ -4,6 +4,7 @@ package frc.robot.Subsystem.Swerve.IOs;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -29,6 +30,7 @@ public class SwerveModuleTalonFX implements SwerveModule {
     private boolean isTurningMotorReversed;
 
     private MotionMagicVoltage turnController = new MotionMagicVoltage(0);
+    private PositionVoltage pidTurnController = new PositionVoltage(0);
     private VelocityVoltage driveController = new VelocityVoltage(0);
 
 
@@ -127,9 +129,9 @@ public class SwerveModuleTalonFX implements SwerveModule {
         turningConfiguration.Slot0.kP = SwerveConstants.TURNING_kP;
         turningConfiguration.Slot0.kI = SwerveConstants.TURNING_kI;
         turningConfiguration.Slot0.kD = SwerveConstants.TURNING_kD;
-        turningConfiguration.MotionMagic.MotionMagicCruiseVelocity = SwerveConstants.TURNING_CTUISE_VELOCITY;
-        turningConfiguration.MotionMagic.MotionMagicAcceleration = SwerveConstants.TURNING_ACCELERATION;
-        turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
+        //turningConfiguration.MotionMagic.MotionMagicCruiseVelocity = SwerveConstants.TURNING_CTUISE_VELOCITY;
+        //turningConfiguration.MotionMagic.MotionMagicAcceleration = SwerveConstants.TURNING_ACCELERATION;
+        //turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
 
 
 
@@ -264,7 +266,8 @@ public class SwerveModuleTalonFX implements SwerveModule {
 
     public void turningUsingPID(double setPointRdians) {
         //Degrees
-        turningMotor.setControl(turnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
+        //turningMotor.setControl(turnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
+        turningMotor.setControl(pidTurnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
     }
 
     public void driveUsingPID(double setPointMPS) {

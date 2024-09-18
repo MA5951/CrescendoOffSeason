@@ -40,11 +40,14 @@ public class LED extends LEDBase {
 
     @Override
     public void periodic() {
-        Runnable effect = getCurrentEffect();
-        if (effect != null) {
-            effect.run();
-        }
-        super.periodic(); 
+        // Runnable effect = getCurrentEffect();
+        // if (effect != null) {
+        //     effect.run();
+        // }
+        // super.periodic(); 
+        setSolidColor(LedConstants.MAcolor);
+        updateLeds();
+        //System.out.println("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP");
     }
 
     private Runnable getCurrentEffect() {

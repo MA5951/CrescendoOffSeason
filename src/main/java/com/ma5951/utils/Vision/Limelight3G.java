@@ -9,6 +9,7 @@ package com.ma5951.utils.Vision;
 
 import java.util.function.Supplier;
 
+import com.ma5951.utils.Vision.LimelightHelpers.PoseEstimate;
 import com.ma5951.utils.Vision.LimelightHelpers.RawDetection;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -35,7 +36,11 @@ public class Limelight3G {
   }
 
   public LimelightHelpers.PoseEstimate getEstimatedPose() {
-    return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+    if (LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name).pose != null) {
+      return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+    } else {
+      return new PoseEstimate();
+    }
   }
 
   public boolean isTarget() {

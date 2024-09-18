@@ -133,7 +133,7 @@ public class SwerveConstants {
         public final static int SLOT_CONFIG = 0;
         
         // MotionMagic PID
-        public final static double TURNING_kP = 40;
+        public final static double TURNING_kP = 80;//40
         public final static double TURNING_kI = 0;
         public final static double TURNING_kD = 0;
         public final static double TURNING_kS = 0;
@@ -188,7 +188,7 @@ public class SwerveConstants {
         public final static double RELATIV_ANGLE_PID_TOLORANCE = 2;
 
         //Module Limits
-        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(800)); 
+        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(700)); 
         public final static ModuleLimits Slow40Precent = new ModuleLimits(4.5 * 0.4, Units.feetToMeters(75.0), Units.degreesToRadians(800)); 
         public final static ModuleLimits Slow10Precent = new ModuleLimits(4.5 * 0.1, Units.feetToMeters(75.0), Units.degreesToRadians(800)); 
         

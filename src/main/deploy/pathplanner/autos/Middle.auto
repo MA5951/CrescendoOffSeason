@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3533001663498863,
+      "y": 5.507130871149041
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle To C2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2 To C1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1 To Close Shooting"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Close Shooting To C3"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Close 3",
+  "choreoAuto": false
+}
