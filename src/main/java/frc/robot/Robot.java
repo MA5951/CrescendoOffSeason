@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     PoseEstimator.getInstance();
     SwervePoseCalculator.getInstance();
-    LED.getInstance();
+    LED.getInstance().periodic();
     //addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 0.01 , 0);
     
 

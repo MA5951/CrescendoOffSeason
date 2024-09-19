@@ -172,9 +172,6 @@ public class SwerveConstants {
         SwerveConstants.rearLeftLocation, SwerveConstants.rearRightLocation);
 
         //Swerve controllers
-        //Swerve CONTROLLER
-        public final static double KP_TRANSLATION = 9; // 3.3;
-        public final static double KI_TRANSLATION = 0; //0.0009;
 
         //Swerve theta PID_CONTROLLER radians
         public final static double THATA_KP = 0.4;
@@ -182,15 +179,27 @@ public class SwerveConstants {
         public final static double THATA_KD = 0.0;
         public final static double ANGLE_PID_TOLORANCE = Math.toRadians(6);
 
+        //Swerve theta PID_CONTROLLER degrees
         public final static double RELATIV_THATA_KP = 0.013;
         public final static double RELATIV_THATA_KI = 0;
         public final static double RELATIV_THATA_KD = 0.0016;
         public final static double RELATIV_ANGLE_PID_TOLORANCE = 2;
 
+        //Swerve theta PID_CONTROLLER lock
+        public final static double THATA_LOCK_KP = 0.01;
+        public final static double THATA_LOCK_KI = 0;
+        public final static double THATA_LOCK_KD = 0.00015;
+        public final static double THATA_LOCK_PID_TOLORANCE = 2;
+        public final static double THATA_LOCK_THRESHOLD= 0.01;
+
+        //Swerve DRIVE CONTROLLER 
+        public final static double DRIVER_XY_SCALER = 0.2;
+        public final static double DRIVER_THATA_SCALER = 0.2;
+
         //Module Limits
         public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(700)); 
-        public final static ModuleLimits Slow40Precent = new ModuleLimits(4.5 * 0.4, Units.feetToMeters(75.0), Units.degreesToRadians(800)); 
-        public final static ModuleLimits Slow10Precent = new ModuleLimits(4.5 * 0.1, Units.feetToMeters(75.0), Units.degreesToRadians(800)); 
+        public final static ModuleLimits Slow40Precent = new ModuleLimits(4.5 * 0.4, Units.feetToMeters(75.0), Units.degreesToRadians(700)); 
+        public final static ModuleLimits Slow10Precent = new ModuleLimits(4.5 * 0.1, Units.feetToMeters(75.0), Units.degreesToRadians(700)); 
         
         
         //Collision Detector

@@ -57,7 +57,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           } 
           break;
         case "REVERSE":
-          if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotContainer.driverController.getHID().getCircleButton()) {
+          if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotContainer.driverController.getHID().getL2Button()) {
               feeder.turnOnRevers();
               RobotConstants.SUPER_STRUCTURE.updateAmpPose();
             } else if (RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE){

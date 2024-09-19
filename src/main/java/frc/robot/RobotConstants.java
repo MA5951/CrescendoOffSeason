@@ -46,7 +46,7 @@ public class RobotConstants {
 
     public static final Supplier<ShootingParameters> FEEDING_SHOOTING_PARAMETERS = () -> new ShootingParameters(3000, 3000, 40, 0);;
     public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 61, 0);
-    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(4000, 8000,  36.4 , 3.5);
+    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(5500, 5500,  36.4 , 3.5);
 //    public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(3000, 6000, 36 , 0);
 
 

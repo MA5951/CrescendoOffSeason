@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.opencv.osgi.OpenCVInterface;
+
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,7 +47,7 @@ public class RobotContainer {
     setDeafultCommands();
     configureBindings();
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
-    new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
+    //new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
   }
 
@@ -82,7 +84,7 @@ public class RobotContainer {
   public void setEJECT() {
     lastRobotState = currentRobotState;
     currentRobotState = RobotConstants.EJECT;
-    Arm.getInstance().setTargetState(ArmConstants.IDLE);
+    Arm.getInstance().setTargetState(ArmConstants.INTAKE);
     Intake.getInstance().setTargetState(IntakeConstants.INTAKING);
     Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
     Shooter.getInstance().setTargetState(ShooterConstants.EJECTING);
@@ -161,7 +163,7 @@ public class RobotContainer {
 
 
     //Start, stop and inturupt amp
-    new Trigger(() -> driverController.getHID().getCircleButton() && currentRobotState != RobotConstants.AMP && currentRobotState != RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNote()
+    new Trigger(() -> driverController.getHID().getL2Button() && currentRobotState != RobotConstants.AMP && currentRobotState != RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNote()
     && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setAMP()));
     
     new Trigger(() -> currentRobotState == RobotConstants.AMP && !RobotConstants.SUPER_STRUCTURE.isNote()
@@ -213,10 +215,12 @@ public class RobotContainer {
     && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE())
      .andThen(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))));
 
-    new Trigger(() -> driverController.getHID().getR2Button()).whileTrue(
-      new InstantCommand(() -> SwerveSubsystem.getInstance().setCurrentLimits(SwerveConstants.Slow40Precent))
-    ).whileFalse(new InstantCommand(() -> SwerveSubsystem.getInstance().setCurrentLimits(SwerveConstants.DEFUALT)));
+    // new Trigger(() -> driverController.getHID().getR2Button()).whileTrue(
+    //   new InstantCommand(() -> SwerveSubsystem.getInstance().setCurrentLimits(SwerveConstants.Slow40Precent))
+    // ).whileFalse(new InstantCommand(() -> SwerveSubsystem.getInstance().setCurrentLimits(SwerveConstants.DEFUALT)));
 
+    //Open Arm
+    new Trigger(() -> oporatorController.getHID().getR1Button()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
   }
 
   public Command getAutonomousCommand() {

@@ -87,7 +87,7 @@ public class Feeder extends StateControlledSubsystem {
   }
 
   private boolean EjectCanMove(){
-    return RobotContainer.currentRobotState == RobotConstants.EJECT && Shooter.getInstance().atPoint();
+    return RobotContainer.currentRobotState == RobotConstants.EJECT && Arm.getInstance().atPoint();
   }
 
   private boolean FeedingCanMove() {

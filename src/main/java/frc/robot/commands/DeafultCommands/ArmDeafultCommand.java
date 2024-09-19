@@ -13,8 +13,6 @@ import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   private static Arm arm = Arm.getInstance();
-  private boolean getAngle = false;
-  private double angle = 0d;
   
   public ArmDeafultCommand() {
     super(arm);

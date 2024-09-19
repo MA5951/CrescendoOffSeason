@@ -75,7 +75,7 @@ public class Arm extends StateControlledSubsystem {
   }
 
   public boolean atPoint() {
-    return Math.abs(getArmPosition() - setPoint) <= ArmConstants.kTOLORANCE;
+    return Math.abs(getArmPosition() - setPoint + board.getNum("Angle Offset")) <= ArmConstants.kTOLORANCE;
   }
 
   public double getArmPosition() {

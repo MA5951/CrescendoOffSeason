@@ -129,9 +129,9 @@ public class SwerveModuleTalonFX implements SwerveModule {
         turningConfiguration.Slot0.kP = SwerveConstants.TURNING_kP;
         turningConfiguration.Slot0.kI = SwerveConstants.TURNING_kI;
         turningConfiguration.Slot0.kD = SwerveConstants.TURNING_kD;
-        //turningConfiguration.MotionMagic.MotionMagicCruiseVelocity = SwerveConstants.TURNING_CTUISE_VELOCITY;
-        //turningConfiguration.MotionMagic.MotionMagicAcceleration = SwerveConstants.TURNING_ACCELERATION;
-        //turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
+        turningConfiguration.MotionMagic.MotionMagicCruiseVelocity = SwerveConstants.TURNING_CTUISE_VELOCITY;
+        turningConfiguration.MotionMagic.MotionMagicAcceleration = SwerveConstants.TURNING_ACCELERATION;
+        turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
 
 
 
@@ -266,8 +266,8 @@ public class SwerveModuleTalonFX implements SwerveModule {
 
     public void turningUsingPID(double setPointRdians) {
         //Degrees
-        //turningMotor.setControl(turnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
-        turningMotor.setControl(pidTurnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
+        turningMotor.setControl(turnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
+        //turningMotor.setControl(pidTurnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
     }
 
     public void driveUsingPID(double setPointMPS) {
