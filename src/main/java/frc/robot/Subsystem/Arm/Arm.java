@@ -49,6 +49,7 @@ public class Arm extends StateControlledSubsystem {
     feedForawdLog = new LoggedDouble("/Subsystems/Arm/FeedForward");
     armIO.setNutralMode(true);
     board.addNum("Angle Offset", 0);
+    board.addNum("Shooting Angle Offset", 0);
 
     board.addCommand("Reset Pose", new InstantCommand(() -> resetPosition(ArmConstants.ZERO_POSE)));
     resetPosition(ArmConstants.ZERO_POSE);
@@ -75,7 +76,11 @@ public class Arm extends StateControlledSubsystem {
   }
 
   public boolean atPoint() {
-    return Math.abs(getArmPosition() - setPoint + board.getNum("Angle Offset")) <= ArmConstants.kTOLORANCE;
+    if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
+      return Math.abs(getArmPosition() - (setPoint + board.getNum("Shooting Angle Offset"))) <= ArmConstants.kTOLORANCE;
+    } else {
+      return Math.abs(getArmPosition() - (setPoint + board.getNum("Angle Offset"))) <= ArmConstants.kTOLORANCE;
+    }
   }
 
   public double getArmPosition() {
@@ -88,7 +93,11 @@ public class Arm extends StateControlledSubsystem {
 
   public void runSetPoint(double setPoint) {
     this.setPoint = setPoint + board.getNum("Angle Offset");
-    armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint) , getFeedForwardVoltage());
+    if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
+      armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint + board.getNum("Shooting Angle Offset") ) , getFeedForwardVoltage());
+    } else {
+      armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint) , getFeedForwardVoltage());
+    }
   }
 
   public double getVoltage() {
@@ -143,6 +152,7 @@ public class Arm extends StateControlledSubsystem {
 
     board.addNum("Set Point", getSetPoint());
     board.addNum("Current Pose", getArmPosition());
+    board.addNum("Shooting Angle Offset", board.getNum("Shooting Angle Offset"));
 
 
     armPosition = new Pose3d(armPosition.getX(), armPosition.getY(), armPosition.getZ(), 

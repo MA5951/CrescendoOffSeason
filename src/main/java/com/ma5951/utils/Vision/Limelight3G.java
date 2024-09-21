@@ -18,7 +18,9 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public class Limelight3G {
   private String name;
@@ -36,10 +38,10 @@ public class Limelight3G {
   }
 
   public LimelightHelpers.PoseEstimate getEstimatedPose() {
-    if (LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name).pose != null) {
-      return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
-    } else {
+    if (LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name).pose == null) {
       return new PoseEstimate();
+    } else {
+      return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
     }
   }
 
@@ -108,6 +110,10 @@ public class Limelight3G {
   }
 
   public void update() {
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() , 0, 0, 0, 0, 0);
+    } else {
     LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() +180, 0, 0, 0, 0, 0);
   }
+}
 }

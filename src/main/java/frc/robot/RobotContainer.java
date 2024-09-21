@@ -8,10 +8,12 @@ import org.opencv.osgi.OpenCVInterface;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
@@ -46,8 +48,9 @@ public class RobotContainer {
     Vision.getInstance();
     setDeafultCommands();
     configureBindings();
+    //driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
-    //new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
+    new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
   }
 
@@ -170,13 +173,13 @@ public class RobotContainer {
     && RobotConstants.SUPER_STRUCTURE.shouldCloseArmAfterAmp()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Start and stop warm up //add not amp
-    new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && currentRobotState != RobotConstants.SOURCE_INTAKE
-    && currentRobotState != RobotConstants.INTAKE && Feeder.getInstance().getTargetState() ==  FeederConstants.IDLE).onTrue(new InstantCommand(() -> setWARMING()));
-    new Trigger(() -> (!RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() || !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) && currentRobotState == RobotConstants.WARMING ).onTrue(new InstantCommand(() -> setIDLE()));
+    // new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && currentRobotState != RobotConstants.SOURCE_INTAKE
+    // && currentRobotState != RobotConstants.INTAKE && Feeder.getInstance().getTargetState() ==  FeederConstants.IDLE).onTrue(new InstantCommand(() -> setWARMING()));
+    // new Trigger(() -> (!RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() || !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) && currentRobotState == RobotConstants.WARMING ).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Starts and stops Shooting 
     new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING
-    && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() <= 4.5).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
+    && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() <= RobotConstants.DISTANCE_TO_SHOOT).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
     
     new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
 
@@ -221,6 +224,8 @@ public class RobotContainer {
 
     //Open Arm
     new Trigger(() -> oporatorController.getHID().getR1Button()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
+    new Trigger(() -> oporatorController.getHID().getTouchpad()).onTrue(new InstantCommand(() -> setIDLE()));
+  
   }
 
   public Command getAutonomousCommand() {

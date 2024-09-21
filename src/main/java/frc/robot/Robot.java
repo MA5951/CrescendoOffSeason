@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     PoseEstimator.getInstance().update();
     SwervePoseCalculator.getInstance().update();
-    RobotConstants.SUPER_STRUCTURE.updateAfterDSConnect();
     RobotConstants.SUPER_STRUCTURE.update();
     currentRobotStateLog.update(RobotContainer.currentRobotState.getName());
     lastRobotStateLog.update(RobotContainer.lastRobotState.getName());

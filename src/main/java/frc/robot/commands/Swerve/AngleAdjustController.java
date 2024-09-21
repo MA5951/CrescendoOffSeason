@@ -17,7 +17,6 @@ public class AngleAdjustController extends Command {
   private static PIDController pid;
 
   private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-  private Supplier<Double> angle;
   private boolean useGyro;
   private ChassisSpeeds speeds;
 
@@ -25,7 +24,7 @@ public class AngleAdjustController extends Command {
     return pid.atSetpoint();
   }
 
-  public AngleAdjustController(Supplier<Double> angle, boolean useGyro) {
+  public AngleAdjustController(boolean useGyro) {
     this.useGyro = useGyro;
     
 
@@ -35,7 +34,6 @@ public class AngleAdjustController extends Command {
       SwerveConstants.THATA_KD
     );
     pid.setTolerance(SwerveConstants.ANGLE_PID_TOLORANCE);
-    this.angle = angle;
     pid.enableContinuousInput(-Math.PI, Math.PI);
   }
 
@@ -52,9 +50,12 @@ public class AngleAdjustController extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pid.setSetpoint(angle.get());
     Supplier<Double> getMeserment = useGyro ? () -> Math.toRadians(swerve.getFusedHeading() - 180) : PoseEstimator.getInstance().getEstimatedRobotPose().getRotation()::getRadians;
     speeds = new ChassisSpeeds(0, 0, pid.calculate(getMeserment.get()));
+  }
+
+  public void setSetPoint(double setPoint) {
+    pid.setSetpoint(setPoint);
   }
 
   public ChassisSpeeds getChassisSpeeds() {

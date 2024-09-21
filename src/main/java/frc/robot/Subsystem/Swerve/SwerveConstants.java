@@ -26,8 +26,8 @@ public class SwerveConstants {
         // Modules constants
         public final static double TURNING_GEAR_RATIO = 150d / 7;
         public final static double DRIVE_GEAR_RATIO = 6.12;
-        public final static double WHEEL_RADIUS = 0.0508;
-        public final static double WHEEL_CIRCUMFERENCE =  WHEEL_RADIUS * Math.PI;
+        public final static double WHEEL_RADIUS = 0.0508 ;
+        public final static double WHEEL_CIRCUMFERENCE =  2 *WHEEL_RADIUS * Math.PI;
 
         public final static double VELOCITY_TIME_UNIT_IN_SECONDS = 1;
 
@@ -193,8 +193,8 @@ public class SwerveConstants {
         public final static double THATA_LOCK_THRESHOLD= 0.01;
 
         //Swerve DRIVE CONTROLLER 
-        public final static double DRIVER_XY_SCALER = 0.2;
-        public final static double DRIVER_THATA_SCALER = 0.2;
+        public final static double DRIVER_XY_SCALER = 1;
+        public final static double DRIVER_THATA_SCALER = 1;
 
         //Module Limits
         public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(700)); 

@@ -30,7 +30,7 @@ public class SuperStructure {
     private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());
     private Pose2d feedingPose = new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());;
     private boolean updatedAfterDS = false;
-    public boolean isOdometry;
+    public boolean isOdometry = false;
 
     private LoggedBool isNoteLog;
     private LoggedBool isInWarmupLog;
@@ -52,24 +52,15 @@ public class SuperStructure {
         angleToSpaekerLog = new LoggedDouble("/SuperStructure/Angle To Speaker");
     }
 
-    public void updateAfterDSConnect() {//TODO
-        if (!updatedAfterDS && !DriverStation.getAlliance().isEmpty()) {
-            updatedAfterDS = true;
-            speakerPose = DriverStation.getAlliance().get() == Alliance.Red ? 
-            RobotConstants.RED_SPEAKER : RobotConstants.BLUE_SPEAKER;
-            feedingPose = DriverStation.getAlliance().get() == Alliance.Red ? 
-            new Pose2d(speakerPose.getX() - RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation()) :
-            new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());
-        }
-    }
-
     public void updateAmpPose() {
         ampPose = PoseEstimator.getInstance().getEstimatedRobotPose();
     }
 
     public boolean shouldCloseArmAfterAmp() {
-        return ampPose.getY() - PoseEstimator.getInstance().getEstimatedRobotPose().getY() >=
+        return Math.abs(ampPose.getY() - PoseEstimator.getInstance().getEstimatedRobotPose().getY()) >=
          RobotConstants.DISTANCE_TO_CLOSE_ARM;
+            
+
     }
 
     public void setPRESETParameters(ShootingParameters parameters) {
@@ -82,9 +73,8 @@ public class SuperStructure {
 
     public ShootingParameters getShootingPrameters() {
             return new ShootingParameters(5500, 6000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2),//3339: 3 , 5951: 5 / 3.6, 
-                getDistanceToTag());
-            //return new ShootingParameters(0, 0, 0, 0);
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2),//3339: 3 , 5951: 5 / 3.6 / 0, 
+                getDistanceToTag()) ;
     }
 
     public ShootingParameters getFeedingPrameters() {
@@ -124,10 +114,10 @@ public class SuperStructure {
     }
 
     public double getDistanceToTag() {
-        if (Vision.getInstance().isTag() && Vision.getInstance().getTagID() ==7  && Vision.getInstance().getDistance() < 9) { //!isOdometry
+        if (Vision.getInstance().isTag() && (Vision.getInstance().getTagID() ==7 || Vision.getInstance().getTagID() ==4)  && Vision.getInstance().getDistance() < 5
+        ) { //!isOdometry
             return Vision.getInstance().getDistance();
         } else {
-            //isOdometry = true;
             if (DriverStation.getAlliance().get() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
             } else if (DriverStation.getAlliance().get() == Alliance.Red) {
@@ -155,6 +145,12 @@ public class SuperStructure {
         } else {
             return Math.atan2(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getX() - feedingPose.getTranslation().getX(), PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getY() - feedingPose.getTranslation().getY());
         }
+    }
+
+    public double getSetPointForAmpAline() {
+            double target = DriverStation.getAlliance().get() == Alliance.Red ? 
+                ConvUtil.DegreesToRadians(-90) : ConvUtil.DegreesToRadians(90);
+            return target;
     }
 
     public boolean isNote() {

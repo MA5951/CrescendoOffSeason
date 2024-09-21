@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -34,7 +36,6 @@ public class DriveController extends Command {
 
   @Override
   public void execute() {
-
     xSpeed = Controller.getLeftX();
     ySpeed = Controller.getLeftY();
     turningSpeed = Controller.getRightX();
@@ -48,7 +49,7 @@ public class DriveController extends Command {
     } else if (!angleLock) {
       angleToLock = SwerveSubsystem.getInstance().getFusedHeading();
       angleLock = true;
-    } else {
+    } else if (Math.abs(xSpeed + ySpeed) > 0.4 && RobotContainer.currentRobotState != RobotConstants.INTAKE ){
       turningSpeed = anglePID.calculate(SwerveSubsystem.getInstance().getFusedHeading(), angleToLock);
       turningSpeed = Math.abs(turningSpeed) < SwerveConstants.THATA_LOCK_THRESHOLD ? 0 : turningSpeed;
     }
