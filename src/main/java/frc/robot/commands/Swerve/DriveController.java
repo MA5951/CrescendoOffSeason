@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
@@ -44,15 +45,22 @@ public class DriveController extends Command {
     ySpeed = Math.abs(ySpeed) < 0.1 ? 0 : -ySpeed * SwerveConstants.DRIVER_XY_SCALER;
     turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * SwerveConstants.DRIVER_XY_SCALER;
 
+    if (RobotContainer.driverController.getHID().getR2Button()) {
+      xSpeed = xSpeed * 0.4;
+      ySpeed = ySpeed * 0.4;
+      turningSpeed = turningSpeed * 0.4;
+    }
+
     if (Math.abs(turningSpeed) > 0) {
       angleLock = false;
     } else if (!angleLock) {
       angleToLock = SwerveSubsystem.getInstance().getFusedHeading();
       angleLock = true;
-    } else if (Math.abs(xSpeed + ySpeed) > 0.4 && RobotContainer.currentRobotState != RobotConstants.INTAKE ){
+    } else if (Math.abs(xSpeed + ySpeed) > 0.1 && RobotContainer.currentRobotState != RobotConstants.INTAKE ){
       turningSpeed = anglePID.calculate(SwerveSubsystem.getInstance().getFusedHeading(), angleToLock);
       turningSpeed = Math.abs(turningSpeed) < SwerveConstants.THATA_LOCK_THRESHOLD ? 0 : turningSpeed;
     }
+
 
     speed = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed,
                   new Rotation2d(
@@ -60,6 +68,10 @@ public class DriveController extends Command {
                      - SwerveSubsystem.getInstance().getOffsetAngle()))));
 
 
+  }
+
+  public void updateAngleToLock() {
+    angleToLock = SwerveSubsystem.getInstance().getFusedHeading();
   }
 
   public ChassisSpeeds getChassisSpeeds() {

@@ -26,6 +26,7 @@ import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
+import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
 import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
@@ -38,6 +39,8 @@ public class RobotContainer {
 
   public static CommandPS5Controller driverController = new CommandPS5Controller(PortMap.Controllers.driveID);
   public static CommandPS5Controller oporatorController = new CommandPS5Controller(PortMap.Controllers.operatorID);
+  public static CommandXboxController driverControllerRumble = new CommandXboxController(2);
+
 
   public RobotContainer() {
     Intake.getInstance();
@@ -48,7 +51,6 @@ public class RobotContainer {
     Vision.getInstance();
     setDeafultCommands();
     configureBindings();
-    //driverController.getHID().setRumble(RumbleType.kBothRumble, 1);
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
@@ -164,18 +166,21 @@ public class RobotContainer {
     new Trigger(() -> currentRobotState == RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))
     .andThen(new InstantCommand(() -> setIDLE_AFTER_INTAKE())));
 
+    new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isNoteInFeeder() && currentRobotState == RobotConstants.INTAKE).onTrue(
+      new IntakeRumble()
+    );
 
     //Start, stop and inturupt amp
     new Trigger(() -> driverController.getHID().getL2Button() && currentRobotState != RobotConstants.AMP && currentRobotState != RobotConstants.INTAKE && RobotConstants.SUPER_STRUCTURE.isNote()
     && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setAMP()));
     
     new Trigger(() -> currentRobotState == RobotConstants.AMP && !RobotConstants.SUPER_STRUCTURE.isNote()
-    && RobotConstants.SUPER_STRUCTURE.shouldCloseArmAfterAmp()).onTrue(new InstantCommand(() -> setIDLE()));
+    && RobotConstants.SUPER_STRUCTURE.shouldCloseArmAfterAmp() && !driverController.getHID().getL2Button()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Start and stop warm up //add not amp
-    // new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && currentRobotState != RobotConstants.SOURCE_INTAKE
-    // && currentRobotState != RobotConstants.INTAKE && Feeder.getInstance().getTargetState() ==  FeederConstants.IDLE).onTrue(new InstantCommand(() -> setWARMING()));
-    // new Trigger(() -> (!RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() || !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) && currentRobotState == RobotConstants.WARMING ).onTrue(new InstantCommand(() -> setIDLE()));
+    new Trigger(() -> RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() && RobotConstants.SUPER_STRUCTURE.isNoteInShooter() && currentRobotState != RobotConstants.SOURCE_INTAKE
+    && currentRobotState != RobotConstants.INTAKE && Feeder.getInstance().getTargetState() ==  FeederConstants.IDLE).onTrue(new InstantCommand(() -> setWARMING()));
+    new Trigger(() -> (!RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() || !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) && currentRobotState == RobotConstants.WARMING ).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Starts and stops Shooting 
     new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING

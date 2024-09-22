@@ -67,6 +67,7 @@ public class SuperStructure {
         presetParameters = parameters;
     }
 
+    
     public ShootingParameters getPRESETParameters() {
         return presetParameters;
     }

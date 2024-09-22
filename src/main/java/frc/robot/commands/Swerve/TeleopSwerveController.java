@@ -9,6 +9,7 @@ import com.ma5951.utils.Logger.LoggedString;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.PoseEstimation.Vision;
@@ -82,6 +83,7 @@ public class TeleopSwerveController extends Command {
       robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
       robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      driveCommand.updateAngleToLock();
     } else { 
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Drive Controller");
