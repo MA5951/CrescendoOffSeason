@@ -148,16 +148,20 @@ SwerveSubsystem extends SubsystemBase {
   }
 
   public SwerveModuleState[] generateStates(ChassisSpeeds chassiSpeeds , boolean optimize) {
-    chassiSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(chassiSpeeds , new Rotation2d(
-                    Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
-                     - SwerveSubsystem.getInstance().getOffsetAngle()))));
+    // chassiSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(chassiSpeeds , new Rotation2d(
+    //                 Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
+    //                  - SwerveSubsystem.getInstance().getOffsetAngle()))));
     
-    chassiSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY ,
-     chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY, chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY , new Rotation2d(
-                    Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
-                     - SwerveSubsystem.getInstance().getOffsetAngle()))));
+    // chassiSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY ,
+    //  chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY, chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY , new Rotation2d(
+    //                 Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
+    //                  - SwerveSubsystem.getInstance().getOffsetAngle()))));
     
-    
+    chassiSpeeds.omegaRadiansPerSecond = chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY;
+    chassiSpeeds.vxMetersPerSecond = chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY;
+    chassiSpeeds.vyMetersPerSecond = chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY;
+
+
     if (optimize) {
       currentSetpoint =
       setpointGenerator.generateSetpoint(

@@ -4,18 +4,26 @@
 
 package frc.robot.commands.Swerve;
 
-import java.util.function.Supplier;
+
+import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.Logger.LoggedDouble;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConstants;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 
 public class RelativAngleAdjustController extends Command {
   private static PIDController pid;
 
-  private ChassisSpeeds speeds;
+  private ChassisSpeeds speeds = new ChassisSpeeds();
+  private double omega;
+
+  private LoggedDouble toleranceLog;
+  private LoggedDouble omegaLog;
+  private LoggedBool atPointLog;
 
   public static boolean atPoint() {
     return pid.atSetpoint();
@@ -27,7 +35,12 @@ public class RelativAngleAdjustController extends Command {
       SwerveConstants.RELATIV_THATA_KI,
       SwerveConstants.RELATIV_THATA_KD
     );
+
+    toleranceLog = new LoggedDouble("/Swerve/Controllers/Relativ Adjust/Tolerance");
+    omegaLog = new LoggedDouble("/Swerve/Controllers/Relativ Adjust/Omega Speed");
+    atPointLog = new LoggedBool("/Swerve/Controllers/Relativ Adjust/At Point");
     pid.setTolerance(SwerveConstants.RELATIV_ANGLE_PID_TOLORANCE);
+    pid.setSetpoint(0);
   }
 
   // Called when the command is initially scheduled.
@@ -38,9 +51,17 @@ public class RelativAngleAdjustController extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pid.setSetpoint(0);
-    Supplier<Double> getMeserment = () -> Vision.getInstance().getTx();
-    speeds = new ChassisSpeeds(0, 0, pid.calculate(getMeserment.get()));
+    pid.setTolerance(getTolerance());
+    omega = pid.calculate(Vision.getInstance().getTx());
+    speeds.omegaRadiansPerSecond = omega;
+
+    toleranceLog.update(getTolerance());
+    omegaLog.update(omega);
+    atPointLog.update(getAtPoint());
+  }
+
+  public double getTolerance() {
+    return 20 / RobotConstants.SUPER_STRUCTURE.getDistanceToTag();
   }
 
   public ChassisSpeeds getChassisSpeeds() {
@@ -48,7 +69,8 @@ public class RelativAngleAdjustController extends Command {
   }
 
   public boolean getAtPoint() {
-    return pid.atSetpoint();
+    return pid.atSetpoint() && Vision.getInstance().isTag() &&  (Vision.getInstance().getTagID() == 7 ||
+    Vision.getInstance().getTagID() == 4);
   }
 
   // Called once the command ends or is interrupted.

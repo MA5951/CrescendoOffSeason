@@ -21,15 +21,15 @@ public class RobotConstants {
 
     public static final SuperStructure SUPER_STRUCTURE = new SuperStructure();
 
-    public static final State IDLE = new State("IDLE"); //Systems IDLE 
-    public static final State INTAKE = new State("INTAKE"); //Intaking a note //Did
-    public static final State EJECT = new State("EJECT"); //Ejecting a note from shooter //Did
-    public static final State WARMING = new State("WARMING"); //Warimng up shooter and arm for shooting //Did
-    public static final State AMP = new State("AMP"); //Amping //Did
-    public static final State FEEDING = new State("FEEDING"); //Feeding 
-    public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE"); //Source intake
-    public static final State STATIONARY_SHOOTING = new State("STATIONARY_SHOOTING"); //Stationary auto shoot //Did
-    public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING"); //Preset shooting
+    public static final State IDLE = new State("IDLE"); //Systems IDLE 0
+    public static final State INTAKE = new State("INTAKE"); //Intaking a note //Did 2
+    public static final State EJECT = new State("EJECT"); //Ejecting a note from shooter //Did 4
+    public static final State WARMING = new State("WARMING"); //Warimng up shooter and arm for shooting //Did 6
+    public static final State AMP = new State("AMP"); //Amping //Did 8
+    public static final State FEEDING = new State("FEEDING"); //Feeding 10
+    public static final State SOURCE_INTAKE = new State("SOURCE_INTAKE"); //Source intake 12
+    public static final State STATIONARY_SHOOTING = new State("STATIONARY_SHOOTING"); //Stationary auto shoot //Did 14
+    public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING"); //Preset shooting 16
 
     
     public static final double ShootingTolerance = 15;

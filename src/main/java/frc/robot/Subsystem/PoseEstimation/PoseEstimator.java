@@ -20,6 +20,9 @@ public class PoseEstimator {
     private SwerveDrivePoseEstimator robotPoseEstimator;
     private Vision vision;
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
+    private Pose2d lastOdometryPose = new Pose2d();
+    private Pose2d lastVisionPose = new Pose2d();
+    private boolean firstUpdate = true;
 
     private LoggedPose2d estimatedRobotPose;
     private LoggedBool odometryUpdateConstrains;
@@ -37,7 +40,6 @@ public class PoseEstimator {
         estimatedRobotPose = new LoggedPose2d("/Pose Estimator/Estimated Robot Pose");
         odometryUpdateConstrains = new LoggedBool("/Pose Estimator/Odometry Update Constrains");
         visionUpdateConstrains = new LoggedBool("/Pose Estimator/Vision Update Constrains");
-        
     }
 
     public void resetPose(Pose2d pose) {
@@ -49,9 +51,18 @@ public class PoseEstimator {
     }
 
     public void updateVision() {
-        if (vision.isTag() && PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            //robotPoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(getXYVisionDeviation(), getXYVisionDeviation(), 9999999));
-            robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
+        if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
+            if (vision.getEstiman() != new Pose2d() // && ((Math.abs(vision.getEstiman().getTranslation().getDistance(lastVisionPose.getTranslation()) -
+                //getEstimatedRobotPose().getTranslation().getDistance(lastOdometryPose.getTranslation()))
+                // <= PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) ||  firstUpdate)
+           ) {
+                
+                lastOdometryPose = getEstimatedRobotPose();
+                lastVisionPose = vision.getEstiman();
+                firstUpdate = false;
+                //robotPoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(getXYVisionDeviation(), getXYVisionDeviation(), 9999999));
+                robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
+            }
         }
     }
 

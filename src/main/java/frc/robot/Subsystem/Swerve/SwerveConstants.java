@@ -177,7 +177,7 @@ public class SwerveConstants {
         public final static double THATA_KP = 0.4;
         public final static double THATA_KI = 0;
         public final static double THATA_KD = 0.0;
-        public final static double ANGLE_PID_TOLORANCE = Math.toRadians(6);
+        public final static double ANGLE_PID_TOLORANCE = Math.toRadians(3);
 
         //Swerve theta PID_CONTROLLER degrees
         public final static double RELATIV_THATA_KP = 0.0055;
@@ -193,15 +193,17 @@ public class SwerveConstants {
         public final static double THATA_LOCK_THRESHOLD= 0.01;
 
         //Swerve DRIVE CONTROLLER 
-        public final static double DRIVER_XY_SCALER = 1;
-        public final static double DRIVER_THATA_SCALER = 1;
+        public final static double DRIVER_XY_SCALER = 0.18;
+        public final static double DRIVER_THATA_SCALER = 0.18;
 
-        //Module Limits
+        //Module Limits //75 Accl
         public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(700)); 
-        public final static ModuleLimits Slow40Precent = new ModuleLimits(4.5 * 0.4, Units.feetToMeters(75.0), Units.degreesToRadians(700)); 
-        public final static ModuleLimits Slow10Precent = new ModuleLimits(4.5 * 0.1, Units.feetToMeters(75.0), Units.degreesToRadians(700)); 
-        
         
         //Collision Detector
-        public final static double COLLISION_THRESHOLD = 2d;
+        public final static double COLLISION_THRESHOLD = 1.85;
+
+        //Oגometry
+        public static final double ODOMETRY_UPDATE_RATE = 200;
+
+        //TODO: REFRASH ALL STATUS SIGNAL FUNCTION
 }
