@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
+import frc.robot.Subsystem.Feeder.Feeder;
+import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -39,12 +41,15 @@ public class IntakeAutoDriveController extends Command {
       turningSpeed = turningSpeed * 0.4;
     }
 
-    if (RobotConstants.SUPER_STRUCTURE.isNote()) {
+    if (RobotConstants.SUPER_STRUCTURE.isNote() || Feeder.getInstance().getTargetState() == FeederConstants.NOTE_ADJUSTING) {
         speed = new ChassisSpeeds(0.25 , xSpeed , turningSpeed );
           
     } else {
       speed = new ChassisSpeeds(-0.25 , xSpeed , turningSpeed );
     }
+    // if (!RobotConstants.SUPER_STRUCTURE.isNote()) {
+    //   speed = new ChassisSpeeds(-0.25 , xSpeed , turningSpeed );
+    // }
       
   }
 

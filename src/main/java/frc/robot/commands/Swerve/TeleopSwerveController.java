@@ -27,6 +27,7 @@ public class TeleopSwerveController extends Command {
   private ChassisSpeeds intakeAutoDriveSpeeds;
   private boolean isOdometry;
   public static boolean atPoint;
+  private boolean updateSetPoint = false;
 
   private SwerveSubsystem swerve;
   private ChassisSpeeds robotSpeeds;
@@ -37,7 +38,7 @@ public class TeleopSwerveController extends Command {
     swerve = SwerveSubsystem.getInstance();
     
     driveCommand = new DriveController(controller);
-    angleAdjustCommand = new AngleAdjustController(true);
+    angleAdjustCommand = new AngleAdjustController(controller);
     relativAngleAdjustCommand = new RelativAngleAdjustController();
     intakeAutoDriveCommand = new IntakeAutoDriveController(controller);
     xyControllerLog = new LoggedString("/Swerve/Controllers/XY Controller");
@@ -68,9 +69,9 @@ public class TeleopSwerveController extends Command {
     relativAngleAdjustControllerSpeeds = relativAngleAdjustCommand.getChassisSpeeds();
     intakeAutoDriveSpeeds = intakeAutoDriveCommand.getChassisSpeeds();
 
-    if (RobotContainer.currentRobotState == RobotConstants.AMP) {
+    if (RobotContainer.currentRobotState == RobotConstants.AMP && !updateSetPoint) {
       angleAdjustCommand.setSetPoint(RobotConstants.SUPER_STRUCTURE.getSetPointForAmpAline());
-    } else {
+    } else if (RobotContainer.currentRobotState != RobotConstants.AMP){
       angleAdjustCommand.setSetPoint(RobotConstants.SUPER_STRUCTURE.getSetPointForAline());
     }
     atPoint = angleAdjustCommand.getAtPoint() || relativAngleAdjustCommand.getAtPoint();
@@ -90,6 +91,7 @@ public class TeleopSwerveController extends Command {
     } else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
       robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
       driveCommand.updateAngleToLock();
+      
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Amp");
     } else if (RobotContainer.driverController.getHID().getR1Button()) {
@@ -101,6 +103,7 @@ public class TeleopSwerveController extends Command {
       theathControllerLog.update("Drive Controller");
       robotSpeeds = driveControllerSpeeds;
       isOdometry = false;
+      updateSetPoint = false;
     }
 
     swerve.drive(robotSpeeds);
