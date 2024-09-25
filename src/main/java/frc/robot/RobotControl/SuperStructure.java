@@ -7,6 +7,7 @@ package frc.robot.RobotControl;
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
+import com.ma5951.utils.Utils.DriverStationUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -119,7 +120,7 @@ public class SuperStructure {
         ) { //!isOdometry
             return Vision.getInstance().getDistance();
         } else {
-            if (DriverStation.getAlliance().get() == Alliance.Blue) {
+            if (DriverStationUtil.getAlliance() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
             } else if (DriverStation.getAlliance().get() == Alliance.Red) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.RED_SPEAKER.getTranslation()) + 0.04;
@@ -131,13 +132,13 @@ public class SuperStructure {
 
     public double getSetPointForAline() {
         if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
-            double xTrget = DriverStation.getAlliance().get() == Alliance.Red ? 
+            double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
                 RobotConstants.RED_SPEAKER.getX() : RobotConstants.BLUE_SPEAKER.getX();
             double yTrget = RobotConstants.RED_SPEAKER.getY();
             double xDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getX() - xTrget);
             double yDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getY() - yTrget);
             double angle = Math.atan(yDis / xDis);
-            angle = DriverStation.getAlliance().get() == Alliance.Blue ?
+            angle = DriverStationUtil.getAlliance() == Alliance.Blue ?
                 -(angle - Math.PI) : angle;
             if (PoseEstimator.getInstance().getEstimatedRobotPose().getY() > yTrget) {
                 angle = -angle;
@@ -149,7 +150,7 @@ public class SuperStructure {
     }
 
     public double getSetPointForAmpAline() {
-            double target = DriverStation.getAlliance().get() == Alliance.Red ? 
+            double target = DriverStationUtil.getAlliance() == Alliance.Red ? 
                 ConvUtil.DegreesToRadians(-90) : ConvUtil.DegreesToRadians(90);
             return target;
     }

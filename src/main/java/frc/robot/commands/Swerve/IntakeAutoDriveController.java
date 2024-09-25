@@ -47,9 +47,7 @@ public class IntakeAutoDriveController extends Command {
     } else {
       speed = new ChassisSpeeds(-0.25 , xSpeed , turningSpeed );
     }
-    // if (!RobotConstants.SUPER_STRUCTURE.isNote()) {
-    //   speed = new ChassisSpeeds(-0.25 , xSpeed , turningSpeed );
-    // }
+    
       
   }
 

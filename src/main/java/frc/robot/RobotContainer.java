@@ -4,11 +4,9 @@
 
 package frc.robot;
 
-import org.opencv.osgi.OpenCVInterface;
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
 
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -24,7 +22,6 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
-import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;

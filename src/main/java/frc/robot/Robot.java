@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedInt;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Logger.MALog;

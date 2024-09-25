@@ -1,9 +1,3 @@
-// Copyright (c) 2024 FRC 6328
-// http://github.com/Mechanical-Advantage
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file at
-// the root directory of this project.
 
 package com.ma5951.utils.Utils;
 
@@ -16,7 +10,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
-/** Geometry utilities for working with translations, rotations, transforms, and poses. */
 public class GeomUtil {
   /**
    * Creates a pure translating transform
@@ -162,8 +155,7 @@ public class GeomUtil {
   }
 
   public static double distanceTo(Pose2d point1, Pose2d point2) {
-    return Math.sqrt(Math.pow(Math.abs(point1.getTranslation().getX() - point2.getTranslation().getX()), 2) + 
-    Math.pow(Math.abs(point1.getTranslation().getY() - point2.getTranslation().getY()), 2));
+    return point1.getTranslation().getDistance(point2.getTranslation());
     
   }
 
