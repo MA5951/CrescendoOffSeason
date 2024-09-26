@@ -10,6 +10,7 @@ import com.ma5951.utils.Logger.LoggedPose2d;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -20,7 +21,7 @@ public class PoseEstimator {
     private SwerveDrivePoseEstimator robotPoseEstimator;
     private Vision vision;
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-    private Pose2d lastOdometryPose = new Pose2d();
+    private Pose2d lastOdometryPose = new Pose2d( 0 , 0 , new Rotation2d(0));
     private Pose2d lastVisionPose = new Pose2d();
     private boolean firstUpdate = true;
 
@@ -50,11 +51,14 @@ public class PoseEstimator {
         robotPoseEstimator.update(swerve.getRotation2d(), swerve.getSwerveModulePositions());
     }
 
+    // ((Math.abs(vision.getEstiman().getTranslation().getDistance(lastVisionPose.getTranslation()) -
+    //             getEstimatedRobotPose().getTranslation().getDistance(lastOdometryPose.getTranslation()))
+    //              <= PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) ||  firstUpdate)
+
     public void updateVision() {
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            if (vision.getEstiman() != new Pose2d() // && ((Math.abs(vision.getEstiman().getTranslation().getDistance(lastVisionPose.getTranslation()) -
-                //getEstimatedRobotPose().getTranslation().getDistance(lastOdometryPose.getTranslation()))
-                // <= PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) ||  firstUpdate)
+            if (vision.getEstiman() != new Pose2d()  && (Math.abs(vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())) <= PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE
+            || true)
            ) {
                 
                 lastOdometryPose = getEstimatedRobotPose();

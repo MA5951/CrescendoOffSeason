@@ -133,7 +133,7 @@ public class SwerveConstants {
         public final static int SLOT_CONFIG = 0;
         
         // MotionMagic PID
-        public final static double TURNING_kP = 80;//40
+        public final static double TURNING_kP = 90;
         public final static double TURNING_kI = 0;
         public final static double TURNING_kD = 0;
         public final static double TURNING_kS = 0;
@@ -190,14 +190,14 @@ public class SwerveConstants {
         public final static double THATA_LOCK_KI = 0;
         public final static double THATA_LOCK_KD = 0.00015;
         public final static double THATA_LOCK_PID_TOLORANCE = 2;
-        public final static double THATA_LOCK_THRESHOLD= 0.01;
+        public final static double THATA_LOCK_THRESHOLD= 0.0;
 
         //Swerve DRIVE CONTROLLER 
-        public final static double DRIVER_XY_SCALER = 0.18;
-        public final static double DRIVER_THATA_SCALER = 0.18;
+        public final static double DRIVER_XY_SCALER = 1;
+        public final static double DRIVER_THATA_SCALER = 1;
 
-        //Module Limits //75 Accl
-        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75.0) , Units.degreesToRadians(700)); 
+        //Module Limits //75 Accl //700/800
+        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75) , Units.degreesToRadians(700)); 
         
         //Collision Detector
         public final static double COLLISION_THRESHOLD = 1.85;

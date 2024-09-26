@@ -50,22 +50,23 @@ public class DriveController extends Command {
       turningSpeed = turningSpeed * 0.4;
     }
 
-    if (Math.abs(turningSpeed) > 0) {
-      angleLock = false;
-    } else if (!angleLock) {
-      angleToLock = SwerveSubsystem.getInstance().getFusedHeading();
-      angleLock = true;
-    } else if (Math.abs(xSpeed + ySpeed) > 0.1 && RobotContainer.currentRobotState != RobotConstants.INTAKE ){
-      turningSpeed = anglePID.calculate(SwerveSubsystem.getInstance().getFusedHeading(), angleToLock);
-      turningSpeed = Math.abs(turningSpeed) < SwerveConstants.THATA_LOCK_THRESHOLD ? 0 : turningSpeed;
-    }
+    // if (Math.abs(turningSpeed) > 0) {
+    //   angleLock = false;
+    // } else if (!angleLock && SwerveSubsystem.getInstance().getA().omegaRadiansPerSecond < 0.1 ) {
+    //   angleToLock = SwerveSubsystem.getInstance().getFusedHeading();
+    //   angleLock = true;
+    // } else if (SwerveSubsystem.getInstance().getVelocity() > 1.5 && RobotContainer.currentRobotState != RobotConstants.INTAKE ){
+    //   turningSpeed = anglePID.calculate(SwerveSubsystem.getInstance().getFusedHeading(), angleToLock);
+    //   turningSpeed = Math.abs(turningSpeed) < SwerveConstants.THATA_LOCK_THRESHOLD ? 0 : turningSpeed;
+    // }
 
 
-    speed = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed,
-                  new Rotation2d(
-                    Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
-                     - SwerveSubsystem.getInstance().getOffsetAngle()))));
+    // speed = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed,
+    //               new Rotation2d(
+    //                 Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
+    //                  - SwerveSubsystem.getInstance().getOffsetAngle()))));
 
+    speed = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
 
   }
 

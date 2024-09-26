@@ -33,7 +33,7 @@ public class LED extends SubsystemBase {
   }
 
   public void setSolidColor(Color color) {
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
+    for (var i = 0; i < LedConstants.ledLength; i++) {
       ledBuffer.setLED(i, color);
     }
 
@@ -94,8 +94,9 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
 
-    //blinkColorPattern( 1, LedConstants.CONE_YELLOW, LedConstants.BLUE);
-    setSolidColor(LedConstants.GREEN);
+    //smoothWaveColorPattern(2, 1, 1, new Color[] {LedConstants.GREEN, LedConstants.BLACK});
+    //blinkColorPattern( 0.1, LedConstants.GREEN, LedConstants.BLACK);
+    setSolidColor(LedConstants.MAcolor);
     updateLeds();
   }
 }

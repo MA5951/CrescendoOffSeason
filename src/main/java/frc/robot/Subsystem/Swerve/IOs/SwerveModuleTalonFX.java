@@ -112,7 +112,7 @@ public class SwerveModuleTalonFX implements SwerveModule {
         resetSteer();
 
         BaseStatusSignal.setUpdateFrequencyForAll(SwerveConstants.ODOMETRY_UPDATE_RATE, 
-        drivePosition , steerPosition);
+        drivePosition , steerPosition , driveVelocity);
     }
 
     private void configTurningMotor() {
@@ -133,9 +133,9 @@ public class SwerveModuleTalonFX implements SwerveModule {
         turningConfiguration.Slot0.kP = SwerveConstants.TURNING_kP;
         turningConfiguration.Slot0.kI = SwerveConstants.TURNING_kI;
         turningConfiguration.Slot0.kD = SwerveConstants.TURNING_kD;
-        turningConfiguration.MotionMagic.MotionMagicCruiseVelocity = SwerveConstants.TURNING_CTUISE_VELOCITY;
-        turningConfiguration.MotionMagic.MotionMagicAcceleration = SwerveConstants.TURNING_ACCELERATION;
-        turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
+        //turningConfiguration.MotionMagic.MotionMagicCruiseVelocity = SwerveConstants.TURNING_CTUISE_VELOCITY;
+        //turningConfiguration.MotionMagic.MotionMagicAcceleration = SwerveConstants.TURNING_ACCELERATION;
+        //turningConfiguration.MotionMagic.MotionMagicJerk = SwerveConstants.TURNING_JERK;
 
 
 
@@ -270,8 +270,8 @@ public class SwerveModuleTalonFX implements SwerveModule {
 
     public void turningUsingPID(double setPointRdians) {
         //Degrees
-        turningMotor.setControl(turnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
-        //turningMotor.setControl(pidTurnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
+        //turningMotor.setControl(turnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(SwerveConstants.SLOT_CONFIG));
+        turningMotor.setControl(pidTurnController.withPosition(Units.radiansToRotations(setPointRdians)).withSlot(0));
     }
 
     public void driveUsingPID(double setPointMPS) {
@@ -290,7 +290,7 @@ public class SwerveModuleTalonFX implements SwerveModule {
         DriveVelocity.update(getDriveVelocity());
         DriveCurrent.update(getDriveCurrent());
         DriveVolts.update(getDriveVolts());
-        SteerPosition.update(getTurningPosition());
+        SteerPosition.update(getTurningPosition() % 360);
         SteerCurrent.update(getSteerCurrent());
         SteerVolts.update(getSteerVolts());
         AbsAngle.update(getAbsoluteEncoderPosition());

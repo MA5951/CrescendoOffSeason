@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.setIDLE();
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     PoseEstimator.getInstance();
-    LED.getInstance().periodic();
+    LED.getInstance();
     //addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 0.01 , 0);
     
 
@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
     currentRobotStateLog.update(RobotContainer.currentRobotState.getName());
     lastRobotStateLog.update(RobotContainer.lastRobotState.getName());
     currentRobotStateNumberLog.update(getStateAsNum());
+    LED.getInstance().periodic();
   }
 
   @Override

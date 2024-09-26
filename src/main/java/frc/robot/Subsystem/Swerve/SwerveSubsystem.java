@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //The orde of te modules is a STANDART and it is
 //Front Left
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.ModuleLimits;
 import frc.robot.Utils.SwerveSetpoint;
 import frc.robot.Subsystem.Swerve.Util.SwerveModule;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Swerve.Util.Gyro;
 
 public class 
@@ -222,6 +224,8 @@ SwerveSubsystem extends SubsystemBase {
     currentStates = getSwerveModuleStates();
     currentChassisSpeeds = kinematics.toChassisSpeeds(currentStates);
 
+
+
     gyro.update(currentChassisSpeeds);
     currenStatesLog.update(getSwerveModuleStates());
     offsetprintLog.update(offsetAngle);
@@ -237,6 +241,20 @@ SwerveSubsystem extends SubsystemBase {
     lastYvelocity = currentChassisSpeeds.vyMetersPerSecond;
     lastTheatavelocity = currentChassisSpeeds.omegaRadiansPerSecond;
 
+    // double xSpeed = RobotContainer.driverController.getLeftX();
+    // double ySpeed = RobotContainer.driverController.getLeftY();
+    // double turningSpeed = RobotContainer.driverController.getRightX();
+
+    // xSpeed = Math.abs(xSpeed) < 0.1 ? 0 : -xSpeed * SwerveConstants.DRIVER_XY_SCALER;
+    // ySpeed = Math.abs(ySpeed) < 0.1 ? 0 : -ySpeed * SwerveConstants.DRIVER_XY_SCALER;
+    // turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * SwerveConstants.DRIVER_XY_SCALER;
+
+    // ChassisSpeeds speed = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+    // drive(speed);
+    // modulesArry[0].setDesiredState(new SwerveModuleState(RobotContainer.driverController.getHID().getLeftX(), new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
+    // modulesArry[1].setDesiredState(new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
+    // modulesArry[2].setDesiredState(new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
+    // modulesArry[3].setDesiredState(new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
     
 
   }

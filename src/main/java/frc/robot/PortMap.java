@@ -62,7 +62,7 @@ public class PortMap {
     }
 
     public class Leds {
-        public static final int ledPort = 0; 
+        public static final int ledPort = 1; 
     }
 
 }
