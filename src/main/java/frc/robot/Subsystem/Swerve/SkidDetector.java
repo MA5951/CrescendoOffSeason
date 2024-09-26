@@ -25,7 +25,7 @@ public class SkidDetector {
         this.kinematics = kinematics;
         statesSupplier = states;
 
-        skidRatio = new LoggedDouble("/Swerve/Skid Detector");
+        skidRatio = new LoggedDouble("/Swerve/Skid Detector/Skid Ration");
 
     }
 

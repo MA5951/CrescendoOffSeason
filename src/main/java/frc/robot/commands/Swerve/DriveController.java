@@ -61,12 +61,12 @@ public class DriveController extends Command {
     // }
 
 
-    // speed = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed,
-    //               new Rotation2d(
-    //                 Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
-    //                  - SwerveSubsystem.getInstance().getOffsetAngle()))));
+    speed = ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, turningSpeed,
+                  new Rotation2d(
+                    Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
+                     - SwerveSubsystem.getInstance().getOffsetAngle()))));
 
-    speed = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
+    //speed = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
 
   }
 

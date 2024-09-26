@@ -11,6 +11,8 @@ import com.ma5951.utils.Logger.LoggedPose2d;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Robot;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -48,7 +50,7 @@ public class PoseEstimator {
     }
     
     public void updateOdometry() {
-        robotPoseEstimator.update(swerve.getRotation2d(), swerve.getSwerveModulePositions());
+        robotPoseEstimator.updateWithTime(Timer.getFPGATimestamp(),swerve.getRotation2d(), swerve.getSwerveModulePositions());
     }
 
     // ((Math.abs(vision.getEstiman().getTranslation().getDistance(lastVisionPose.getTranslation()) -
@@ -57,15 +59,14 @@ public class PoseEstimator {
 
     public void updateVision() {
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            if (vision.getEstiman() != new Pose2d()  && (Math.abs(vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())) <= PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE
-            || true)
+            if (vision.getEstiman() != new Pose2d()
            ) {
                 
                 lastOdometryPose = getEstimatedRobotPose();
                 lastVisionPose = vision.getEstiman();
                 firstUpdate = false;
                 //robotPoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(getXYVisionDeviation(), getXYVisionDeviation(), 9999999));
-                robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), vision.getTimeStamp());
+                robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), Timer.getFPGATimestamp());
             }
         }
     }

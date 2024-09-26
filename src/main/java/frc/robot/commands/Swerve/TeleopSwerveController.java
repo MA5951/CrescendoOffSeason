@@ -1,5 +1,5 @@
 // Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
+// Open Sostatic urce Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Swerve;
@@ -8,11 +8,13 @@ import com.ma5951.utils.Logger.LoggedString;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.PoseEstimation.Vision;
+import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
 public class TeleopSwerveController extends Command {
@@ -26,6 +28,7 @@ public class TeleopSwerveController extends Command {
   private ChassisSpeeds relativAngleAdjustControllerSpeeds;
   private ChassisSpeeds intakeAutoDriveSpeeds;
   private boolean isOdometry;
+  public static Timer timeAtSetPoint;
   public static boolean atPoint;
   private boolean updateSetPoint = false;
 
@@ -43,6 +46,9 @@ public class TeleopSwerveController extends Command {
     intakeAutoDriveCommand = new IntakeAutoDriveController(controller);
     xyControllerLog = new LoggedString("/Swerve/Controllers/XY Controller");
     theathControllerLog = new LoggedString("/Swerve/Controllers/Theath Controller");
+
+    timeAtSetPoint = new Timer();
+
     addRequirements(swerve);
   }
 
@@ -74,39 +80,47 @@ public class TeleopSwerveController extends Command {
     } else if (RobotContainer.currentRobotState != RobotConstants.AMP){
       angleAdjustCommand.setSetPoint(RobotConstants.SUPER_STRUCTURE.getSetPointForAline());
     }
-    atPoint = angleAdjustCommand.getAtPoint() || relativAngleAdjustCommand.getAtPoint();
 
-    // if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && (Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
-    // || Vision.getInstance().getTagID() == 4 ) && !isOdometry )){
-    //   robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
-    //   xyControllerLog.update("Drive Controller");
-    //   theathControllerLog.update("Relativ Adjust");
-    // } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING ){
-    //   xyControllerLog.update("Drive Controller");
-    //   theathControllerLog.update("Odometry Adjust Speaker");
-    //   // if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT ) {
-    //   //   isOdometry = true;
-    //   // }
-    //   robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
-    // } else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
-    //   robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
-    //   driveCommand.updateAngleToLock();
+    if ((angleAdjustCommand.getAtPoint() || relativAngleAdjustCommand.getAtPoint())) {
+      atPoint = true;
+    } else {
+      atPoint = false;
+      timeAtSetPoint.reset();
+      timeAtSetPoint.start();
+    }
+
+    if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && (Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
+    || Vision.getInstance().getTagID() == 4 ) && !isOdometry )){
+      robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      xyControllerLog.update("Drive Controller");
+      theathControllerLog.update("Relativ Adjust");
+    } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING ){
+      xyControllerLog.update("Drive Controller");
+      theathControllerLog.update("Odometry Adjust Speaker");
+      // if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT ) {
+      //   isOdometry = true;
+      // }
+      robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
+    } else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
+      robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      driveCommand.updateAngleToLock();
       
-    //   xyControllerLog.update("Drive Controller");
-    //   theathControllerLog.update("Odometry Adjust Amp");
+      xyControllerLog.update("Drive Controller");
+      theathControllerLog.update("Odometry Adjust Amp");
     // } else if (RobotContainer.driverController.getHID().getR1Button()) {
     //   robotSpeeds = intakeAutoDriveSpeeds;
     //   xyControllerLog.update("Intake Auto Drive");
     //   theathControllerLog.update("Intake Auto Drive");
-    // } else { 
-    //   xyControllerLog.update("Drive Controller");
-    //   theathControllerLog.update("Drive Controller");
-    //   robotSpeeds = driveControllerSpeeds;
-    //   isOdometry = false;
-    //   updateSetPoint = false;
-    // }
+    // } 
+    }else { 
+      xyControllerLog.update("Drive Controller");
+      theathControllerLog.update("Drive Controller");
+      robotSpeeds = driveControllerSpeeds;
+      isOdometry = false;
+      updateSetPoint = false;
+    }
 
-    robotSpeeds = driveControllerSpeeds;
+    //robotSpeeds = driveControllerSpeeds;
     swerve.drive(robotSpeeds);
   }
 

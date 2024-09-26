@@ -185,6 +185,8 @@ public class SwerveConstants {
         public final static double RELATIV_THATA_KD = 0.0016;
         public final static double RELATIV_ANGLE_PID_TOLORANCE = 3;
 
+        public final static double TIME_AT_SET_POINT = 0.1;
+
         //Swerve theta PID_CONTROLLER lock
         public final static double THATA_LOCK_KP = 0.01;
         public final static double THATA_LOCK_KI = 0;

@@ -8,13 +8,17 @@ import com.ma5951.utils.Logger.LoggedInt;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Logger.MALog;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.LED.LED;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
+import frc.robot.Subsystem.Swerve.SwerveConstants;
 
 
 
@@ -36,7 +40,7 @@ public class Robot extends TimedRobot {
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     PoseEstimator.getInstance();
     LED.getInstance();
-    //addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 0.01 , 0);
+    //addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 1 / SwerveConstants.ODOMETRY_UPDATE_RATE , 0);
     
 
     currentRobotStateLog = new LoggedString("/RobotControl/Current Robot State");
@@ -53,6 +57,10 @@ public class Robot extends TimedRobot {
     lastRobotStateLog.update(RobotContainer.lastRobotState.getName());
     currentRobotStateNumberLog.update(getStateAsNum());
     LED.getInstance().periodic();
+
+    if (RobotController.getBatteryVoltage() < 12 && DriverStation.isDisabled()) {
+      RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 0.8);
+    } 
   }
 
   @Override

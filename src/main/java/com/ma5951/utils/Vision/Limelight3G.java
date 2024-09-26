@@ -39,9 +39,9 @@ public class Limelight3G {
 
   public LimelightHelpers.PoseEstimate getEstimatedPose() {
     if (LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name) != null) {
-      return new PoseEstimate();
-    } else {
       return LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+    } else {
+      return new PoseEstimate();
     }
   }
 
@@ -81,7 +81,7 @@ public class Limelight3G {
     if (getTagID() <= 0) {
       return -1;
     }
-    if (getTagID() - 1 < 0 || getTagID() - 1 >= tagHights.length) {
+    if ((getTagID() - 1 < 0 || getTagID() - 1 >= tagHights.length) && getTagID() - 1 != -2) {
       return -1;
     }
     double deltaHight = tagHights[getTagID() - 1] - cammeraHight;
