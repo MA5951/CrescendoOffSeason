@@ -9,6 +9,7 @@ package com.ma5951.utils.Vision;
 
 import java.util.function.Supplier;
 
+import com.ma5951.utils.Utils.DriverStationUtil;
 import com.ma5951.utils.Vision.LimelightHelpers.PoseEstimate;
 import com.ma5951.utils.Vision.LimelightHelpers.RawDetection;
 
@@ -78,13 +79,10 @@ public class Limelight3G {
    * Trigo
    */
   public double distance(double[] tagHights) {
-    if (getTagID() <= 0) {
+    if (getTagID() >= 0 && getTagID() - 1 < 0) {
       return -1;
     }
-    if ((getTagID() - 1 < 0 || getTagID() - 1 >= tagHights.length) && getTagID() - 1 != -2) {
-      return -1;
-    }
-    double deltaHight = tagHights[getTagID() - 1] - cammeraHight;
+    double deltaHight = tagHights[6] - cammeraHight;
     double deltaAngle = getTy() + cammeraAngle; 
     return deltaHight / Math.tan(Math.toRadians(deltaAngle));
   }
@@ -110,7 +108,7 @@ public class Limelight3G {
   }
 
   public void update() {
-    if (DriverStation.getAlliance().get() == Alliance.Red) {
+    if (DriverStationUtil.getAlliance() == Alliance.Red) {
       LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() , 0, 0, 0, 0, 0);
     } else {
     LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() +180, 0, 0, 0, 0, 0);

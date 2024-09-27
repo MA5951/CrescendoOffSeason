@@ -74,9 +74,15 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-            return new ShootingParameters(5500, 6000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 4),//3339: 3 , 5951: 5 / 3.6 / 0, 
+            if (getDistanceToTag() < 2.9) {
+                return new ShootingParameters(3000, 3500, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.7),//3339: 3 , 5951: 5 / 3.6 / 0, 
                 getDistanceToTag()) ;
+            } else {
+                return new ShootingParameters(5500, 6000, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.7),//3339: 3 , 5951: 5 / 3.6 / 0, 
+                getDistanceToTag()) ;
+            }
     }
 
     public ShootingParameters getFeedingPrameters() {
