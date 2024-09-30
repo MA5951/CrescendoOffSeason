@@ -42,7 +42,7 @@ public class DriveController extends Command {
 
     xSpeed = Math.abs(xSpeed) < 0.1 ? 0 : -xSpeed * SwerveConstants.DRIVER_XY_SCALER;
     ySpeed = Math.abs(ySpeed) < 0.1 ? 0 : -ySpeed * SwerveConstants.DRIVER_XY_SCALER;
-    turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * SwerveConstants.DRIVER_XY_SCALER;
+    turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * SwerveConstants.DRIVER_THATA_SCALER;
 
     if (RobotContainer.driverController.getHID().getR2Button()) {
       xSpeed = xSpeed * 0.4;

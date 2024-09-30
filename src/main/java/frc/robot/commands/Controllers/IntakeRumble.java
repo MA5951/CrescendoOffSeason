@@ -12,8 +12,8 @@ public class IntakeRumble extends SequentialCommandGroup {
 
   public IntakeRumble() {
     addCommands(
-      new InstantCommand(() -> RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 0.8)),
-      new WaitCommand(0.2),
+      new InstantCommand(() -> RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 1)),
+      new WaitCommand(0.5),
       new InstantCommand(() -> RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 0))
     );
   }

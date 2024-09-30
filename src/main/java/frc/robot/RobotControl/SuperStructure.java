@@ -6,6 +6,7 @@ package frc.robot.RobotControl;
 
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Utils.ConvUtil;
 import com.ma5951.utils.Utils.DriverStationUtil;
 
@@ -41,6 +42,7 @@ public class SuperStructure {
     private LoggedDouble distanceToSpeakerLog;
     private LoggedDouble robotHeadingLog;
     private LoggedDouble angleToSpaekerLog;
+    private LoggedString twodTo3dLog;
         
     public SuperStructure() {
         isNoteLog = new LoggedBool("/SuperStructure/Is Note");
@@ -51,6 +53,7 @@ public class SuperStructure {
         distanceToSpeakerLog = new LoggedDouble("/SuperStructure/Distance To Speaker");
         robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
         angleToSpaekerLog = new LoggedDouble("/SuperStructure/Angle To Speaker");
+        twodTo3dLog = new LoggedString("/SuperStructure/2D or 3D");
     }
 
     public void updateAmpPose() {
@@ -74,15 +77,20 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-            if (getDistanceToTag() < 2.9) {
-                return new ShootingParameters(3000, 3500, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.7),//3339: 3 , 5951: 5 / 3.6 / 0, 
+            // if (getDistanceToTag() < 2.9) {
+            //     return new ShootingParameters(5500, 6000, (
+            //     sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.1),//3339: 3 , 5951: 5 / 3.6 / 0, 
+            //     getDistanceToTag()) ;
+            // } else {
+            //     // return new ShootingParameters(5500, 6000, (
+            //     // sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.1),//3339: 3 , 5951: 5 / 3.6 / 0, 
+            //     // getDistanceToTag()) ;
+            // }
+
+
+            return new ShootingParameters(4500, 5000, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.1),//3339: 3 , 5951: 5 / 3.6 / 0, 
                 getDistanceToTag()) ;
-            } else {
-                return new ShootingParameters(5500, 6000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.7),//3339: 3 , 5951: 5 / 3.6 / 0, 
-                getDistanceToTag()) ;
-            }
     }
 
     public ShootingParameters getFeedingPrameters() {
@@ -122,10 +130,13 @@ public class SuperStructure {
     }
 
     public double getDistanceToTag() {
-        if (Vision.getInstance().isTag() && (Vision.getInstance().getTagID() ==7 || Vision.getInstance().getTagID() ==4)  && Vision.getInstance().getDistance() < 5
-        ) { //!isOdometry
+        if (Vision.getInstance().isTag() && (Vision.getInstance().getTagID() ==7 || Vision.getInstance().getTagID() ==4)  && Vision.getInstance().getDistance() < 5 &&
+        !isOdometry ) { 
+            twodTo3dLog.update("2D");
             return Vision.getInstance().getDistance();
         } else {
+            isOdometry = true;
+            twodTo3dLog.update("3D");
             if (DriverStationUtil.getAlliance() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
             } else if (DriverStation.getAlliance().get() == Alliance.Red) {
@@ -144,8 +155,7 @@ public class SuperStructure {
             double xDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getX() - xTrget);
             double yDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getY() - yTrget);
             double angle = Math.atan(yDis / xDis);
-            angle = DriverStationUtil.getAlliance() == Alliance.Blue ?
-                -(angle - Math.PI) : angle;
+            angle = -(angle - Math.PI);
             if (PoseEstimator.getInstance().getEstimatedRobotPose().getY() > yTrget) {
                 angle = -angle;
             }

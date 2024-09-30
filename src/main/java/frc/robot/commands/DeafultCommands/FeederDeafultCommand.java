@@ -18,6 +18,7 @@ import frc.robot.commands.Swerve.TeleopSwerveController;
 public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   private static Feeder feeder = Feeder.getInstance(); 
   private boolean isNoteBack = false;
+  public static boolean commited = false;
 
   public FeederDeafultCommand() {
     super(feeder);
@@ -49,13 +50,16 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
         case "IDLE":
           feeder.turnOffFeeder();
           isNoteBack = false;
+          commited = false;
           break;
         case "FORWARD":
           if (RobotContainer.currentRobotState == RobotConstants.INTAKE || RobotContainer.currentRobotState == RobotConstants.EJECT) {
             feeder.turnOnForward();
-          } else if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && TeleopSwerveController.timeAtSetPoint.hasElapsed(SwerveConstants.TIME_AT_SET_POINT)) || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING
+          } else if (((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && TeleopSwerveController.timeAtSetPoint.hasElapsed(SwerveConstants.TIME_AT_SET_POINT))
+           || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING)
           ) {
               feeder.turnOnForward();
+              //commited = true;
           } 
           break;
         case "REVERSE":

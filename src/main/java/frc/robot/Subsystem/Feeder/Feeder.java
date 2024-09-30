@@ -8,11 +8,14 @@ import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Feeder.IOs.FeederIO;
 import frc.robot.Subsystem.Shooter.Shooter;
+import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
 import frc.robot.commands.Swerve.TeleopSwerveController;
 
 public class Feeder extends StateControlledSubsystem {
@@ -27,6 +30,7 @@ public class Feeder extends StateControlledSubsystem {
   private LoggedBool StationaryShootCanMoveLog;
   private LoggedBool PresetShootingCanMoveLog;
   private LoggedBool CanMoveLog;
+  private Debouncer shootingDebouncer;
 
   private Feeder() {
     super(FeederConstants.SYSTEM_STATES , "Feeder");
@@ -35,6 +39,7 @@ public class Feeder extends StateControlledSubsystem {
     IntakeCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Intake");
     EjectCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Eject");
     FeedingCanLog = new LoggedBool("/Subsystems/Feeder/Can Move/Feeding");
+    shootingDebouncer = new Debouncer(FeederConstants.SHOOTING_CONDITION_DEBOUNCER);
     StationaryShootCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/Stationary Shoot");
     PresetShootingCanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move/PresetShooting");
     CanMoveLog = new LoggedBool("/Subsystems/Feeder/Can Move");
@@ -96,9 +101,13 @@ public class Feeder extends StateControlledSubsystem {
   }
 
   private boolean StationaryShootCanMove() {
-    return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-         && TeleopSwerveController.atPoint && !RobotConstants.SUPER_STRUCTURE.isRobotMoving(); // && RobotConstants.SUPER_STRUCTURE.isHeadingForShooting() && !RobotConstants.SUPER_STRUCTURE.isRobotMoving() ;
-    //return false;
+     return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && 
+      // Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
+      //    && TeleopSwerveController.atPoint && !RobotConstants.SUPER_STRUCTURE.isRobotMoving();
+    ((shootingDebouncer.calculate(
+      Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
+         && TeleopSwerveController.atPoint && !RobotConstants.SUPER_STRUCTURE.isRobotMoving()) || FeederDeafultCommand.commited)
+    );
   }
 
   private boolean AmpCanMove() {

@@ -58,9 +58,9 @@ public class Robot extends TimedRobot {
     currentRobotStateNumberLog.update(getStateAsNum());
     LED.getInstance().periodic();
 
-    if (RobotController.getBatteryVoltage() < 12 && DriverStation.isDisabled()) {
-      RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 0.8);
-    } 
+    // if (RobotController.getBatteryVoltage() < 12 && DriverStation.isDisabled()) {
+    //   RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 0.8);
+    // } 
   }
 
   @Override

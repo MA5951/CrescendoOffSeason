@@ -78,13 +78,7 @@ public class Vision extends SubsystemBase {
   }
 
   public void filterSpeaker() {
-    if (DriverStationUtil.getAlliance() == Alliance.Blue) {
-      limelight.filterTags(new int[] {7});
-    } else if (DriverStationUtil.getAlliance() == Alliance.Red) {
-      limelight.filterTags(new int[] {4});
-    } else {
-      limelight.filterTags(new int[] {});
-    }
+    limelight.filterTags(new int[] {7 , 4});
   }
 
   public void resetFilter() {

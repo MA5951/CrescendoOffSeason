@@ -196,10 +196,10 @@ public class SwerveConstants {
 
         //Swerve DRIVE CONTROLLER 
         public final static double DRIVER_XY_SCALER = 1;
-        public final static double DRIVER_THATA_SCALER = 1;
+        public final static double DRIVER_THATA_SCALER = 0.7;
 
         //Module Limits //75 Accl //700/800
-        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(75) , Units.degreesToRadians(700)); 
+        public final static ModuleLimits DEFUALT =  new ModuleLimits(5.2, Units.feetToMeters(65) , Units.degreesToRadians(700)); 
         
         //Collision Detector
         public final static double COLLISION_THRESHOLD = 1.85;

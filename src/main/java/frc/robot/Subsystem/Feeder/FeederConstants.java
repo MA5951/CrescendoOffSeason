@@ -16,7 +16,7 @@ import frc.robot.Subsystem.Feeder.IOs.FeederIOSim;
 /** Add your docs here. */
 public class FeederConstants {
 
-    public static final double FORWARD_VOLTAGE = 4; 
+    public static final double FORWARD_VOLTAGE = 3; 
     public static final double REVERS_VOLTAG = -6; 
 
     public static final double FORWARD_ADJUST_VOLTAG = 2; 
@@ -29,6 +29,7 @@ public class FeederConstants {
     public static final double PeakCurrentTime = 0.1; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
+    public static final double SHOOTING_CONDITION_DEBOUNCER = 0.1;
 
     public static final State IDLE = StatesConstants.IDLE;
     public static final State FORWARD = new State("FORWARD");

@@ -97,9 +97,10 @@ public class TeleopSwerveController extends Command {
     } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING ){
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Speaker");
-      // if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT ) {
+      // if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT) {
       //   isOdometry = true;
       // }
+      isOdometry = true;
       robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
       robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
