@@ -46,7 +46,6 @@ public class RobotContainer {
     Shooter.getInstance();
     SwerveSubsystem.getInstance();
     Vision.getInstance();
-    setDeafultCommands();
     configureBindings();
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
@@ -148,12 +147,20 @@ public class RobotContainer {
     Feeder.getInstance().setTargetState(FeederConstants.FORWARD);
   }
   
-  private void setDeafultCommands() {
+  public static void setDeafultCommands() {
     CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Feeder.getInstance(), new FeederDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(SwerveSubsystem.getInstance(), new TeleopSwerveController(RobotContainer.driverController));
+  }
+
+  public static void disableDeafultCommands() {
+    CommandScheduler.getInstance().removeDefaultCommand(Arm.getInstance());
+    CommandScheduler.getInstance().removeDefaultCommand(Feeder.getInstance());
+    CommandScheduler.getInstance().removeDefaultCommand(Intake.getInstance());
+    CommandScheduler.getInstance().removeDefaultCommand(Shooter.getInstance());
+    CommandScheduler.getInstance().removeDefaultCommand(SwerveSubsystem.getInstance());
   }
 
   private void configureBindings() {

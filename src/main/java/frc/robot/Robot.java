@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     PoseEstimator.getInstance();
     LED.getInstance();
-    //addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 1 / SwerveConstants.ODOMETRY_UPDATE_RATE , 0);
+    addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 1 / SwerveConstants.ODOMETRY_UPDATE_RATE , 0);
     
 
     currentRobotStateLog = new LoggedString("/RobotControl/Current Robot State");
@@ -58,14 +58,13 @@ public class Robot extends TimedRobot {
     currentRobotStateNumberLog.update(getStateAsNum());
     LED.getInstance().periodic();
 
-    // if (RobotController.getBatteryVoltage() < 12 && DriverStation.isDisabled()) {
-    //   RobotContainer.driverControllerRumble.getHID().setRumble(RumbleType.kBothRumble, 0.8);
-    // } 
+    
   }
 
   @Override
   public void disabledInit() {
     MALog.getInstance().stopLog();
+    RobotContainer.disableDeafultCommands();
   }
 
   @Override
@@ -91,6 +90,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
       }
     MALog.getInstance().startLog();
+
+    RobotContainer.setDeafultCommands();
   }
 
   @Override
