@@ -149,7 +149,7 @@ SwerveSubsystem extends SubsystemBase {
     return new Rotation2d(Math.toRadians(getFusedHeading()));
   }
 
-  public SwerveModuleState[] generateStates(ChassisSpeeds chassiSpeeds , boolean optimize) {
+  public SwerveModuleState[] generateStates(ChassisSpeeds chassiSpeeds , boolean optimize , boolean scale) {
     // chassiSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(chassiSpeeds , new Rotation2d(
     //                 Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
     //                  - SwerveSubsystem.getInstance().getOffsetAngle()))));
@@ -158,10 +158,11 @@ SwerveSubsystem extends SubsystemBase {
     //  chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY, chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY , new Rotation2d(
     //                 Math.toRadians((SwerveSubsystem.getInstance().getFusedHeading()
     //                  - SwerveSubsystem.getInstance().getOffsetAngle()))));
-    
-    chassiSpeeds.omegaRadiansPerSecond = chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY;
-    chassiSpeeds.vxMetersPerSecond = chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY;
-    chassiSpeeds.vyMetersPerSecond = chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY;
+    if (scale) {
+      chassiSpeeds.omegaRadiansPerSecond = chassiSpeeds.omegaRadiansPerSecond * SwerveConstants.MAX_ANGULAR_VELOCITY;
+      chassiSpeeds.vxMetersPerSecond = chassiSpeeds.vxMetersPerSecond * SwerveConstants.MAX_VELOCITY;
+      chassiSpeeds.vyMetersPerSecond = chassiSpeeds.vyMetersPerSecond * SwerveConstants.MAX_VELOCITY;
+    }
 
 
     if (optimize) {
@@ -188,8 +189,8 @@ SwerveSubsystem extends SubsystemBase {
     modulesArry[3].setDesiredState(states[3]);
   }
 
-  public void drive(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] states = generateStates(chassisSpeeds, SwerveConstants.optimize);
+  public void drive(ChassisSpeeds chassisSpeeds , boolean isAuto) {
+    SwerveModuleState[] states = generateStates(chassisSpeeds, SwerveConstants.optimize , !isAuto);
 
     SwerveModuleState[] Optistates = new SwerveModuleState[] {states[1] , states[3] , states[0] , states[2]};
     setPoinStatesLog.update(Optistates);
@@ -241,21 +242,6 @@ SwerveSubsystem extends SubsystemBase {
     lastYvelocity = currentChassisSpeeds.vyMetersPerSecond;
     lastTheatavelocity = currentChassisSpeeds.omegaRadiansPerSecond;
 
-    // double xSpeed = RobotContainer.driverController.getLeftX();
-    // double ySpeed = RobotContainer.driverController.getLeftY();
-    // double turningSpeed = RobotContainer.driverController.getRightX();
-
-    // xSpeed = Math.abs(xSpeed) < 0.1 ? 0 : -xSpeed * SwerveConstants.DRIVER_XY_SCALER;
-    // ySpeed = Math.abs(ySpeed) < 0.1 ? 0 : -ySpeed * SwerveConstants.DRIVER_XY_SCALER;
-    // turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * SwerveConstants.DRIVER_XY_SCALER;
-
-    // ChassisSpeeds speed = new ChassisSpeeds(ySpeed, xSpeed, turningSpeed);
-    // drive(speed);
-    // modulesArry[0].setDesiredState(new SwerveModuleState(RobotContainer.driverController.getHID().getLeftX(), new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
-    // modulesArry[1].setDesiredState(new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
-    // modulesArry[2].setDesiredState(new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
-    // modulesArry[3].setDesiredState(new SwerveModuleState(0, new Rotation2d(Units.degreesToRadians(RobotContainer.driverController.getHID().getLeftX() * 180))));
     
-
   }
 }

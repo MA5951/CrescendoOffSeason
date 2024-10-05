@@ -15,6 +15,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ma5951.utils.Logger.LoggedDouble;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.Util.SwerveModule;
 
@@ -168,11 +169,17 @@ public class SwerveModuleTalonFX implements SwerveModule {
 
         driveConfiguration.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
-        driveConfiguration.Slot0.kP = SwerveConstants.DRIVE_kP;
-        driveConfiguration.Slot0.kI = SwerveConstants.DRIVE_kI;
-        driveConfiguration.Slot0.kD = SwerveConstants.DRIVE_kD;
-        driveConfiguration.Slot0.kS = SwerveConstants.DRIVE_kS;
-        driveConfiguration.Slot0.kV = SwerveConstants.DRIVE_kV;
+        driveConfiguration.Slot0.kP = SwerveConstants.DRIVE_kP_TELEOP;
+        driveConfiguration.Slot0.kI = SwerveConstants.DRIVE_kI_TELEOP;
+        driveConfiguration.Slot0.kD = SwerveConstants.DRIVE_kD_TELEOP;
+        driveConfiguration.Slot0.kS = SwerveConstants.DRIVE_kS_TELEOP;
+        driveConfiguration.Slot0.kV = SwerveConstants.DRIVE_kV_TELEOP;
+
+        driveConfiguration.Slot1.kP = SwerveConstants.DRIVE_kP_AUTO;
+        driveConfiguration.Slot1.kI = SwerveConstants.DRIVE_kI_AUTO;
+        driveConfiguration.Slot1.kD = SwerveConstants.DRIVE_kD_AUTO;
+        driveConfiguration.Slot1.kS = SwerveConstants.DRIVE_kS_AUTO;
+        driveConfiguration.Slot1.kV = SwerveConstants.DRIVE_kV_AUTO;
 
         driveConfiguration.CurrentLimits.SupplyCurrentLimitEnable = 
             SwerveConstants.DRIVE_ENBLE_CURRENT_LIMIT;
@@ -280,7 +287,11 @@ public class SwerveModuleTalonFX implements SwerveModule {
         double omega = (setPointMPS / SwerveConstants.WHEEL_RADIUS);
         
         double rps = omega / (2 * Math.PI );
-        driveMotor.setControl(driveController.withVelocity(rps).withSlot(SwerveConstants.SLOT_CONFIG));
+        if (DriverStation.isAutonomous()) {
+            driveMotor.setControl(driveController.withVelocity(rps).withSlot(SwerveConstants.AUTO_SLOT_CONFIG));
+        } else {
+            driveMotor.setControl(driveController.withVelocity(rps).withSlot(SwerveConstants.TELEOP_SLOT_CONFIG));
+        }
 
     }
 

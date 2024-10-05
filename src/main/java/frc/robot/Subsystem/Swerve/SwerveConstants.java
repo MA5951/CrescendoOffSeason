@@ -130,7 +130,8 @@ public class SwerveConstants {
         public final static Translation2d[] modulesLocationArry = new Translation2d[] {frontLeftLocation , frontRightLocation , rearLeftLocation , rearRightLocation};
 
         // Modules config
-        public final static int SLOT_CONFIG = 0;
+        public final static int TELEOP_SLOT_CONFIG = 0;
+        public final static int AUTO_SLOT_CONFIG = 1;
         
         // MotionMagic PID
         public final static double TURNING_kP = 90;
@@ -153,11 +154,17 @@ public class SwerveConstants {
 
         // Modules drive config
         // PID
-        public final static double DRIVE_kP = 0;
-        public final static double DRIVE_kI = 0;
-        public final static double DRIVE_kD = 0;
-        public final static double DRIVE_kS = 0;
-        public final static double DRIVE_kV = 0.857 ;//* 12;
+        public final static double DRIVE_kP_TELEOP = 0;
+        public final static double DRIVE_kI_TELEOP = 0;
+        public final static double DRIVE_kD_TELEOP = 0;
+        public final static double DRIVE_kS_TELEOP = 0;
+        public final static double DRIVE_kV_TELEOP = 0.800 ;//857
+        
+        public final static double DRIVE_kP_AUTO = 0.1;
+        public final static double DRIVE_kI_AUTO = 0;
+        public final static double DRIVE_kD_AUTO = 0;
+        public final static double DRIVE_kS_AUTO = 0;
+        public final static double DRIVE_kV_AUTO = 0.775 ;//857
         // Current Limit
         public final static int DRIVE_PEAK_CURRENT_LIMIT = 60;
         public final static int DRIVE_CONTINUOS_CURRENT_LIMIT = 35;

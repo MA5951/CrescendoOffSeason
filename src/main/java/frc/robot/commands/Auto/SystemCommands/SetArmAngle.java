@@ -4,25 +4,28 @@
 
 package frc.robot.commands.Auto.SystemCommands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystem.Arm.Arm;
+import frc.robot.Subsystem.Arm.ArmConstants;
 
 public class SetArmAngle extends Command {
   private static Arm arm = Arm.getInstance();
-  private double setPoint; 
+  private Supplier<Double> setPoint; 
 
-  public SetArmAngle(double Angle) {
+  public SetArmAngle(Supplier<Double> Angle) {
     setPoint = Angle;
   }
 
   @Override
   public void initialize() {
-    arm.setVoltage(0);
+    //arm.setVoltage(0);
   }
 
   @Override
   public void execute() {
-    arm.runSetPoint(setPoint);
+    arm.runSetPoint(setPoint.get());
   }
 
   @Override
@@ -32,6 +35,6 @@ public class SetArmAngle extends Command {
 
   @Override
   public boolean isFinished() {
-    return arm.atPoint();
+    return Math.abs(arm.getArmPosition() - (setPoint.get())) <= ArmConstants.kTOLORANCE;
   }
 }

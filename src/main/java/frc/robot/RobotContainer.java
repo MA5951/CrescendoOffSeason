@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,7 +23,10 @@ import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
+import frc.robot.Subsystem.Swerve.SwerveAutoFollower;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
+import frc.robot.commands.Auto.SystemCommands.IntakeCommand;
+import frc.robot.commands.Auto.SystemCommands.ShootCommand;
 import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
@@ -47,9 +51,16 @@ public class RobotContainer {
     SwerveSubsystem.getInstance();
     Vision.getInstance();
     configureBindings();
+    new SwerveAutoFollower();
+    setUpAutoCommands();
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
+  }
+
+  public void setUpAutoCommands() {
+    NamedCommands.registerCommand("Intake Command", new IntakeCommand());
+    NamedCommands.registerCommand("Shoot Command", new ShootCommand());
   }
 
   public void setIDLE() {
@@ -238,6 +249,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return null; //TODO add auto commands 
+    return SwerveAutoFollower.buildAuto("Middle");
   }
 }

@@ -16,7 +16,7 @@ public class IntakeCommand extends SequentialCommandGroup {
   public IntakeCommand() {
     
     addCommands(
-      new SetArmAngle(ArmConstants.INTAKE_POSE),
+      new SetArmAngle(() -> ArmConstants.INTAKE_POSE),
       new InstantCommand(() -> Intake.getInstance().turnOnIntke())
       .alongWith(new InstantCommand(() -> Feeder.getInstance().turnOnForward())),
       new WaitUntilCommand(() -> RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),

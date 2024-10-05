@@ -19,7 +19,7 @@ public class ShootCommand extends SequentialCommandGroup {
     
     addCommands(
       new InstantCommand(() -> Shooter.getInstance().setShootingParameterSpeeds(new ShootingParameters(5000, 5000, 0, 0))),
-      new SetArmAngle(RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()),
+      new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()),
       new WaitUntilCommand(() -> Shooter.getInstance().atPoint()),
       new InstantCommand(() -> Feeder.getInstance().turnOnForward()),
       new WaitUntilCommand(() -> !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),
