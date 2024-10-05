@@ -25,8 +25,12 @@ import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 import frc.robot.Subsystem.Swerve.SwerveAutoFollower;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
+import frc.robot.commands.Auto.SystemCommands.Eject;
 import frc.robot.commands.Auto.SystemCommands.IntakeCommand;
+import frc.robot.commands.Auto.SystemCommands.MircozAutomation;
+import frc.robot.commands.Auto.SystemCommands.SetArmAngle;
 import frc.robot.commands.Auto.SystemCommands.ShootCommand;
+import frc.robot.commands.Auto.SystemCommands.ShootCommand2;
 import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
@@ -60,10 +64,13 @@ public class RobotContainer {
 
   public void setUpAutoCommands() {
     NamedCommands.registerCommand("Intake Command", new IntakeCommand());
-    NamedCommands.registerCommand("Shoot Command", new ShootCommand());
+    NamedCommands.registerCommand("Shoot Command", new ShootCommand2());
+    NamedCommands.registerCommand("Eject Command", new Eject());
+    NamedCommands.registerCommand("Mircoz Command", new MircozAutomation());
+    NamedCommands.registerCommand("Arm Command", new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()));
   }
 
-  public void setIDLE() {
+  public static void setIDLE() {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
       RobotConstants.SUPER_STRUCTURE.isOdometry = false;
@@ -249,6 +256,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return SwerveAutoFollower.buildAuto("Middle");
+    return SwerveAutoFollower.buildAuto("Midline 2");
   }
 }

@@ -30,7 +30,7 @@ public class SetArmAngle extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    arm.setVoltage(0);
+    arm.setVoltage(arm.getFeedForwardVoltage());
   }
 
   @Override

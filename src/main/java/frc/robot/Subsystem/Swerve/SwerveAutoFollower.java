@@ -29,8 +29,8 @@ public class SwerveAutoFollower {
             () -> swerve.getRobotRelativeSpeeds(), 
             speeds -> swerve.drive(speeds, true), 
             new HolonomicPathFollowerConfig(
-                new PIDConstants(0.05, 0, 0), 
-                new PIDConstants(0.7, 0, 0), 
+                new PIDConstants(0.9, 0, 0), 
+                new PIDConstants(0.8, 0, 0), 
                 SwerveConstants.MAX_VELOCITY, 
                 SwerveConstants.RADIUS, 
                 new ReplanningConfig()), 
