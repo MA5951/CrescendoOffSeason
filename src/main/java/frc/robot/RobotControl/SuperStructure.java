@@ -94,7 +94,7 @@ public class SuperStructure {
     }
 
     public ShootingParameters getFeedingPrameters() {
-        return RobotConstants.FEEDING_SHOOTING_PARAMETERS.get();
+        return RobotConstants.FEEDING_SHOOTING_PARAMETERS;
     }
 
     //Cirecle between 0 to 360 //Always positive

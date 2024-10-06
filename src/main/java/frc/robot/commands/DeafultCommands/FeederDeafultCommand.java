@@ -130,7 +130,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
   @Override
   public void AutoLoop() {
       super.AutoLoop();
-      AutomaticLoop();
+      //AutomaticLoop();
   }
 
   @Override

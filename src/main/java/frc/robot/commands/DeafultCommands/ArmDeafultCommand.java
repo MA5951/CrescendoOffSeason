@@ -111,7 +111,8 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void AutoLoop() {
       super.AutoLoop();
-      AutomaticLoop();
+      //AutomaticLoop();
+      arm.runSetPoint(arm.getAutoSetPoint());
   }
 
   @Override

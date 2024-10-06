@@ -35,7 +35,7 @@ public class ArmConstants {
     public static final double kCRUSIE_VELOCITY = ConvUtil.RPMtoRPS(35);
     public static final double kACCELERATION = 270;
     public static final double kJERK = 0;
-    public static final double kTOLORANCE = 0.5;
+    public static final double kTOLORANCE = 0.5;//0.5
     public static final double GEAR = 1/ 0.0073;
 
     public static final double kARM_MOVING_THRSHOLD_RPM = 2;

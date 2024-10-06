@@ -65,6 +65,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     MALog.getInstance().stopLog();
     RobotContainer.disableDeafultCommands();
+    RobotContainer.setIDLE();
   }
 
   @Override

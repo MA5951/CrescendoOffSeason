@@ -33,6 +33,8 @@ import frc.robot.commands.Auto.SystemCommands.MircozAutomation;
 import frc.robot.commands.Auto.SystemCommands.SetArmAngle;
 import frc.robot.commands.Auto.SystemCommands.ShootCommand;
 import frc.robot.commands.Auto.SystemCommands.ShootCommand2;
+import frc.robot.commands.Auto.SystemCommands.ShootOnMove;
+import frc.robot.commands.Auto.SystemCommands.ShootOnMove2;
 import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
@@ -61,6 +63,7 @@ public class RobotContainer {
     new SwerveAutoFollower();
     autoSelector = new AutoSelector();
     setUpAutoCommands();
+    CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
@@ -73,7 +76,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("Eject Command", new Eject());
     NamedCommands.registerCommand("Mircoz Command", new MircozAutomation());
     NamedCommands.registerCommand("Arm Command", new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()));
-  
+    NamedCommands.registerCommand("ShootMove Command", new ShootOnMove());
+    NamedCommands.registerCommand("Warm", new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(
+      () -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()
+    )));
+    NamedCommands.registerCommand("ShootOnMove", new ShootOnMove2());
+
+
     autoSelector.setAutoOptions(
     new AutoOption[] {
       new AutoOption(new InstantCommand(), "None"),
@@ -191,7 +200,7 @@ public class RobotContainer {
   }
 
   public static void disableDeafultCommands() {
-    CommandScheduler.getInstance().removeDefaultCommand(Arm.getInstance());
+    //CommandScheduler.getInstance().removeDefaultCommand(Arm.getInstance());
     CommandScheduler.getInstance().removeDefaultCommand(Feeder.getInstance());
     CommandScheduler.getInstance().removeDefaultCommand(Intake.getInstance());
     CommandScheduler.getInstance().removeDefaultCommand(Shooter.getInstance());
@@ -246,8 +255,8 @@ public class RobotContainer {
     new Trigger(() -> driverController.getHID().getTouchpad()).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Feeding?
-    new Trigger(() -> driverController.getHID().getPOV() == 270 && currentRobotState != RobotConstants.SOURCE_INTAKE)
-    .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.FEEDING_SHOOTING_PARAMETERS.get()))
+    new Trigger(() -> driverController.getHID().getPOV() == 270)
+    .onTrue(new InstantCommand(() -> RobotConstants.SUPER_STRUCTURE.setPRESETParameters(RobotConstants.FEEDING_SHOOTING_PARAMETERS))
     .andThen(new InstantCommand(() -> setPRESET_SHOOTING())));
 
     // //Low Feed

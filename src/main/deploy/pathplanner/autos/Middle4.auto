@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.3533001663498863,
+      "y": 5.507130871149041
+    },
+    "rotation": 180.0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -12,7 +18,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ShootMove Command"
+                  "name": "Intake Command"
                 }
               },
               {
@@ -41,12 +47,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Warm"
           }
         },
         {

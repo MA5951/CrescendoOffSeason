@@ -23,7 +23,7 @@ public class PoseEstimatorConstants {
     
     public final static double MAX_LINEAR_VELOCITY_FOR_UPDATE = 4;//Meters per second
     public final static double MAX_ANGULAR_VELOCITY_FOR_UPDATE = ConvUtil.DegreesToRadians(720);//Radians per second
-    public final static double VISION_TO_ODOMETRY_DIFRANCE = 0.4;
+    public final static double VISION_TO_ODOMETRY_DIFRANCE = 1;
     
     public static Supplier<Boolean> VISION_UPDATE_CONSTRAINS = () -> Math.abs(SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vxMetersPerSecond) < MAX_LINEAR_VELOCITY_FOR_UPDATE 
     && Math.abs(SwerveSubsystem.getInstance().getRobotRelativeSpeeds().vyMetersPerSecond) < MAX_LINEAR_VELOCITY_FOR_UPDATE

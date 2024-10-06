@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.4601559062273055,
-        "y": 3.84
+        "x": 2.57,
+        "y": 4.097305368134887
       },
       "prevControl": {
-        "x": 1.3329788535633416,
-        "y": 3.853246663113045
+        "x": 1.4428229473360359,
+        "y": 4.1105520312479324
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "C1 End"
     }
   ],
   "rotationTargets": [],

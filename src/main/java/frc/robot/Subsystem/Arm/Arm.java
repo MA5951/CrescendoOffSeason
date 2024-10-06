@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystem.Arm;
 
+import java.util.function.Supplier;
+
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedPose3d;
@@ -13,6 +15,7 @@ import com.ma5951.utils.Utils.ConvUtil;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Subsystem.Arm.IOs.ArmIO;
 import frc.robot.Subsystem.Feeder.Feeder;
@@ -23,6 +26,7 @@ public class Arm extends StateControlledSubsystem {
 
   private ArmIO armIO = ArmConstants.getArmIO();
   private double setPoint = 0;
+  private Supplier<Double> autoSetPoint = () -> ArmConstants.INTAKE_POSE;
 
 
   private Pose3d armPosition;
@@ -76,10 +80,14 @@ public class Arm extends StateControlledSubsystem {
   }
 
   public boolean atPoint() {
-    if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
+    if (DriverStation.isAutonomous()) {
+      return Math.abs(getArmPosition() - (autoSetPoint.get())) <= ArmConstants.kTOLORANCE * 2;
+    } else {
+      if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
       return Math.abs(getArmPosition() - (setPoint + board.getNum("Shooting Angle Offset"))) <= ArmConstants.kTOLORANCE;
     } else {
       return Math.abs(getArmPosition() - (setPoint + board.getNum("Angle Offset"))) <= ArmConstants.kTOLORANCE;
+    }
     }
   }
 
@@ -91,11 +99,22 @@ public class Arm extends StateControlledSubsystem {
     return setPoint;
   }
 
+  public double getAutoSetPoint() {
+    return autoSetPoint.get();
+  }
+
+  public void setAutoSetPoint(Supplier<Double> setPoint) {
+    autoSetPoint = setPoint;
+  }
+
   public void runSetPoint(double setPoint) {
-    this.setPoint = setPoint + board.getNum("Angle Offset");
     if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
+      this.setPoint = setPoint + board.getNum("Angle Offset");
       armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint + board.getNum("Shooting Angle Offset") ) , getFeedForwardVoltage());
+    } else if (DriverStation.isAutonomous()){
+      armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint) , getFeedForwardVoltage());
     } else {
+      this.setPoint = setPoint + board.getNum("Angle Offset");
       armIO.setAngleSetPoint(ConvUtil.DegreesToRotations(setPoint) , getFeedForwardVoltage());
     }
   }

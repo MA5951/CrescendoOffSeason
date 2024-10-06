@@ -18,6 +18,13 @@
       "/SmartDashboard/Arm Mechanism": "Mechanism2d",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Reset Pose": "Command"
+    },
+    "windows": {
+      "/Shuffleboard/Auto/AutoSelector": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {

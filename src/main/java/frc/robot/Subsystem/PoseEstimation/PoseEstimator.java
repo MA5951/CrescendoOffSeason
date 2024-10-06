@@ -25,7 +25,7 @@ public class PoseEstimator {
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
     private Pose2d lastOdometryPose = new Pose2d( 0 , 0 , new Rotation2d(0));
     private Pose2d lastVisionPose = new Pose2d();
-    private boolean firstUpdate = true;
+    private int updateNum = 0;
 
     private LoggedPose2d estimatedRobotPose;
     private LoggedBool odometryUpdateConstrains;
@@ -59,12 +59,13 @@ public class PoseEstimator {
 
     public void updateVision() {
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            if (vision.getEstiman() != new Pose2d()
-           ) {
+            if (vision.getEstiman() != new Pose2d() && (( (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
+            < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE )|| updateNum < 10)
+           )) {
                 
                 lastOdometryPose = getEstimatedRobotPose();
                 lastVisionPose = vision.getEstiman();
-                firstUpdate = false;
+                updateNum++;
                 //robotPoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(getXYVisionDeviation(), getXYVisionDeviation(), 9999999));
                 robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), Timer.getFPGATimestamp());
             }

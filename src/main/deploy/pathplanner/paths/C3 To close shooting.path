@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
-        "y": 5.53650223579517
+        "x": 2.7337543047179125,
+        "y": 6.814156597901747
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1903840587645407,
-        "y": 5.712730423671939
+        "x": 2.7337543047179125,
+        "y": 6.446720943570248
       },
       "isLocked": false,
-      "linkedName": "CloseShooting"
+      "linkedName": "C3 END"
     },
     {
       "anchor": {
         "x": 2.7337543047179125,
-        "y": 6.814156597901747
+        "y": 5.580559282764361
       },
       "prevControl": {
-        "x": 1.6910708597803605,
-        "y": 6.300157716594503
+        "x": 2.7337543047179125,
+        "y": 6.138615211040798
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C3 END"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -153.58,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -153.58,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Close 3",
   "previewStartingState": {
-    "rotation": 162.42,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

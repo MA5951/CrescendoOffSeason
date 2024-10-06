@@ -74,7 +74,7 @@ public class IntakeDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void AutoLoop() {
       super.AutoLoop();
-      AutomaticLoop();
+      //AutomaticLoop();
   }
 
   @Override
