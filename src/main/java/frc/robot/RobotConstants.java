@@ -31,6 +31,9 @@ public class RobotConstants {
     public static final State STATIONARY_SHOOTING = new State("STATIONARY_SHOOTING"); //Stationary auto shoot //Did 14
     public static final State PRESET_SHOOTING = new State("PRESET_SHOOTING"); //Preset shooting 16
 
+    public static final double ROBOT_MASS = 53;
+    public static final double ROBOT_MOI = 7.4;
+    
     
     public static final double ShootingTolerance = 15;
 
@@ -110,4 +113,5 @@ public class RobotConstants {
         {VisionConstants.CAMERA_TO_BUPMER + VisionConstants.SPEAKER_TO_SUBWOOFER + BUMPER_TO_SUBWOOFER_DISTANCE[0][19], BUMPER_TO_SUBWOOFER_DISTANCE[1][19], 0}
 
     };
+
 }

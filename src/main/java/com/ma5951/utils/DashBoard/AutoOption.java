@@ -5,6 +5,7 @@
 package com.ma5951.utils.DashBoard;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -18,7 +19,7 @@ public class AutoOption {
 
     //Use this to create auto option that was created with path planner
     public AutoOption(String optionName , String PathPlannerAutoName) {
-        autoCommand = AutoBuilder.buildAuto(PathPlannerAutoName);
+        autoCommand = new PathPlannerAuto(PathPlannerAutoName);
         name = optionName;
         pathPlannerName = PathPlannerAutoName;
         isPathPlanner = true;

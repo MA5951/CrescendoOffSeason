@@ -7,6 +7,7 @@ package frc.robot;
 import com.ma5951.utils.Logger.LoggedInt;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Logger.MALog;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
@@ -57,7 +58,7 @@ public class Robot extends TimedRobot {
     lastRobotStateLog.update(RobotContainer.lastRobotState.getName());
     currentRobotStateNumberLog.update(getStateAsNum());
     LED.getInstance().periodic();
-    RobotContainer.update();
+    //RobotContainer.update();
     
   }
 
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      System.out.println("SCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
     }
   }
 

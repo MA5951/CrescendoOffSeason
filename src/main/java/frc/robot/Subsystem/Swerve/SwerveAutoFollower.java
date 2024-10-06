@@ -8,12 +8,17 @@ package frc.robot.Subsystem.Swerve;
 
 import com.ma5951.utils.Utils.DriverStationUtil;
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotConstants;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 
 /** Add your docs here. */
@@ -21,27 +26,36 @@ public class SwerveAutoFollower {
 
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
     private PoseEstimator poseEstimate = PoseEstimator.getInstance();
+    private RobotConfig config;
 
     public SwerveAutoFollower() {
-        AutoBuilder.configureHolonomic(
+        try{
+            config = RobotConfig.fromGUISettings();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+          
+        AutoBuilder.configure(
             () -> poseEstimate.getEstimatedRobotPose(), 
-            pose -> poseEstimate.resetPose(pose), 
-            () -> swerve.getRobotRelativeSpeeds(), 
-            speeds -> swerve.drive(speeds, true), 
-            new HolonomicPathFollowerConfig(
-                new PIDConstants(0.9, 0, 0), 
-                new PIDConstants(0.8, 0, 0), 
-                SwerveConstants.MAX_VELOCITY, 
-                SwerveConstants.RADIUS, 
-                new ReplanningConfig()), 
-                () -> {
-
-                var alliance = DriverStationUtil.getAlliance();
-                return alliance == DriverStation.Alliance.Red;
-            }, swerve);
+            pose -> poseEstimate.resetPose(pose),
+            () -> swerve.getRobotRelativeSpeeds(),
+            speeds -> swerve.drive(speeds, true),
+            new PPHolonomicDriveController(
+                new PIDConstants(0, 0, 0),
+                new PIDConstants(0, 0, 0)), 
+            config,
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                  return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+              }, swerve);
+        
+        
     }
 
     public static Command buildAuto(String autoName) {
-        return AutoBuilder.buildAuto(autoName);
+        return new PathPlannerAuto(autoName);
     }
 }

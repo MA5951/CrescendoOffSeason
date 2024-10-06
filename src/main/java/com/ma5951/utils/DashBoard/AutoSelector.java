@@ -4,12 +4,15 @@
 
 package com.ma5951.utils.DashBoard;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
+
+import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -111,7 +114,7 @@ public class AutoSelector {
         pathPub.set(lastarr);
     }
 
-    public void updateViz() {
+    public void updateViz(){
         if (preVizualizAuto) {
             if (!DriverStation.isTeleopEnabled()) {
                 if (getSelectedAuto().isPathPlannerAuto()) {
@@ -119,7 +122,13 @@ public class AutoSelector {
                     clearCurrentPath();
                     String auto = "";
                     auto = getSelectedAuto().getPathPlannerAutoName();
-                    pathsArry = PathPlannerAuto.getPathGroupFromAutoFile(auto).toArray(new PathPlannerPath[0]);
+                    try {
+                        pathsArry = PathPlannerAuto.getPathGroupFromAutoFile(auto).toArray(new PathPlannerPath[0]);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     for (PathPlannerPath path : pathsArry) {
                         
                         setCurrentPath(path);

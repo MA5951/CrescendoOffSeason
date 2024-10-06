@@ -5,13 +5,22 @@
 package frc.robot;
 
 
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import com.ma5951.utils.DashBoard.AutoOption;
 import com.ma5951.utils.DashBoard.AutoSelector;
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -273,6 +282,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoSelector.getSelectedAutoCommand();
+    //return autoSelector.getSelectedAutoCommand();
+    System.out.println("PATTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+    return new PathPlannerAuto("Auto");
   }
 }

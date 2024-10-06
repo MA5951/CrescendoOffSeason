@@ -28,6 +28,7 @@ public class SwerveConstants {
         public final static double DRIVE_GEAR_RATIO = 6.12;
         public final static double WHEEL_RADIUS = 0.0508 ;
         public final static double WHEEL_CIRCUMFERENCE =  2 *WHEEL_RADIUS * Math.PI;
+        public final static double WHEEL_COF = 1.2 ;
 
         public final static double VELOCITY_TIME_UNIT_IN_SECONDS = 1;
 
