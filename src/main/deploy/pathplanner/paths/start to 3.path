@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "start to 3 END"
     }
   ],
   "rotationTargets": [
@@ -39,7 +39,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 5.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -48,7 +48,7 @@
     "rotation": -157.0
   },
   "reversed": false,
-  "folder": "Close 3",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

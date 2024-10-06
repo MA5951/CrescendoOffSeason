@@ -1,6 +1,5 @@
 {
   "version": 1.0,
-  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -145,6 +144,7 @@
       ]
     }
   },
+  "resetOdom": false,
   "folder": "Midline",
   "choreoAuto": false
 }
