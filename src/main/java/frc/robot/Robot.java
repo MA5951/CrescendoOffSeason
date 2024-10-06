@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
     lastRobotStateLog.update(RobotContainer.lastRobotState.getName());
     currentRobotStateNumberLog.update(getStateAsNum());
     LED.getInstance().periodic();
-
+    RobotContainer.update();
     
   }
 

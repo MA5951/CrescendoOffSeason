@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import com.ma5951.utils.DashBoard.AutoOption;
+import com.ma5951.utils.DashBoard.AutoSelector;
 import com.ma5951.utils.StateControl.StatesTypes.State;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -46,6 +48,7 @@ public class RobotContainer {
   public static CommandPS5Controller oporatorController = new CommandPS5Controller(PortMap.Controllers.operatorID);
   public static CommandXboxController driverControllerRumble = new CommandXboxController(2);
 
+  private static AutoSelector autoSelector;
 
   public RobotContainer() {
     Intake.getInstance();
@@ -56,6 +59,7 @@ public class RobotContainer {
     Vision.getInstance();
     configureBindings();
     new SwerveAutoFollower();
+    autoSelector = new AutoSelector();
     setUpAutoCommands();
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
@@ -63,11 +67,24 @@ public class RobotContainer {
   }
 
   public void setUpAutoCommands() {
+    
     NamedCommands.registerCommand("Intake Command", new IntakeCommand());
     NamedCommands.registerCommand("Shoot Command", new ShootCommand2());
     NamedCommands.registerCommand("Eject Command", new Eject());
     NamedCommands.registerCommand("Mircoz Command", new MircozAutomation());
     NamedCommands.registerCommand("Arm Command", new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()));
+  
+    autoSelector.setAutoOptions(
+    new AutoOption[] {
+      new AutoOption(new InstantCommand(), "None"),
+      new AutoOption("Close 3 Middle", "Middle3"),
+      new AutoOption("Midline 2 Amp", "Midline 2")
+    }  
+    , true);
+  }
+
+  public static void update() {
+    autoSelector.updateViz();
   }
 
   public static void setIDLE() {
@@ -256,6 +273,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return SwerveAutoFollower.buildAuto("Midline 2");
+    return autoSelector.getSelectedAutoCommand();
   }
 }
