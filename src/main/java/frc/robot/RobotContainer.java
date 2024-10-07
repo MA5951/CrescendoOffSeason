@@ -77,7 +77,7 @@ public class RobotContainer {
 
   public void setUpAutoCommands() {
     
-    NamedCommands.registerCommand("Intake Command", new IntakeCommand());
+    NamedCommands.registerCommand("Intake Command", new InstantCommand(() -> System.out.println("HHHHHHHHHHHHHHHHHH")));
     NamedCommands.registerCommand("Shoot Command", new ShootCommand2());
     NamedCommands.registerCommand("Eject Command", new Eject());
     NamedCommands.registerCommand("Mircoz Command", new MircozAutomation());
@@ -283,7 +283,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //return autoSelector.getSelectedAutoCommand();
-    System.out.println("PATTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
     return new PathPlannerAuto("Auto");
   }
 }
