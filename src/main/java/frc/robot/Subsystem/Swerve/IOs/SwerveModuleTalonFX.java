@@ -4,7 +4,7 @@ package frc.robot.Subsystem.Swerve.IOs;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+//import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -31,7 +31,7 @@ public class SwerveModuleTalonFX implements SwerveModule {
     private boolean isDriveMotorReversed;
     private boolean isTurningMotorReversed;
 
-    private MotionMagicVoltage turnController = new MotionMagicVoltage(0);
+    //private MotionMagicVoltage turnController = new MotionMagicVoltage(0);
     private PositionVoltage pidTurnController = new PositionVoltage(0);
     private VelocityVoltage driveController = new VelocityVoltage(0);
 

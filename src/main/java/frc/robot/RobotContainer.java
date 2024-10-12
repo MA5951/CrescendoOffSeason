@@ -33,7 +33,6 @@ import frc.robot.commands.Auto.SystemCommands.Eject;
 import frc.robot.commands.Auto.SystemCommands.IntakeCommand;
 import frc.robot.commands.Auto.SystemCommands.MircozAutomation;
 import frc.robot.commands.Auto.SystemCommands.SetArmAngle;
-import frc.robot.commands.Auto.SystemCommands.ShootCommand;
 import frc.robot.commands.Auto.SystemCommands.ShootCommand2;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMove;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMove2;

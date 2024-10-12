@@ -7,14 +7,12 @@ package frc.robot.Subsystem.PoseEstimation;
 
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedPose2d;
-import com.ma5951.utils.Utils.GeomUtil;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -25,8 +23,6 @@ public class PoseEstimator {
     private SwerveDrivePoseEstimator robotPoseEstimator;
     private Vision vision;
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-    private Pose2d lastOdometryPose = new Pose2d( 0 , 0 , new Rotation2d(0));
-    private Pose2d lastVisionPose = new Pose2d();
     private int updateNum = 0;
 
     private LoggedPose2d estimatedRobotPose;
@@ -57,30 +53,25 @@ public class PoseEstimator {
         robotPoseEstimator.updateWithTime(Timer.getFPGATimestamp(),swerve.getRotation2d(), swerve.getSwerveModulePositions());
     }
 
-    // ((Math.abs(vision.getEstiman().getTranslation().getDistance(lastVisionPose.getTranslation()) -
-    //             getEstimatedRobotPose().getTranslation().getDistance(lastOdometryPose.getTranslation()))
-    //              <= PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) ||  firstUpdate)
 
     public void updateVision() {
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            if (!vision.getEstiman().getTranslation().equals(new Translation2d(0, 0)) &&
-                // (Math.sqrt(
-                //     Math.pow(swerve.getRobotRelativeSpeeds().vxMetersPerSecond, 2) +
-                //     Math.pow(swerve.getRobotRelativeSpeeds().vyMetersPerSecond, 2)
-                // ) * 0.02) < &&
-              (( (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
-            < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE )|| updateNum < 20)
-           )) {
-                
-                lastOdometryPose = getEstimatedRobotPose();
-                lastVisionPose = vision.getEstiman();
-                updateNum++;
-                updatedVisionLog.update(true);
-                robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), Timer.getFPGATimestamp());
-                
-            } else {
-                updatedVisionLog.update(false);
-            }
+            if (!vision.getEstiman().getTranslation().equals(new Translation2d(0, 0))) {
+                if (DriverStation.isDisabled()) {
+                    updateNum = 0;
+                } else {
+                    if (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
+                    < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) {
+                        updateNum = 0;
+                    }
+                }
+            } 
+        }
+
+        if (updateNum < 15) {
+            updateNum++;
+            robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), Timer.getFPGATimestamp());
+            updatedVisionLog.update(true);
         } else {
             updatedVisionLog.update(false);
         }

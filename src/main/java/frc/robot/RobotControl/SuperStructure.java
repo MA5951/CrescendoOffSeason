@@ -11,11 +11,9 @@ import com.ma5951.utils.Utils.ConvUtil;
 import com.ma5951.utils.Utils.DriverStationUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.RobotConstants;
-import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.Vision;
@@ -29,15 +27,10 @@ public class SuperStructure {
 
     private ShootingParameters presetParameters;
     private Pose2d ampPose;
-    private Pose2d speakerPose = new Pose2d(0 , 5.548 , new Rotation2d());
-    private Pose2d feedingPose = new Pose2d(speakerPose.getX() + RobotConstants.FeedingOffsetY , speakerPose.getY() + RobotConstants.FeedingOffsetX , speakerPose.getRotation());;
-    private boolean updatedAfterDS = false;
     public boolean isOdometry = false;
 
     private LoggedBool isNoteLog;
     private LoggedBool isInWarmupLog;
-    private LoggedBool isHeadingForShootingLog;
-    private LoggedBool isHeadingForFeedingLog;
     private LoggedBool isRobotMovingLog;
     private LoggedDouble distanceToSpeakerLog;
     private LoggedDouble robotHeadingLog;
@@ -47,8 +40,6 @@ public class SuperStructure {
     public SuperStructure() {
         isNoteLog = new LoggedBool("/SuperStructure/Is Note");
         isInWarmupLog = new LoggedBool("/SuperStructure/Is In Warmup");
-        isHeadingForShootingLog = new LoggedBool("/SuperStructure/Is Heading For Shooting");
-        isHeadingForFeedingLog = new LoggedBool("/SuperStructure/Is Heading For Feeding");
         isRobotMovingLog = new LoggedBool("/SuperStructure/Is Robot Moving");
         distanceToSpeakerLog = new LoggedDouble("/SuperStructure/Distance To Speaker");
         robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
@@ -77,17 +68,6 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-            // if (getDistanceToTag() < 2.9) {
-            //     return new ShootingParameters(2500, 3000, (
-            //     sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.1),//3339: 3 , 5951: 5 / 3.6 / 0, 
-            //     getDistanceToTag()) ;
-            // } else {
-            //     // return new ShootingParameters(5500, 6000, (
-            //     // sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 2.1),//3339: 3 , 5951: 5 / 3.6 / 0, 
-            //     // getDistanceToTag()) ;
-            // }
-
-
             return new ShootingParameters(4500, 5000, (
                 sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5),//3339: 3 , 5951: 5 / 3.6 / 0, 
                 getDistanceToTag()) ;
@@ -104,25 +84,6 @@ public class SuperStructure {
  
     public boolean isInWarmUpZone() {
         return getDistanceToTag() < RobotConstants.DISTANCE_TO_WARM;
-    }
-
-    public boolean isHeading(Pose2d point, double tolerance) {
-        double angle = getAngleBetween(speakerPose, PoseEstimator.getInstance().getEstimatedRobotPose());
-        if (PoseEstimator.getInstance().getEstimatedRobotPose().getY() < point.getY()) {
-            angle -=90;
-            return Math.abs((180 -getRobotHeading()) - angle) < tolerance;
-        } else {
-            return Math.abs((270 -getRobotHeading()) - angle) < tolerance;
-        }
-    }
-
-    public boolean isHeadingForFeeding() {
-        return isHeading(feedingPose , RobotConstants.FeedingTolerance);
-    }
-
-    public boolean isHeadingForShooting() {
-        
-        return isHeading(speakerPose , RobotConstants.ShootingTolerance);
     }
 
     public boolean isRobotMoving() {
@@ -148,8 +109,7 @@ public class SuperStructure {
     }
 
     public double getSetPointForAline() {
-        if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
-            double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
+        double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
                 RobotConstants.RED_SPEAKER.getX() : RobotConstants.BLUE_SPEAKER.getX();
             double yTrget = RobotConstants.RED_SPEAKER.getY();
             double xDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getX() - xTrget);
@@ -160,9 +120,6 @@ public class SuperStructure {
                 angle = -angle;
             }
             return angle;
-        } else {
-            return Math.atan2(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getX() - feedingPose.getTranslation().getX(), PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getY() - feedingPose.getTranslation().getY());
-        }
     }
 
     public double getSetPointForAmpAline() {
@@ -242,8 +199,6 @@ public class SuperStructure {
     public void update() {
         isNoteLog.update(isNote());
         isInWarmupLog.update(isInWarmUpZone());
-        isHeadingForShootingLog.update(isHeadingForShooting());
-        isHeadingForFeedingLog.update(isHeadingForFeeding());
         isRobotMovingLog.update(isRobotMoving());
         distanceToSpeakerLog.update(getDistanceToTag());
         robotHeadingLog.update(getRobotHeading());

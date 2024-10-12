@@ -3,14 +3,12 @@ package frc.robot.commands.Auto.SystemCommands;
 
 import java.util.function.Supplier;
 
-import javax.print.DocFlavor.INPUT_STREAM;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotConstants;
-import frc.robot.RobotControl.SuperStructure;
 import frc.robot.Subsystem.Arm.Arm;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Intake.Intake;

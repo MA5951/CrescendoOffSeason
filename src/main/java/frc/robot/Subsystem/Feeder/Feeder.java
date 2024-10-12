@@ -9,7 +9,6 @@ import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Arm.Arm;
@@ -96,14 +95,11 @@ public class Feeder extends StateControlledSubsystem {
   }
 
   private boolean FeedingCanMove() {
-    return RobotContainer.currentRobotState == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint()
-           && RobotConstants.SUPER_STRUCTURE.isHeadingForFeeding() ;
+    return RobotContainer.currentRobotState == RobotConstants.FEEDING && Shooter.getInstance().atPoint() && Arm.getInstance().atPoint();
   }
 
   private boolean StationaryShootCanMove() {
      return RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && 
-      // Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
-      //    && TeleopSwerveController.atPoint && !RobotConstants.SUPER_STRUCTURE.isRobotMoving();
     ((shootingDebouncer.calculate(
       Shooter.getInstance().atPoint() && Arm.getInstance().atPoint() 
          && TeleopSwerveController.atPoint && !RobotConstants.SUPER_STRUCTURE.isRobotMoving()) || FeederDeafultCommand.commited)
