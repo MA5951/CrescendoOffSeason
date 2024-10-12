@@ -8,6 +8,7 @@ package frc.robot;
 import com.ma5951.utils.DashBoard.AutoOption;
 import com.ma5951.utils.DashBoard.AutoSelector;
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +28,7 @@ import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
 import frc.robot.Subsystem.Swerve.SwerveAutoFollower;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
+import frc.robot.Utils.ShootingParameters;
 import frc.robot.commands.Auto.SystemCommands.Eject;
 import frc.robot.commands.Auto.SystemCommands.IntakeCommand;
 import frc.robot.commands.Auto.SystemCommands.MircozAutomation;
@@ -64,6 +66,7 @@ public class RobotContainer {
     autoSelector = new AutoSelector();
     setUpAutoCommands();
     CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
+    CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
     //new Trigger(() -> oporatorController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getCircleButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.HOME)));
     //new Trigger(() -> oporatorController.getHID().getCrossButton()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.INTAKE)));
@@ -77,9 +80,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("Mircoz Command", new MircozAutomation());
     NamedCommands.registerCommand("Arm Command", new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()));
     NamedCommands.registerCommand("ShootMove Command", new ShootOnMove());
-    NamedCommands.registerCommand("Warm", new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(
+    NamedCommands.registerCommand("WarmArm", new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(
       () -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()
     )));
+    NamedCommands.registerCommand("WarmShooter", new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(
+      new ShootingParameters(5000, 4500, 0, 0)
+    )
+    ));
     NamedCommands.registerCommand("ShootOnMove", new ShootOnMove2());
 
 
@@ -200,10 +207,8 @@ public class RobotContainer {
   }
 
   public static void disableDeafultCommands() {
-    //CommandScheduler.getInstance().removeDefaultCommand(Arm.getInstance());
     CommandScheduler.getInstance().removeDefaultCommand(Feeder.getInstance());
     CommandScheduler.getInstance().removeDefaultCommand(Intake.getInstance());
-    CommandScheduler.getInstance().removeDefaultCommand(Shooter.getInstance());
     CommandScheduler.getInstance().removeDefaultCommand(SwerveSubsystem.getInstance());
   }
 
@@ -281,7 +286,16 @@ public class RobotContainer {
   
   }
 
+  public String getAutonomousName() {
+    return autoSelector.getSelectedAuto().getName();
+  }
+
+  public boolean getIsPathPLannerAuto() {
+    return autoSelector.getSelectedAuto().isPathPlannerAuto();
+  }
+
   public Command getAutonomousCommand() {
-    return autoSelector.getSelectedAutoCommand();
+    //return autoSelector.getSelectedAutoCommand();
+    return AutoBuilder.buildAuto("Midline 2");
   }
 }

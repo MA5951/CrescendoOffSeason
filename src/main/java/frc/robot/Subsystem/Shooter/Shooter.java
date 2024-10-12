@@ -20,6 +20,7 @@ public class Shooter extends StateControlledSubsystem {
   private ShooterIO shooterIO = ShooterConstants.getShooterIO();
   private double rightSetPoint;
   private double leftSetPoint;
+  private ShootingParameters autoShootingParameters = new ShootingParameters(0, 0, 0, 0);
 
   private LoggedDouble leftSpeed;
   private LoggedDouble rightSpeed;
@@ -66,6 +67,14 @@ public class Shooter extends StateControlledSubsystem {
     SourceIntakeCanMove = new LoggedBool("/Subsystems/Shooter/Can Move/SourceIntake");
 
     isNote = new LoggedBool("/Subsystems/Shooter/Is Note");
+  }
+
+  public void setAutoShootingParameters(ShootingParameters parameters) {
+    autoShootingParameters = parameters;
+  }
+
+  public ShootingParameters getAutoParametrs() {
+    return autoShootingParameters;
   }
 
   public boolean isNoteInShooter() {

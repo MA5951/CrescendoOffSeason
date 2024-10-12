@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
+import com.ma5951.utils.Utils.DriverStationUtil;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPoint;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -121,9 +123,12 @@ public class AutoSelector {
                     auto = getSelectedAuto().getPathPlannerAutoName();
                     pathsArry = PathPlannerAuto.getPathGroupFromAutoFile(auto).toArray(new PathPlannerPath[0]);
                     for (PathPlannerPath path : pathsArry) {
-                        
+                        if (DriverStationUtil.getAlliance() == Alliance.Red) {
+                            path.flipPath();
+                        }
                         setCurrentPath(path);
                     }
+                    
                     lastPublishedAuto = getSelectedAuto().getPathPlannerAutoName();
                     for (int i = 0; i < lastarr.length; i += 3) {
                         double x = lastarr[i];

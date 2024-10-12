@@ -8,38 +8,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Command"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Command"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "start to 3"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.3
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot Command"
+            "name": "WarmShooter"
           }
         },
         {
@@ -62,22 +31,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Command"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "4 to shoot"
-                }
-              }
-            ]
+            "name": "WarmArm"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "4 to shoot"
           }
         },
         {
@@ -112,22 +74,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Command"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "5 to shoot"
-                }
-              }
-            ]
+            "name": "WarmArm"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 to shoot"
           }
         },
         {
@@ -145,6 +100,6 @@
       ]
     }
   },
-  "folder": "Midline",
+  "folder": null,
   "choreoAuto": false
 }

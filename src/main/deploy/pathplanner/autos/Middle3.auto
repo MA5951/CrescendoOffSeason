@@ -81,6 +81,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "C3 To close shooting"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Shoot Command"
@@ -89,6 +95,6 @@
       ]
     }
   },
-  "folder": "Close 3",
+  "folder": null,
   "choreoAuto": false
 }

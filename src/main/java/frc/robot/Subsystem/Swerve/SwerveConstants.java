@@ -66,6 +66,22 @@ public class SwerveConstants {
         public static final Translation2d rearRightLocation = new Translation2d(
                 WIDTH / 2,
                 -LENGTH / 2);
+
+        // public static final Translation2d frontLeftLocation = new Translation2d(
+        //         LENGTH / 2,
+        //         WIDTH / 2);
+
+        // public static final Translation2d frontRightLocation = new Translation2d(
+        //         LENGTH / 2,
+        //         -WIDTH / 2);
+
+        // public static final Translation2d rearLeftLocation = new Translation2d(
+        //         -LENGTH / 2,
+        //         WIDTH / 2);
+
+        // public static final Translation2d rearRightLocation = new Translation2d(
+        //         -LENGTH / 2,
+        //         -WIDTH / 2);
         
 
         //IOs
@@ -175,6 +191,7 @@ public class SwerveConstants {
         public final static double MAX_VELOCITY =  5.2;
         //public final static double MAX_ACCELERATION = (10.91 / 1.15) * 1.3; 
         public final static double MAX_ANGULAR_VELOCITY = MAX_VELOCITY / RADIUS;// Radians
+
         public final static SwerveDriveKinematics kinematics = new SwerveDriveKinematics(SwerveConstants.frontLeftLocation, SwerveConstants.frontRightLocation,
         SwerveConstants.rearLeftLocation, SwerveConstants.rearRightLocation);
 

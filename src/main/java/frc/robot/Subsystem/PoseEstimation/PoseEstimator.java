@@ -7,10 +7,12 @@ package frc.robot.Subsystem.PoseEstimation;
 
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedPose2d;
+import com.ma5951.utils.Utils.GeomUtil;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
@@ -30,6 +32,7 @@ public class PoseEstimator {
     private LoggedPose2d estimatedRobotPose;
     private LoggedBool odometryUpdateConstrains;
     private LoggedBool visionUpdateConstrains;
+    private LoggedBool updatedVisionLog;
 
 
     public PoseEstimator() {
@@ -43,6 +46,7 @@ public class PoseEstimator {
         estimatedRobotPose = new LoggedPose2d("/Pose Estimator/Estimated Robot Pose");
         odometryUpdateConstrains = new LoggedBool("/Pose Estimator/Odometry Update Constrains");
         visionUpdateConstrains = new LoggedBool("/Pose Estimator/Vision Update Constrains");
+        updatedVisionLog = new LoggedBool("/Pose Estimator/Vision Update");
     }
 
     public void resetPose(Pose2d pose) {
@@ -59,16 +63,26 @@ public class PoseEstimator {
 
     public void updateVision() {
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            if (vision.getEstiman() != new Pose2d() && (( (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
-            < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE )|| updateNum < 10)
+            if (!vision.getEstiman().getTranslation().equals(new Translation2d(0, 0)) &&
+                // (Math.sqrt(
+                //     Math.pow(swerve.getRobotRelativeSpeeds().vxMetersPerSecond, 2) +
+                //     Math.pow(swerve.getRobotRelativeSpeeds().vyMetersPerSecond, 2)
+                // ) * 0.02) < &&
+              (( (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
+            < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE )|| updateNum < 20)
            )) {
                 
                 lastOdometryPose = getEstimatedRobotPose();
                 lastVisionPose = vision.getEstiman();
                 updateNum++;
-                //robotPoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(getXYVisionDeviation(), getXYVisionDeviation(), 9999999));
+                updatedVisionLog.update(true);
                 robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), Timer.getFPGATimestamp());
+                
+            } else {
+                updatedVisionLog.update(false);
             }
+        } else {
+            updatedVisionLog.update(false);
         }
     }
 

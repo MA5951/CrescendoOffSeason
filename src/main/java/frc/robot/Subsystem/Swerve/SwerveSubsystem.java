@@ -90,6 +90,8 @@ SwerveSubsystem extends SubsystemBase {
       modulesArry[i].setNeutralModeTurn(true);
     }
 
+    
+
     gyro.reset();
   }
 

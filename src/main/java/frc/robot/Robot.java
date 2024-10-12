@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedInt;
+import com.ma5951.utils.Logger.LoggedPose2d;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Logger.MALog;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
@@ -31,6 +34,9 @@ public class Robot extends TimedRobot {
   private LoggedString currentRobotStateLog;
   private LoggedString lastRobotStateLog;
   private LoggedInt currentRobotStateNumberLog;
+  private LoggedBool isStartingPoseLog;
+  private LoggedString currentSelectedAuto;
+  private LoggedPose2d startingPoseLog;
 
   @Override
   public void robotInit() {
@@ -46,6 +52,8 @@ public class Robot extends TimedRobot {
     currentRobotStateLog = new LoggedString("/RobotControl/Current Robot State");
     lastRobotStateLog = new LoggedString("/RobotControl/Last Robot State");
     currentRobotStateNumberLog = new LoggedInt("/RobotControl/Current Robot State Num");
+    isStartingPoseLog = new LoggedBool("/Auto/Is Starting Pose");
+    startingPoseLog = new LoggedPose2d("/Auto/Starting Pose");
   }
 
   @Override
@@ -70,11 +78,28 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    //currentSelectedAuto.update(m_robotContainer.getAutonomousName());
     
+    // if (m_robotContainer.getIsPathPLannerAuto()) {
+    //   startingPoseLog.update(PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
+    // ));
+    //   isStartingPoseLog.update(
+    //     PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
+    //   ).getTranslation().getDistance(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation())
+    //    < RobotConstants.DISTANCE_TO_START_AUTO
+    //   );
+    
+    // }
   }
 
   @Override
   public void autonomousInit() {
+    if (m_robotContainer.getIsPathPLannerAuto()) {
+      PoseEstimator.getInstance().resetPose(
+      PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
+    ));
+
+    }
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
