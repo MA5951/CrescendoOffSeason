@@ -8,6 +8,7 @@ package frc.robot;
 import com.ma5951.utils.DashBoard.AutoOption;
 import com.ma5951.utils.DashBoard.AutoSelector;
 import com.ma5951.utils.StateControl.StatesTypes.State;
+import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -268,7 +269,7 @@ public class RobotContainer {
     //Update Offset
     new Trigger(() -> driverController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset()));
 
-    new Trigger(() -> driverController.getHID().getOptionsButton() && Shooter.getInstance().getLeftSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT &&
+    new Trigger(() -> driverController.getHID().getSquareButton() && Shooter.getInstance().getLeftSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT &&
     Shooter.getInstance().getRightSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setSOURCE_INTAKE()));
     
     new Trigger(() -> currentRobotState == RobotConstants.SOURCE_INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInFeeder() 
@@ -283,6 +284,11 @@ public class RobotContainer {
     new Trigger(() -> oporatorController.getHID().getR1Button()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getTouchpad()).onTrue(new InstantCommand(() -> setIDLE()));
   
+
+    new Trigger(() -> Math.abs(oporatorController.getHID().getRightY()) < 0.4).onTrue(new InstantCommand(() -> Arm.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+    new Trigger(() -> oporatorController.getHID().getPOV() == 270 || oporatorController.getHID().getPOV() == 90).onTrue(new InstantCommand(() -> Feeder.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+    new Trigger(() -> oporatorController.getHID().getPOV() == 0 || oporatorController.getHID().getPOV() == 180).onTrue(new InstantCommand(() -> Intake.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+
   }
 
   public String getAutonomousName() {

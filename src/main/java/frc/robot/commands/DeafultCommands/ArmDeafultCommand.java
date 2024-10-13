@@ -45,7 +45,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
     switch (arm.getTargetState().getName()) {
       case "IDLE":
       if (arm.getLastState() == ArmConstants.HOME ||arm.getLastState() == ArmConstants.INTAKE ) {
-        arm.setVoltage(-arm.getFeedForwardVoltage() * 1);
+        arm.setVoltage(-arm.getFeedForwardVoltage() * 0.5);
       } else {
         arm.setVoltage(-arm.getFeedForwardVoltage());
       }
@@ -103,7 +103,7 @@ public class ArmDeafultCommand extends RobotFunctionStatesCommand {
   @Override
   public void ManuelLoop() {
       super.ManuelLoop();
-      double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getRightY()) < 0.1 ? arm.getFeedForwardVoltage() : (RobotContainer.oporatorController.getHID().getRightY() * -1 )
+      double controllerMult = Math.abs(RobotContainer.oporatorController.getHID().getRightY()) < 0.4 ? arm.getFeedForwardVoltage() : (RobotContainer.oporatorController.getHID().getRightY() * -1 )
       * ArmConstants.MANUEL_VOLTAGE_LIMIT;
       arm.setVoltage(controllerMult);
   }

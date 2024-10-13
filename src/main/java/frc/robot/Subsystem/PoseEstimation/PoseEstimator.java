@@ -23,7 +23,9 @@ public class PoseEstimator {
     private SwerveDrivePoseEstimator robotPoseEstimator;
     private Vision vision;
     private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
-    private int updateNum = 0;
+    private int updateNum = 15;
+    private int firstUpdate = 0;
+    private boolean shouldUpdate = false;
 
     private LoggedPose2d estimatedRobotPose;
     private LoggedBool odometryUpdateConstrains;
@@ -55,21 +57,28 @@ public class PoseEstimator {
 
 
     public void updateVision() {
+        shouldUpdate = false;
+        
         if (PoseEstimatorConstants.VISION_UPDATE_CONSTRAINS.get()) {
-            if (!vision.getEstiman().getTranslation().equals(new Translation2d(0, 0))) {
-                if (DriverStation.isDisabled()) {
+            if (vision.getEstiman().getTranslation().getX() != 0 ) {
+                if (firstUpdate < 10) {
                     updateNum = 0;
+                    shouldUpdate = true;
                 } else {
                     if (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
                     < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) {
                         updateNum = 0;
+                        shouldUpdate = true;
                     }
                 }
             } 
         }
 
-        if (updateNum < 15) {
+        if (updateNum < 10 && shouldUpdate) {
             updateNum++;
+            if (firstUpdate < 15) {
+                firstUpdate++;
+            }
             robotPoseEstimator.addVisionMeasurement(vision.getEstiman(), Timer.getFPGATimestamp());
             updatedVisionLog.update(true);
         } else {
