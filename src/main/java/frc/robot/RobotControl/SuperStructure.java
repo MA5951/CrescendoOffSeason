@@ -68,8 +68,8 @@ public class SuperStructure {
     }
 
     public ShootingParameters getShootingPrameters() {
-            return new ShootingParameters(4500, 5000, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5),//3339: 3 , 5951: 5 / 3.6 / 0, 
+            return new ShootingParameters(4500, 5500, (
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 4.4),//3339: 3 , 5951: 5 / 3.6 / 0, 
                 getDistanceToTag()) ;
     }
 
@@ -96,7 +96,7 @@ public class SuperStructure {
             twodTo3dLog.update("2D");
             return Vision.getInstance().getDistance();
         } else {
-            isOdometry = true;
+            //isOdometry = true;
             twodTo3dLog.update("3D");
             if (DriverStationUtil.getAlliance() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;

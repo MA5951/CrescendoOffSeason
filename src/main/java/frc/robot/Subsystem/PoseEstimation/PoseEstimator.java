@@ -65,11 +65,13 @@ public class PoseEstimator {
                     updateNum = 0;
                     shouldUpdate = true;
                 } else {
-                    if (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
-                    < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) {
-                        updateNum = 0;
-                        shouldUpdate = true;
-                    }
+                    // if (vision.getEstiman().getTranslation().getDistance(getEstimatedRobotPose().getTranslation())
+                    // < PoseEstimatorConstants.VISION_TO_ODOMETRY_DIFRANCE ) {
+                    //     updateNum = 0;
+                    //     shouldUpdate = true;
+                    // }
+                    updateNum = 0;
+                    shouldUpdate = true;
                 }
             } 
         }

@@ -61,6 +61,10 @@ public class Feeder extends StateControlledSubsystem {
     setVoltage(FeederConstants.FORWARD_VOLTAGE);
   }
 
+  public void turnOnForwardShooting() {
+    setVoltage(FeederConstants.SHOOTING_FORWARD_VOLTAGE);
+  }
+
   public void turnOnRevers() {
     setVoltage(FeederConstants.REVERS_VOLTAG);
   }

@@ -50,6 +50,12 @@ public class DriveController extends Command {
       turningSpeed = turningSpeed * 0.4;
     }
 
+    if (RobotContainer.driverController.getHID().getL1Button()) {
+      xSpeed = xSpeed * 0.6;
+      ySpeed = ySpeed * 0.6;
+      turningSpeed = turningSpeed * 0.6;
+    }
+
     // if (Math.abs(turningSpeed) > 0) {
     //   angleLock = false;
     // } else if (!angleLock && SwerveSubsystem.getInstance().getA().omegaRadiansPerSecond < 0.1 ) {

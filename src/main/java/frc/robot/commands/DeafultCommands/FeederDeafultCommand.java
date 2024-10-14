@@ -58,7 +58,7 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
           } else if (((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && TeleopSwerveController.timeAtSetPoint.hasElapsed(SwerveConstants.TIME_AT_SET_POINT))
            || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING)
           ) {
-              feeder.turnOnForward();
+              feeder.turnOnForwardShooting();
               //commited = true;
           } 
           break;

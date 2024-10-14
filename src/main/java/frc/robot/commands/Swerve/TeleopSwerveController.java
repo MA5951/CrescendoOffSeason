@@ -97,10 +97,10 @@ public class TeleopSwerveController extends Command {
     } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING ){
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Speaker");
-      // if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT) {
-      //   isOdometry = true;
-      // }
-      isOdometry = true;
+      if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < 6) {//4.5
+        isOdometry = true;
+      }
+      // isOdometry = true;
       robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
       robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
@@ -108,12 +108,7 @@ public class TeleopSwerveController extends Command {
       
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Amp");
-    // } else if (RobotContainer.driverController.getHID().getR1Button()) {
-    //   robotSpeeds = intakeAutoDriveSpeeds;
-    //   xyControllerLog.update("Intake Auto Drive");
-    //   theathControllerLog.update("Intake Auto Drive");
-    // } 
-    }else { 
+    } else { 
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Drive Controller");
       robotSpeeds = driveControllerSpeeds;

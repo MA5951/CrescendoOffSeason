@@ -86,6 +86,7 @@ public class Arm extends StateControlledSubsystem {
       if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
       return Math.abs(getArmPosition() - (setPoint + board.getNum("Shooting Angle Offset"))) <= ArmConstants.kTOLORANCE;
     } else {
+      //test somthing not working when cahnging offset at amp
       return Math.abs(getArmPosition() - (setPoint + board.getNum("Angle Offset"))) <= ArmConstants.kTOLORANCE;
     }
     }

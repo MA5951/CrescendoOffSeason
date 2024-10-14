@@ -236,7 +236,8 @@ public class RobotContainer {
     new Trigger(() -> (!RobotConstants.SUPER_STRUCTURE.isInWarmUpZone() || !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()) && currentRobotState == RobotConstants.WARMING ).onTrue(new InstantCommand(() -> setIDLE()));
 
     //Starts and stops Shooting 
-    new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING
+    new Trigger(() -> driverController.getHID().getL1Button() && currentRobotState != RobotConstants.SOURCE_INTAKE && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING &&
+    currentRobotState != RobotConstants.INTAKE
     && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() <= RobotConstants.DISTANCE_TO_SHOOT).onTrue(new InstantCommand(() -> setSTATIONARY_SHOOTING()));
     
     new Trigger(() -> currentRobotState == RobotConstants.STATIONARY_SHOOTING && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE()));
@@ -285,9 +286,11 @@ public class RobotContainer {
     new Trigger(() -> oporatorController.getHID().getTouchpad()).onTrue(new InstantCommand(() -> setIDLE()));
   
 
-    new Trigger(() -> Math.abs(oporatorController.getHID().getRightY()) < 0.4).onTrue(new InstantCommand(() -> Arm.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
-    new Trigger(() -> oporatorController.getHID().getPOV() == 270 || oporatorController.getHID().getPOV() == 90).onTrue(new InstantCommand(() -> Feeder.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
-    new Trigger(() -> oporatorController.getHID().getPOV() == 0 || oporatorController.getHID().getPOV() == 180).onTrue(new InstantCommand(() -> Intake.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+    //new Trigger(() -> Math.abs(oporatorController.getHID().getRightY()) < 0.4).onTrue(new InstantCommand(() -> Arm.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+    //new Trigger(() -> oporatorController.getHID().getPOV() == 270 || oporatorController.getHID().getPOV() == 90).onTrue(new InstantCommand(() -> Feeder.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+    //new Trigger(() -> oporatorController.getHID().getPOV() == 0 || oporatorController.getHID().getPOV() == 180).onTrue(new InstantCommand(() -> Intake.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
+    //Cheack Transition bwtween automatic and manuel
+
 
   }
 
