@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Arm.Arm;
+import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Shooter.Shooter;
 
@@ -20,6 +21,8 @@ public class ShootOnMove2 extends SequentialCommandGroup {
 
   public ShootOnMove2() {
     addCommands(
+      //new WaitUntilCommand(0.3),
+      //new WaitUntilCommand(() -> Math.abs(Arm.getInstance().getArmPosition() - Arm.getInstance().getAutoSetPoint()) <= ArmConstants.kTOLORANCE * 1),
       new WaitUntilCommand(() -> Arm.getInstance().atPoint()),
       new WaitUntilCommand(() -> Shooter.getInstance().atPoint()),
       new InstantCommand(() -> Feeder.getInstance().turnOnForward()),

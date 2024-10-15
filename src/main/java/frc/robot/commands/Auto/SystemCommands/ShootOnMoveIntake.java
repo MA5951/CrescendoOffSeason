@@ -16,11 +16,11 @@ import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Utils.ShootingParameters;
 
-public class ShootOnMove extends ParallelDeadlineGroup {
+public class ShootOnMoveIntake extends ParallelDeadlineGroup {
   private static Supplier<Double> armAngle = () -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle() - 3;//-8
 
 
-  public ShootOnMove() {
+  public ShootOnMoveIntake() {
     super(new SequentialCommandGroup(
       new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(armAngle)),
       new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(() -> new ShootingParameters(5000, 6000, 0, 0))),
@@ -33,12 +33,8 @@ public class ShootOnMove extends ParallelDeadlineGroup {
       new WaitUntilCommand(() -> RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),
       // new WaitUntilCommand(() -> RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),
       new InstantCommand(() -> Feeder.getInstance().turnOffFeeder()),
-      new InstantCommand(() -> Intake.getInstance().turnOffIntke()),
-      new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle())),
-      new WaitUntilCommand(() -> Math.abs(Arm.getInstance().getArmPosition() - Arm.getInstance().getAutoSetPoint()) <= ArmConstants.kTOLORANCE * 2),
-      new InstantCommand(() -> Feeder.getInstance().turnOnForward()),
-      new WaitUntilCommand(() -> !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),
-      new InstantCommand(() -> Feeder.getInstance().turnOffFeeder()))
+      new InstantCommand(() -> Intake.getInstance().turnOffIntke()))
+    
     );
 
     addCommands(

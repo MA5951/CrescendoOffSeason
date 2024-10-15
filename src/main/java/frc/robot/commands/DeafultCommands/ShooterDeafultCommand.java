@@ -93,7 +93,7 @@ public class ShooterDeafultCommand extends RobotFunctionStatesCommand {
   public void AutoLoop() {
       super.AutoLoop();
       //AutomaticLoop();
-      shooter.setShootingParameterSpeeds(shooter.getAutoParametrs());
+      shooter.setShootingParameterSpeeds(shooter.getAutoParametrs().get());
       System.out.println("PRRRRRRRRRRRRRRRRRRRRRRRRRR");
   } 
 }

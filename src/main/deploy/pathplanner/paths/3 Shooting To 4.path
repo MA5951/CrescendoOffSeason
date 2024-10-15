@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.77,
-        "y": 6.677279833432906
+        "x": 3.5708381971325664,
+        "y": 7.328155479208991
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4348373860128,
-        "y": 7.038604499744211
+        "x": 4.5708381971325664,
+        "y": 7.328155479208991
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "END 3 Shooting"
     },
     {
       "anchor": {
-        "x": 2.691403692666541,
-        "y": 7.09641644635402
+        "x": 8.094028352636311,
+        "y": 7.519069349408824
       },
       "prevControl": {
-        "x": 1.2027460674639663,
-        "y": 6.850715673262333
+        "x": 7.094028352636311,
+        "y": 7.519069349408824
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Intake5"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.7,
-      "rotationDegrees": -157.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -157.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Close 3",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

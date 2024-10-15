@@ -37,6 +37,8 @@ import frc.robot.commands.Auto.SystemCommands.SetArmAngle;
 import frc.robot.commands.Auto.SystemCommands.ShootCommand2;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMove;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMove2;
+import frc.robot.commands.Auto.SystemCommands.ShootOnMoveIntake;
+import frc.robot.commands.Auto.SystemCommands.ShootOnMoveOne;
 import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
@@ -83,11 +85,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("WarmArm", new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(
       () -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()
     )));
-    NamedCommands.registerCommand("WarmShooter", new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(
+    NamedCommands.registerCommand("WarmShooter", new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(() ->
       new ShootingParameters(5000, 4500, 0, 0)
     )
     ));
     NamedCommands.registerCommand("ShootOnMove", new ShootOnMove2());
+    NamedCommands.registerCommand("ShootMoveOne Command", new ShootOnMoveOne());
 
 
     autoSelector.setAutoOptions(

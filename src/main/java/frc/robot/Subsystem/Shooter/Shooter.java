@@ -4,11 +4,14 @@
 
 package frc.robot.Subsystem.Shooter;
 
+import java.util.function.Supplier;
+
 import com.ma5951.utils.Logger.LoggedBool;
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.StateControl.StatesTypes.StatesConstants;
 import com.ma5951.utils.StateControl.Subsystems.StateControlledSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.RobotConstants;
 import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Shooter.IOs.ShooterIO;
@@ -20,7 +23,7 @@ public class Shooter extends StateControlledSubsystem {
   private ShooterIO shooterIO = ShooterConstants.getShooterIO();
   private double rightSetPoint;
   private double leftSetPoint;
-  private ShootingParameters autoShootingParameters = new ShootingParameters(0, 0, 0, 0);
+  private Supplier<ShootingParameters> autoShootingParameters = () -> new ShootingParameters(0, 0, 0, 0);
 
   private LoggedDouble leftSpeed;
   private LoggedDouble rightSpeed;
@@ -69,11 +72,11 @@ public class Shooter extends StateControlledSubsystem {
     isNote = new LoggedBool("/Subsystems/Shooter/Is Note");
   }
 
-  public void setAutoShootingParameters(ShootingParameters parameters) {
+  public void setAutoShootingParameters(Supplier<ShootingParameters> parameters) {
     autoShootingParameters = parameters;
   }
 
-  public ShootingParameters getAutoParametrs() {
+  public Supplier<ShootingParameters> getAutoParametrs() {
     return autoShootingParameters;
   }
 
@@ -182,7 +185,7 @@ public class Shooter extends StateControlledSubsystem {
   @Override
   public boolean canMove() {
       return StationaryShootCanMove() || WarmingCanMove() || FeedingCanMove() || EjectCanMove() || SourceIntakeCanMove()
-      || getSystemFunctionState() == StatesConstants.MANUEL;
+      || getSystemFunctionState() == StatesConstants.MANUEL || DriverStation.isAutonomous();
   }
 
   public static Shooter getInstance() {

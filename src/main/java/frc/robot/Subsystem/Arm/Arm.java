@@ -81,7 +81,7 @@ public class Arm extends StateControlledSubsystem {
 
   public boolean atPoint() {
     if (DriverStation.isAutonomous()) {
-      return Math.abs(getArmPosition() - (autoSetPoint.get())) <= ArmConstants.kTOLORANCE * 2;
+      return Math.abs(getArmPosition() - (autoSetPoint.get())) <= ArmConstants.kTOLORANCE ;
     } else {
       if (getTargetState() == ArmConstants.FOLLOW_SPEAKER) {
       return Math.abs(getArmPosition() - (setPoint + board.getNum("Shooting Angle Offset"))) <= ArmConstants.kTOLORANCE;

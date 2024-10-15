@@ -23,7 +23,7 @@ public class ShootCommand extends SequentialCommandGroup {
     addCommands(
       new ParallelDeadlineGroup(
         new SequentialCommandGroup(
-        new InstantCommand(() -> Shooter.getInstance().setShootingParameterSpeeds(new ShootingParameters(4500, 5000, 0, 0))),
+        new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(() -> new ShootingParameters(4500, 5000, 0, 0))),
         new WaitUntilCommand(() -> Shooter.getInstance().atPoint()),
         new WaitUntilCommand(() -> Arm.getInstance().atPoint()),
         new InstantCommand(() -> Feeder.getInstance().turnOnForward()),
@@ -31,7 +31,7 @@ public class ShootCommand extends SequentialCommandGroup {
         new InstantCommand(() -> Feeder.getInstance().turnOffFeeder())),
         new InstantCommand(() -> RobotContainer.setIDLE())
       ),
-      new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle())
+      new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()))
     );
   }
 }

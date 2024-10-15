@@ -16,22 +16,27 @@
     },
     {
       "anchor": {
-        "x": 2.691403692666541,
-        "y": 7.09641644635402
+        "x": 3.5708381971325664,
+        "y": 7.328155479208991
       },
       "prevControl": {
-        "x": 1.2027460674639663,
-        "y": 6.850715673262333
+        "x": 2.028841553210835,
+        "y": 7.166612973655286
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "END 3 Shooting"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.7,
-      "rotationDegrees": -157.0,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -170.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -170.0,
       "rotateFast": false
     }
   ],
@@ -45,11 +50,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -157.0,
+    "rotation": -160.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Close 3",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": -123.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

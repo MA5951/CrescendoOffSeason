@@ -24,7 +24,6 @@ public class ShootCommand2 extends ParallelDeadlineGroup {
     // addCommands().
     super(new SequentialCommandGroup(
       new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle())),
-      new InstantCommand(() -> Shooter.getInstance().setShootingParameterSpeeds(new ShootingParameters(5000, 6000, 0, 0))),
       new WaitUntilCommand(() -> Shooter.getInstance().atPoint()),
       new WaitUntilCommand(() -> Arm.getInstance().atPoint()),
       new InstantCommand(() -> Feeder.getInstance().turnOnForward()),
