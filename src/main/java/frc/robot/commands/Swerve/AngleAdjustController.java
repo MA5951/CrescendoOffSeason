@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
+import frc.robot.RobotConstants;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
@@ -27,6 +28,8 @@ public class AngleAdjustController extends Command {
   private double omega;
   private LoggedDouble omegaLog;
   private LoggedBool atPointLog;
+  private LoggedDouble setPointLog;
+  private LoggedDouble angleLog;
 
   public static boolean atPoint() {
     return pid.atSetpoint();
@@ -46,6 +49,8 @@ public class AngleAdjustController extends Command {
     );
     omegaLog = new LoggedDouble("/Swerve/Controllers/Odometry Adjust/Omega Speed");
     atPointLog = new LoggedBool("/Swerve/Controllers/Odometry Adjust/At Point");
+    setPointLog = new LoggedDouble("/Swerve/Controllers/Odometry Adjust/Set Point");
+    angleLog = new LoggedDouble("/Swerve/Controllers/Odometry Adjust/Angle");
     pid.setTolerance(SwerveConstants.ANGLE_PID_TOLORANCE);
     pid.enableContinuousInput(-Math.PI, Math.PI);
   }
@@ -61,18 +66,19 @@ public class AngleAdjustController extends Command {
     turningSpeed = controller.getRightX();
     turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * 0.1;
 
-    omega = pid.calculate(ConvUtil.DegreesToRadians(swerve.getFusedHeading() - 180));
+    omega = pid.calculate(ConvUtil.DegreesToRadians(swerve.getAbsYaw()));
 
     if (turningSpeed == 0 ) {
       speeds = new ChassisSpeeds(0, 0, omega);
     } else {
       speeds = new ChassisSpeeds(0, 0, omega + turningSpeed);
-      pid.setSetpoint(swerve.getFusedHeading() - 180);
     }
 
     //speeds = new ChassisSpeeds(0, 0, omega);
     atPointLog.update(getAtPoint());
     omegaLog.update(omega);
+    setPointLog.update(RobotConstants.SUPER_STRUCTURE.getSetPointForAline());
+    angleLog.update(ConvUtil.DegreesToRadians(swerve.getAbsYaw()));
 
   }
 

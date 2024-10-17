@@ -135,6 +135,10 @@ SwerveSubsystem extends SubsystemBase {
     return gyro.getPitch();
   }
 
+  public double getAbsYaw() {
+    return gyro.getAbsYaw();
+  }
+
   public double getVelocity() {
     ChassisSpeeds speeds = getRobotRelativeSpeeds();
     return Math.sqrt(Math.pow(speeds.vxMetersPerSecond, 2) +

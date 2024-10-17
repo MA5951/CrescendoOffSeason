@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.RobotConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.Vision;
@@ -35,6 +36,7 @@ public class SuperStructure {
     private LoggedDouble distanceToSpeakerLog;
     private LoggedDouble robotHeadingLog;
     private LoggedDouble angleToSpaekerLog;
+    private LoggedDouble headingSetPoing;
     private LoggedString twodTo3dLog;
         
     public SuperStructure() {
@@ -43,8 +45,9 @@ public class SuperStructure {
         isRobotMovingLog = new LoggedBool("/SuperStructure/Is Robot Moving");
         distanceToSpeakerLog = new LoggedDouble("/SuperStructure/Distance To Speaker");
         robotHeadingLog = new LoggedDouble("/SuperStructure/Robot Heading");
-        angleToSpaekerLog = new LoggedDouble("/SuperStructure/Angle To Speaker");
+        angleToSpaekerLog = new LoggedDouble("/SuperStructure/Arm Angle To Speaker");
         twodTo3dLog = new LoggedString("/SuperStructure/2D or 3D");
+        headingSetPoing = new LoggedDouble("/SuperStructure/Heading To Speaker");
     }
 
     public void updateAmpPose() {
@@ -69,7 +72,7 @@ public class SuperStructure {
 
     public ShootingParameters getShootingPrameters() {
             return new ShootingParameters(4500, 5500, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 3.8),//3339: 3 , 5951: 5 / 3.6 / 0, 
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5.5),//3339: 3 , 5951: 5 / 3.6 / 0, 
                 getDistanceToTag()) ;
     }
 
@@ -96,7 +99,9 @@ public class SuperStructure {
             twodTo3dLog.update("2D");
             return Vision.getInstance().getDistance();
         } else {
-            //isOdometry = true;
+            if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING) {
+                isOdometry = true;
+            }
             twodTo3dLog.update("3D");
             if (DriverStationUtil.getAlliance() == Alliance.Blue) {
                 return PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation().getDistance(RobotConstants.BLUE_SPEAKER.getTranslation()) + 0.04;
@@ -109,23 +114,17 @@ public class SuperStructure {
     }
 
     public double getSetPointForAline() {
-        double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
-                RobotConstants.RED_SPEAKER.getX() : RobotConstants.BLUE_SPEAKER.getX();
+            double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
+                    RobotConstants.RED_SPEAKER.getX() : RobotConstants.BLUE_SPEAKER.getX();
             double yTrget = RobotConstants.RED_SPEAKER.getY();
-            double xDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getX() - xTrget);
-            double yDis = Math.abs(PoseEstimator.getInstance().getEstimatedRobotPose().getY() - yTrget);
-            double angle = Math.atan(yDis / xDis);
-            angle = -(angle - Math.PI);
-            if (PoseEstimator.getInstance().getEstimatedRobotPose().getY() > yTrget) {
-                angle = -angle;
-            }
+            double xDis = xTrget - PoseEstimator.getInstance().getEstimatedRobotPose().getX();
+            double yDis = yTrget -PoseEstimator.getInstance().getEstimatedRobotPose().getY();
+            double angle = Math.atan2(yDis , xDis);
             return angle;
     }
 
     public double getSetPointForAmpAline() {
-            double target = DriverStationUtil.getAlliance() == Alliance.Red ? 
-                ConvUtil.DegreesToRadians(-90) : ConvUtil.DegreesToRadians(90);
-            return target;
+            return ConvUtil.DegreesToRadians(90);
     }
 
     public boolean isNote() {
@@ -203,6 +202,8 @@ public class SuperStructure {
         distanceToSpeakerLog.update(getDistanceToTag());
         robotHeadingLog.update(getRobotHeading());
         angleToSpaekerLog.update(getShootingPrameters().getArmAngle());
+        //headingSetPoing.update(Math.abs(getSetPointForAline() % 360));
+        
     }
     
 }

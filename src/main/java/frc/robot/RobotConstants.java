@@ -42,7 +42,7 @@ public class RobotConstants {
     public static final double DISTANCE_TO_WARM = 7.5;//Warm raidus in meters
     public static final double DISTANCE_TO_CLOSE_ARM = 0.5;//
     public static final double DISTANCE_TO_HIGH_FEED = 5;
-    public static final double DISTANCE_TO_SHOOT = 4.5;//4.5
+    public static final double DISTANCE_TO_SHOOT = 4.9;//4.5
     public static final double DISTANCE_TO_START_AUTO = 0.2;
 
     public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 40, 0);

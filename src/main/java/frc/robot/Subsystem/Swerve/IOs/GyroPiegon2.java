@@ -8,7 +8,11 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ma5951.utils.Logger.LoggedDouble;
+import com.ma5951.utils.Utils.DriverStationUtil;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.Subsystem.Swerve.Util.Gyro;
 
@@ -30,6 +34,7 @@ public class GyroPiegon2 implements Gyro{
     private LoggedDouble roll;
     private LoggedDouble accelX;
     private LoggedDouble accelY;
+    private LoggedDouble yawNormal;
     
     public GyroPiegon2(String type, String canBus ,int id) {
         name = type;
@@ -47,6 +52,7 @@ public class GyroPiegon2 implements Gyro{
         roll = new LoggedDouble("/Swerve/" + name + "/Roll");
         accelX = new LoggedDouble("/Swerve/" + name + "/Accel X");
         accelY = new LoggedDouble("/Swerve/" + name + "/Accel Y");
+        yawNormal = new LoggedDouble("/Swerve/" + name + "/Yaw Normal");
 
         BaseStatusSignal.setUpdateFrequencyForAll(SwerveConstants.ODOMETRY_UPDATE_RATE, gyroYaw);
         
@@ -59,6 +65,14 @@ public class GyroPiegon2 implements Gyro{
     public double getYaw() {
         gyroYaw.refresh();
         return gyroYaw.getValueAsDouble();
+    }
+
+    public double getAbsYaw() {
+        if (DriverStationUtil.getAlliance() == Alliance.Blue) {
+            return getYaw() + 180;
+        } else {
+            return getYaw();
+        }
     }
 
     public double getPitch() {
@@ -87,6 +101,7 @@ public class GyroPiegon2 implements Gyro{
         roll.update(getRoll());
         accelX.update(getAccelX());
         accelY.update(getAccelY());
+        yawNormal.update((getYaw() % 360));
 
         
     }

@@ -51,7 +51,7 @@ public class DriveController extends Command {
     }
 
     if (RobotContainer.driverController.getHID().getL1Button()) {
-      xSpeed = xSpeed * 0.6;
+      xSpeed = xSpeed * 0.6;//0.15
       ySpeed = ySpeed * 0.6;
       turningSpeed = turningSpeed * 0.6;
     }

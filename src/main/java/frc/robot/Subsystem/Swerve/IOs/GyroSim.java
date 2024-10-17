@@ -6,8 +6,10 @@ package frc.robot.Subsystem.Swerve.IOs;
 
 import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Utils.ConvUtil;
+import com.ma5951.utils.Utils.DriverStationUtil;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Subsystem.Swerve.Util.Gyro;
 
 public class GyroSim implements Gyro{
@@ -35,6 +37,14 @@ public class GyroSim implements Gyro{
 
     public double getYaw() {
         return yawValue;
+    }
+
+    public double getAbsYaw() {
+        if (DriverStationUtil.getAlliance() == Alliance.Blue) {
+            return getYaw() + 180;
+        } else {
+            return getYaw();
+        }
     }
 
     public double getPitch() {

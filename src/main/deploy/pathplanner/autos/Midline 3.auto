@@ -91,6 +91,18 @@
           "data": {
             "name": "Shoot Command"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Intake 6"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "6 To Shoot"
+          }
         }
       ]
     }

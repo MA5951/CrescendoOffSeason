@@ -12,6 +12,8 @@ public interface Gyro {
 
     double getYaw();
 
+    double getAbsYaw();
+
     double getAccelX();
 
     double getAccelY();

@@ -61,7 +61,7 @@ public class RelativAngleAdjustController extends Command {
   }
 
   public double getTolerance() {
-    return 20 / RobotConstants.SUPER_STRUCTURE.getDistanceToTag();
+    return 20 / RobotConstants.SUPER_STRUCTURE.getDistanceToTag() * 1.5;
   }
 
   public ChassisSpeeds getChassisSpeeds() {
