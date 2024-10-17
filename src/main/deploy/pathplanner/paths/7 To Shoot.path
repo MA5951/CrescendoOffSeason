@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.85,
-        "y": 2.41
+        "x": 7.995649794116489,
+        "y": 2.4136487709595147
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.160120489255063,
-        "y": 4.075742235991514
+        "x": 6.0515114806162495,
+        "y": 0.8847897103433621
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Intake 7"
     },
     {
       "anchor": {
-        "x": 4.305122313285772,
-        "y": 5.0225033544879265
+        "x": 3.2695231587646276,
+        "y": 2.962862263752697
       },
       "prevControl": {
-        "x": 5.360190338914781,
-        "y": 4.820161541353596
+        "x": 4.268149556732988,
+        "y": 1.6411508546769273
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,14 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 167.0,
+    "rotation": 140.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Midline 3",
   "previewStartingState": {
     "rotation": 0,
-    "velocity": 0
+    "velocity": 0.5
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

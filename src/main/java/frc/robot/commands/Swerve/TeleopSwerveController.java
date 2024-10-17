@@ -89,13 +89,13 @@ public class TeleopSwerveController extends Command {
       timeAtSetPoint.start();
     }
 
-    // if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && (Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
-    // || Vision.getInstance().getTagID() == 4 ) && !isOdometry )){
-    //   robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
-    //   xyControllerLog.update("Drive Controller");
-    //   theathControllerLog.update("Relativ Adjust");
-    // } 
-    // else 
+    if ((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && (Vision.getInstance().isTag() && Vision.getInstance().getTagID() == 7
+    || Vision.getInstance().getTagID() == 4 ) && !isOdometry )){
+      robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
+      xyControllerLog.update("Drive Controller");
+      theathControllerLog.update("Relativ Adjust");
+    } 
+    else 
     if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING ){
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Speaker");

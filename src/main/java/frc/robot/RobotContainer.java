@@ -39,6 +39,7 @@ import frc.robot.commands.Auto.SystemCommands.ShootOnMove;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMove2;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMoveIntake;
 import frc.robot.commands.Auto.SystemCommands.ShootOnMoveOne;
+import frc.robot.commands.Auto.SystemCommands.WarmArm;
 import frc.robot.commands.Controllers.IntakeRumble;
 import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
@@ -82,9 +83,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Mircoz Command", new MircozAutomation());
     NamedCommands.registerCommand("Arm Command", new SetArmAngle(() -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()));
     NamedCommands.registerCommand("ShootMove Command", new ShootOnMove());
-    NamedCommands.registerCommand("WarmArm", new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(
-      () -> RobotConstants.SUPER_STRUCTURE.getShootingPrameters().getArmAngle()
-    )));
+    NamedCommands.registerCommand("WarmArm", new WarmArm());
     NamedCommands.registerCommand("WarmShooter", new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(() ->
       new ShootingParameters(5000, 4500, 0, 0)
     )

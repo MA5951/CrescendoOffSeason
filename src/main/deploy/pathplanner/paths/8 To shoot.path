@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.84,
-        "y": 0.75
+        "x": 7.721043047719898,
+        "y": 0.7081963459701576
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.928872702815828,
-        "y": 0.7793672525373226
+        "x": 5.809915750535726,
+        "y": 0.7375635985074802
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Intake8"
     },
     {
       "anchor": {
-        "x": 3.8,
-        "y": 2.89
+        "x": 3.5296769185087666,
+        "y": 3.020674210362506
       },
       "prevControl": {
-        "x": 4.35349715769854,
-        "y": 1.8355293048614274
+        "x": 4.0831740762073085,
+        "y": 1.9662035152239334
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Shoot8"
     }
   ],
   "rotationTargets": [],
@@ -39,14 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 145.0,
+    "rotation": 140.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Midline 3",
-  "previewStartingState": {
-    "rotation": 180.0,
-    "velocity": 0
-  },
-  "useDefaultConstraints": true
+  "previewStartingState": null,
+  "useDefaultConstraints": false
 }

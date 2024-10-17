@@ -30,7 +30,7 @@ public class FeederConstants {
     public static final double PeakCurrentTime = 0.1; 
     public static final boolean IsCurrentLimitEnabled = true; 
 
-    public static final double SHOOTING_CONDITION_DEBOUNCER = 0.02;
+    public static final double SHOOTING_CONDITION_DEBOUNCER = 0.08;
 
     public static final State IDLE = StatesConstants.IDLE;
     public static final State FORWARD = new State("FORWARD");

@@ -23,7 +23,7 @@ public class ShootOnMoveOne extends ParallelDeadlineGroup {
   public ShootOnMoveOne() {
     super(new SequentialCommandGroup(
       new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(armAngle)),
-      new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(() -> new ShootingParameters(5800, 6200, 0, 0))),
+      new InstantCommand(() -> Shooter.getInstance().setAutoShootingParameters(() -> new ShootingParameters(5800, 6000, 0, 0))),
       new WaitUntilCommand(() -> Shooter.getInstance().getRightSpeed() > 600),
       new WaitUntilCommand(() -> Math.abs(Arm.getInstance().getArmPosition() - Arm.getInstance().getAutoSetPoint()) <= ArmConstants.kTOLORANCE * 3),
       new InstantCommand(() -> Feeder.getInstance().turnOnForward()),

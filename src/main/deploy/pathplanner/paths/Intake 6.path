@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.305122313285772,
-        "y": 5.0225033544879265
+        "x": 3.2695231587646276,
+        "y": 2.962862263752697
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.0100350647928495,
-        "y": 4.141362415104079
+        "x": 5.8710607562060195,
+        "y": 3.280827970106645
       },
       "isLocked": false,
       "linkedName": "Shoot7"
     },
     {
       "anchor": {
-        "x": 7.87374311779035,
-        "y": 4.097305368134887
+        "x": 8.035285623344055,
+        "y": 4.111991050457951
       },
       "prevControl": {
-        "x": 6.87374311779035,
-        "y": 4.097305368134887
+        "x": 3.5152239318563145,
+        "y": 4.697220662046958
       },
       "nextControl": null,
       "isLocked": false,
@@ -38,15 +38,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Midline 3",
   "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
+    "rotation": 180.0,
+    "velocity": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

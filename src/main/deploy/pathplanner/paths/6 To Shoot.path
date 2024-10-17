@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.87374311779035,
-        "y": 4.097305368134887
+        "x": 8.035285623344055,
+        "y": 4.111991050457951
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.375803520837811,
-        "y": 4.097305368134887
+        "x": 6.537346026391517,
+        "y": 4.111991050457951
       },
       "isLocked": false,
       "linkedName": "Intake6"
     },
     {
       "anchor": {
-        "x": 4.040780031470618,
-        "y": 5.11061744842631
+        "x": 3.9199075581249754,
+        "y": 5.448775967974472
       },
       "prevControl": {
-        "x": 5.0100350647928495,
-        "y": 3.730163310058284
+        "x": 4.873804677186819,
+        "y": 3.410904849978715
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 4.6,
+    "maxAcceleration": 4.6,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
