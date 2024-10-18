@@ -65,31 +65,6 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
 
-    //Green
-    //redOutput.set(false);
-    // greenOutput.set(false);
-    // blueOutput.set(false);
-
-    // Red
-    // redOutput.set(false);
-    // greenOutput.set(true);
-    // blueOutput.set(false);
-
-    // //Red
-    // redOutput.set(true);
-    // greenOutput.set(true);
-    // blueOutput.set(false);
-
-    // //Red
-    // redOutput.set(true);
-    // greenOutput.set(true);
-    // blueOutput.set(true);
-
-    // // Green
-    // redOutput.set(true);
-    // greenOutput.set(false);
-    // blueOutput.set(true);
-
     if (!isIntake) {
       if (RobotConstants.SUPER_STRUCTURE.isNote() && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT) {
         Green();

@@ -31,7 +31,6 @@ public class ShootOnMoveIntake extends ParallelDeadlineGroup {
       new InstantCommand(() -> Arm.getInstance().setAutoSetPoint(() -> 30d)),
       new InstantCommand(() -> Intake.getInstance().turnOnIntke()),
       new WaitUntilCommand(() -> RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),
-      // new WaitUntilCommand(() -> RobotConstants.SUPER_STRUCTURE.isNoteInShooter()),
       new InstantCommand(() -> Feeder.getInstance().turnOffFeeder()),
       new InstantCommand(() -> Intake.getInstance().turnOffIntke()))
     
