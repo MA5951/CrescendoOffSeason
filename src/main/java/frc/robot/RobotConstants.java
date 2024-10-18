@@ -33,9 +33,8 @@ public class RobotConstants {
     
     public static final double ShootingTolerance = 15;
 
-    public static final double FeedingOffsetY = 3;
-    public static final double FeedingOffsetX = 1;
-    public static final double FeedingTolerance = 15;
+    public static final double FeedingOffsetY = 1.5;
+    public static final double FeedingOffsetX = 0;
 
     public static final double WARM_VOLTAGE = 2;
 
@@ -45,7 +44,7 @@ public class RobotConstants {
     public static final double DISTANCE_TO_SHOOT = 4.9;//4.5
     public static final double DISTANCE_TO_START_AUTO = 0.2;
 
-    public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 40, 0);
+    public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(2700, 4000, 45, 0);
     public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 61, 0);
     public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(5500, 5500,  36.4 , 3.5);
 

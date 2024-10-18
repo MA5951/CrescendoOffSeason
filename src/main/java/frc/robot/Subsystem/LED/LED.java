@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.PortMap;
+import frc.robot.RobotConstants;
+import frc.robot.RobotControl.SuperStructure;
 
 
 public class LED extends SubsystemBase {
@@ -22,18 +24,36 @@ public class LED extends SubsystemBase {
   private DigitalOutput redOutput;
   private DigitalOutput greenOutput;
   private DigitalOutput blueOutput;
+  public boolean isIntake;
 
   public LED() {
     redOutput = new DigitalOutput(2);
     greenOutput = new DigitalOutput(3);
     blueOutput = new DigitalOutput(4);
 
-    // redOutput.set(true);
+    Red();
+
+    //All false is green like
+    //redOutput.set(false);
     // greenOutput.set(false);
     // blueOutput.set(false);
+
+
   }
 
+  public void Red() {
+    //Red
+    redOutput.set(true);
+    greenOutput.set(true);
+    blueOutput.set(false);
+  }
 
+  public void Green() {
+    //Green
+    redOutput.set(false);
+    greenOutput.set(false);
+    blueOutput.set(false);
+  }
 
   public static LED getInstance() {
     if (led == null) {
@@ -45,16 +65,37 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
 
-    // //Red
-    // redOutput.set(true);
+    //Green
+    //redOutput.set(false);
+    // greenOutput.set(false);
+    // blueOutput.set(false);
+
+    // Red
+    // redOutput.set(false);
     // greenOutput.set(true);
-    // blueOutput.set(true);
+    // blueOutput.set(false);
 
     // //Red
     // redOutput.set(true);
     // greenOutput.set(true);
     // blueOutput.set(false);
 
-    
+    // //Red
+    // redOutput.set(true);
+    // greenOutput.set(true);
+    // blueOutput.set(true);
+
+    // // Green
+    // redOutput.set(true);
+    // greenOutput.set(false);
+    // blueOutput.set(true);
+
+    if (!isIntake) {
+      if (RobotConstants.SUPER_STRUCTURE.isNote() && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT) {
+        Green();
+      } else {
+        Red();
+      }
+    }
   }
 }

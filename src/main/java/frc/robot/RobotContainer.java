@@ -45,6 +45,7 @@ import frc.robot.commands.DeafultCommands.ArmDeafultCommand;
 import frc.robot.commands.DeafultCommands.FeederDeafultCommand;
 import frc.robot.commands.DeafultCommands.IntakeDeafultCommand;
 import frc.robot.commands.DeafultCommands.ShooterDeafultCommand;
+import frc.robot.commands.Swerve.AngleAdjustController;
 import frc.robot.commands.Swerve.TeleopSwerveController;
 
 public class RobotContainer {
@@ -272,6 +273,8 @@ public class RobotContainer {
     //Update Offset
     new Trigger(() -> driverController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset()));
 
+    new Trigger(() -> oporatorController.getHID().getSquareButton()).onTrue(new InstantCommand(() -> AngleAdjustController.updateOffset()));
+
     new Trigger(() -> driverController.getHID().getSquareButton() && Shooter.getInstance().getLeftSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT &&
     Shooter.getInstance().getRightSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setSOURCE_INTAKE()));
     
@@ -306,6 +309,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //return autoSelector.getSelectedAutoCommand();
-    return AutoBuilder.buildAuto("Midline 2");
+    return AutoBuilder.buildAuto("Midline 3");
   }
 }

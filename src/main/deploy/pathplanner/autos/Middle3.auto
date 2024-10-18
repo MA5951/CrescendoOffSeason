@@ -46,7 +46,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Warm"
+            "name": "WarmArm"
           }
         },
         {
@@ -78,6 +78,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WarmArm"
           }
         },
         {

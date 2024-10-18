@@ -73,7 +73,7 @@ public class SuperStructure {
 
     public ShootingParameters getShootingPrameters() {
             return new ShootingParameters(4500, 5500, (
-                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5.8),//3339: 3 , 5951: 5 / 3.6 / 0, 
+                sample(getDistanceToTag(), RobotConstants.shootingPoses)[0] + 5.2),//3339: 3 , 5951: 5 / 3.6 / 0, 
                 getDistanceToTag()) ;
     }
 
@@ -118,6 +118,16 @@ public class SuperStructure {
             double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
                     RobotConstants.RED_SPEAKER.getX() : RobotConstants.BLUE_SPEAKER.getX();
             double yTrget = RobotConstants.RED_SPEAKER.getY();
+            double xDis = xTrget - PoseEstimator.getInstance().getEstimatedRobotPose().getX();
+            double yDis = yTrget -PoseEstimator.getInstance().getEstimatedRobotPose().getY();
+            double angle = Math.atan2(yDis , xDis);
+            return angle;
+    }
+
+    public double getSetPointForFeedingAline() {
+            double xTrget = DriverStationUtil.getAlliance() == Alliance.Red ? 
+                    RobotConstants.RED_SPEAKER.getX() : RobotConstants.BLUE_SPEAKER.getX();
+            double yTrget = RobotConstants.RED_SPEAKER.getY() + RobotConstants.FeedingOffsetY;
             double xDis = xTrget - PoseEstimator.getInstance().getEstimatedRobotPose().getX();
             double yDis = yTrget -PoseEstimator.getInstance().getEstimatedRobotPose().getY();
             double angle = Math.atan2(yDis , xDis);

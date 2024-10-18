@@ -77,6 +77,8 @@ public class TeleopSwerveController extends Command {
 
     if (RobotContainer.currentRobotState == RobotConstants.AMP && !updateSetPoint) {
       angleAdjustCommand.setSetPoint(RobotConstants.SUPER_STRUCTURE.getSetPointForAmpAline());
+    } else if (RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING && RobotConstants.SUPER_STRUCTURE.getPRESETParameters().getArmAngle() == RobotConstants.FEEDING_SHOOTING_PARAMETERS.getArmAngle()) {
+      angleAdjustCommand.setSetPoint(RobotConstants.SUPER_STRUCTURE.getSetPointForFeedingAline());
     } else if (RobotContainer.currentRobotState != RobotConstants.AMP){
       angleAdjustCommand.setSetPoint(RobotConstants.SUPER_STRUCTURE.getSetPointForAline());
     }
@@ -94,9 +96,7 @@ public class TeleopSwerveController extends Command {
       robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Relativ Adjust");
-    } 
-    else 
-    if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING ){
+    } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Speaker");
       if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < 6) {//4.5

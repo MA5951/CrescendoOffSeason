@@ -20,7 +20,7 @@ import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 public class AngleAdjustController extends Command {
   private static PIDController pid;
 
-  private SwerveSubsystem swerve = SwerveSubsystem.getInstance();
+  private static SwerveSubsystem swerve = SwerveSubsystem.getInstance();
   private ChassisSpeeds speeds;
   private CommandPS5Controller controller;
   private boolean allowCorecttion = false;
@@ -30,6 +30,8 @@ public class AngleAdjustController extends Command {
   private LoggedBool atPointLog;
   private LoggedDouble setPointLog;
   private LoggedDouble angleLog;
+  private LoggedDouble offsetLog;
+  private static double offset = 0;
 
   public static boolean atPoint() {
     return pid.atSetpoint();
@@ -51,8 +53,13 @@ public class AngleAdjustController extends Command {
     atPointLog = new LoggedBool("/Swerve/Controllers/Odometry Adjust/At Point");
     setPointLog = new LoggedDouble("/Swerve/Controllers/Odometry Adjust/Set Point");
     angleLog = new LoggedDouble("/Swerve/Controllers/Odometry Adjust/Angle");
+    offsetLog = new LoggedDouble("/Swerve/Controllers/Odometry Adjust/Offset");
     pid.setTolerance(SwerveConstants.ANGLE_PID_TOLORANCE);
     pid.enableContinuousInput(-Math.PI, Math.PI);
+  }
+
+  public static void updateOffset() {
+    offset = ConvUtil.DegreesToRadians(swerve.getAbsYaw());
   }
 
   // Called when the command is initially scheduled.
@@ -66,7 +73,7 @@ public class AngleAdjustController extends Command {
     turningSpeed = controller.getRightX();
     turningSpeed = Math.abs(turningSpeed) < 0.1 ? 0 : -turningSpeed * 0.1;
 
-    omega = pid.calculate(ConvUtil.DegreesToRadians(swerve.getAbsYaw()));
+    omega = pid.calculate(ConvUtil.DegreesToRadians(swerve.getAbsYaw()) - offset);
 
     if (turningSpeed == 0 ) {
       speeds = new ChassisSpeeds(0, 0, omega);
