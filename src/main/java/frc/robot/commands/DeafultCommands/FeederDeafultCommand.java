@@ -12,6 +12,7 @@ import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
+import frc.robot.Subsystem.LED.LED;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
 import frc.robot.commands.Swerve.TeleopSwerveController;
 
@@ -55,16 +56,21 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
         case "FORWARD":
           if (RobotContainer.currentRobotState == RobotConstants.INTAKE || RobotContainer.currentRobotState == RobotConstants.EJECT) {
             feeder.turnOnForward();
+            if (RobotContainer.currentRobotState != RobotConstants.INTAKE) {
+              LED.getInstance().isScoring = true;
+            }
           } else if (((RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING && TeleopSwerveController.timeAtSetPoint.hasElapsed(SwerveConstants.TIME_AT_SET_POINT))
            || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING)
           ) {
               feeder.turnOnForwardShooting();
+              LED.getInstance().isScoring = true;
               //commited = true;
           } 
           break;
         case "REVERSE":
           if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotContainer.driverController.getHID().getL2Button()) {
-              feeder.turnOnRevers();
+            LED.getInstance().isScoring = true;  
+            feeder.turnOnRevers();
               RobotConstants.SUPER_STRUCTURE.updateAmpPose();
             } else if (RobotContainer.currentRobotState == RobotConstants.SOURCE_INTAKE){
               feeder.turnOnAdjustRevers();
@@ -118,13 +124,6 @@ public class FeederDeafultCommand extends  RobotFunctionStatesCommand{
         feeder.turnOffFeeder();
       }
 
-      // if (RobotContainer.oporatorController.getHID().getSquareButton()) {
-      //   feeder.turnOnForward();
-      // } else if (RobotContainer.oporatorController.getHID().getCircleButton()) {
-      //   feeder.turnOnRevers();
-      // } else {
-      //   feeder.turnOffFeeder();
-      // }
   }
 
   @Override

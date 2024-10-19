@@ -24,6 +24,7 @@ import frc.robot.Subsystem.Feeder.Feeder;
 import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
+import frc.robot.Subsystem.LED.LED;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
@@ -110,6 +111,7 @@ public class RobotContainer {
       lastRobotState = currentRobotState;
       currentRobotState = RobotConstants.IDLE;
       RobotConstants.SUPER_STRUCTURE.isOdometry = false;
+      LED.getInstance().isScoring = false;
       Arm.getInstance().setTargetState(ArmConstants.INTAKE);
       Feeder.getInstance().setTargetState(FeederConstants.IDLE);
       Intake.getInstance().setTargetState(IntakeConstants.IDLE);
@@ -280,6 +282,7 @@ public class RobotContainer {
     
     new Trigger(() -> currentRobotState == RobotConstants.SOURCE_INTAKE && RobotConstants.SUPER_STRUCTURE.isNoteInFeeder() 
     && !RobotConstants.SUPER_STRUCTURE.isNoteInShooter()).onTrue(new InstantCommand(() -> setIDLE())
+    .alongWith(new IntakeRumble())
      .andThen(new InstantCommand(() -> Feeder.getInstance().setTargetState(FeederConstants.NOTE_ADJUSTING))));
 
     // new Trigger(() -> driverController.getHID().getR2Button()).whileTrue(

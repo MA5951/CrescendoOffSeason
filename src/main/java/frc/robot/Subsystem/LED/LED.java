@@ -25,6 +25,10 @@ public class LED extends SubsystemBase {
   private DigitalOutput greenOutput;
   private DigitalOutput blueOutput;
   public boolean isIntake;
+  public boolean isScoring = false;
+  private Timer scoringTimer;
+  private boolean isOn;
+  private double lastChange;
 
   public LED() {
     redOutput = new DigitalOutput(2);
@@ -32,6 +36,7 @@ public class LED extends SubsystemBase {
     blueOutput = new DigitalOutput(4);
 
     Red();
+    Green();
 
     //All false is green like
     //redOutput.set(false);
@@ -55,6 +60,20 @@ public class LED extends SubsystemBase {
     blueOutput.set(false);
   }
 
+  public void Blink() {
+    double timestamp = Timer.getFPGATimestamp();
+
+        if (timestamp - lastChange > 0.15) {
+            isOn = !isOn;
+            lastChange = timestamp;
+        }
+        if (isOn) {
+            Green();
+        } else {
+            Red();
+        }
+  }
+
   public static LED getInstance() {
     if (led == null) {
       led = new LED();
@@ -64,13 +83,16 @@ public class LED extends SubsystemBase {
 
   @Override
   public void periodic() {
-
-    if (!isIntake) {
+    //|| !isScoring
+    if (!isIntake && !isScoring) {
       if (RobotConstants.SUPER_STRUCTURE.isNote() && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT) {
         Green();
       } else {
         Red();
       }
+    } 
+    else if (isScoring) {
+      Blink();
     }
   }
 }

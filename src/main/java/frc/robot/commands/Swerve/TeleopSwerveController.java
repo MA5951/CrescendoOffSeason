@@ -102,7 +102,6 @@ public class TeleopSwerveController extends Command {
       if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < 6) {//4.5
         isOdometry = true;
       }
-      // isOdometry = true;
       robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } 
     else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
