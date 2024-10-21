@@ -27,6 +27,7 @@ public class Limelight3G {
   private String name;
   private double cammeraHight;
   private double cammeraAngle;
+  private double offset = 0;
   private Supplier<Double> robotAngleSupplier;
 
 
@@ -107,11 +108,15 @@ public class Limelight3G {
     return ((int)LimelightHelpers.getFiducialID(name));
   }
 
+  public void resetHeading() {
+    offset = robotAngleSupplier.get();
+  }
+
   public void update() {
     if (DriverStationUtil.getAlliance() == Alliance.Red) {
-      LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() , 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() - offset , 0, 0, 0, 0, 0);
     } else {
-    LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() +180, 0, 0, 0, 0, 0);
+    LimelightHelpers.SetRobotOrientation(name, robotAngleSupplier.get() +180 - offset, 0, 0, 0, 0, 0);
   }
 }
 }

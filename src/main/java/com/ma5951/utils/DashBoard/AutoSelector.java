@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
@@ -45,14 +46,16 @@ public class AutoSelector {
     private static final HashMap<Command, AutoOption> autoOptionByCommand = new HashMap<>();
     private boolean preVizualizAuto;
     private PathPlannerPath[] pathsArry;
+    private Supplier<Pose2d> poseSupplier;
 
     
 
 
-    public AutoSelector() {
+    public AutoSelector(Supplier<Pose2d> robotPoseSupplier) {
         commandChooser = new SendableChooser<>();
         Shuffleboard.getTab("Auto").add("AutoSelector", commandChooser);
         SmartDashboard.putData(field);
+        poseSupplier = robotPoseSupplier;
 
     }
 
@@ -114,6 +117,7 @@ public class AutoSelector {
     }
 
     public void updateViz() {
+        field.setRobotPose(poseSupplier.get());
         if (preVizualizAuto) {
             if (!DriverStation.isTeleopEnabled()) {
                 if (getSelectedAuto().isPathPlannerAuto()) {

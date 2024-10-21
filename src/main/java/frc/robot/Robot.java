@@ -5,12 +5,15 @@
 package frc.robot;
 
 import com.ma5951.utils.Logger.LoggedBool;
+import com.ma5951.utils.Logger.LoggedDouble;
 import com.ma5951.utils.Logger.LoggedInt;
 import com.ma5951.utils.Logger.LoggedPose2d;
 import com.ma5951.utils.Logger.LoggedString;
 import com.ma5951.utils.Logger.MALog;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,6 +22,7 @@ import frc.robot.Subsystem.Arm.ArmConstants;
 import frc.robot.Subsystem.LED.LED;
 import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.Swerve.SwerveConstants;
+import frc.robot.Subsystem.Swerve.SwerveSubsystem;
 
 
 
@@ -34,6 +38,10 @@ public class Robot extends TimedRobot {
   private LoggedBool isStartingPoseLog;
   private LoggedString currentSelectedAuto;
   private LoggedPose2d startingPoseLog;
+  private LoggedDouble batteryVoltageLog;
+  private LoggedDouble matchTimeLog;
+  private boolean isTeleop = false;
+  public static boolean isStartingPose = false;
 
   @Override
   public void robotInit() {
@@ -43,6 +51,11 @@ public class Robot extends TimedRobot {
     Arm.getInstance().setTargetState(ArmConstants.IDLE);
     PoseEstimator.getInstance();
     LED.getInstance();
+
+    MALog.getInstance().startLog();
+
+    SwerveSubsystem.getInstance().updateOffset(180);
+
     addPeriodic(() -> PoseEstimator.getInstance().updateOdometry() , 1 / SwerveConstants.ODOMETRY_UPDATE_RATE , 0);
     
 
@@ -51,6 +64,8 @@ public class Robot extends TimedRobot {
     currentRobotStateNumberLog = new LoggedInt("/RobotControl/Current Robot State Num");
     isStartingPoseLog = new LoggedBool("/Auto/Is Starting Pose");
     startingPoseLog = new LoggedPose2d("/Auto/Starting Pose");
+    batteryVoltageLog = new LoggedDouble("/Dash/Battery Vlotage");
+    matchTimeLog = new LoggedDouble("/Dash/Match Time");
   }
 
   @Override
@@ -63,30 +78,38 @@ public class Robot extends TimedRobot {
     currentRobotStateNumberLog.update(getStateAsNum());
     LED.getInstance().periodic();
     RobotContainer.update();
+
+    batteryVoltageLog.update(RobotController.getBatteryVoltage());
+    matchTimeLog.update(DriverStation.getMatchTime());
     
   }
 
   @Override
   public void disabledInit() {
-    MALog.getInstance().stopLog();
     RobotContainer.disableDeafultCommands();
     RobotContainer.setIDLE();
+
+    if (isTeleop) {
+      MALog.getInstance().stopLog();
+    }
   }
 
   @Override
   public void disabledPeriodic() {
-    //currentSelectedAuto.update(m_robotContainer.getAutonomousName());
     
-    // if (m_robotContainer.getIsPathPLannerAuto()) {
-    //   startingPoseLog.update(PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
-    // ));
-    //   isStartingPoseLog.update(
-    //     PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
-    //   ).getTranslation().getDistance(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation())
-    //    < RobotConstants.DISTANCE_TO_START_AUTO
-    //   );
-    
-    // }
+    if (m_robotContainer.getCurrentSelectedAutoOption() != null && m_robotContainer.getAutonomousName() != null) {
+      //currentSelectedAuto.update(m_robotContainer.getAutonomousName());
+      if (m_robotContainer.getIsPathPLannerAuto()) {
+        startingPoseLog.update(PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
+      ));
+        isStartingPose = 
+          PathPlannerAuto.getStaringPoseFromAutoFile(m_robotContainer.getAutonomousName()
+        ).getTranslation().getDistance(PoseEstimator.getInstance().getEstimatedRobotPose().getTranslation())
+        < RobotConstants.DISTANCE_TO_START_AUTO;
+        isStartingPoseLog.update(isStartingPose);
+      
+      }
+  }
   }
 
   @Override
@@ -112,9 +135,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
       }
-    MALog.getInstance().startLog();
 
     RobotContainer.setDeafultCommands();
+    isTeleop = true;
   }
 
   @Override

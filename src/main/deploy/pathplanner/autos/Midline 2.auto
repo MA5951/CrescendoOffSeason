@@ -12,38 +12,51 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "parallel",
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "sequential",
                       "data": {
-                        "name": "ShootMoveOne Command"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "ShootMoveOne Command"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Intake Command"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "WarmArm"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "Intake Command"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WarmArm"
+                        "pathName": "start to 3 shooting"
                       }
                     }
                   ]
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "start to 3 shooting"
+                  "waitTime": 1.7
                 }
               }
             ]
@@ -56,25 +69,51 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot Command"
-          }
-        },
-        {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Command"
+                  "name": "Shoot Command"
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "3 Shooting To 4"
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Command"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "3 Shooting To 4"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.7
                 }
               }
             ]
@@ -99,25 +138,51 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Shoot Command"
-          }
-        },
-        {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Command"
+                  "name": "Shoot Command"
                 }
               },
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "shoot to 5"
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "deadline",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Command"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "shoot to 5"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.7
                 }
               }
             ]
@@ -142,9 +207,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Shoot Command"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Command"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
           }
         }
       ]

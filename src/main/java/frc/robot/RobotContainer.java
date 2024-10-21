@@ -25,6 +25,7 @@ import frc.robot.Subsystem.Feeder.FeederConstants;
 import frc.robot.Subsystem.Intake.Intake;
 import frc.robot.Subsystem.Intake.IntakeConstants;
 import frc.robot.Subsystem.LED.LED;
+import frc.robot.Subsystem.PoseEstimation.PoseEstimator;
 import frc.robot.Subsystem.PoseEstimation.Vision;
 import frc.robot.Subsystem.Shooter.Shooter;
 import frc.robot.Subsystem.Shooter.ShooterConstants;
@@ -57,6 +58,8 @@ public class RobotContainer {
   public static CommandPS5Controller oporatorController = new CommandPS5Controller(PortMap.Controllers.operatorID);
   public static CommandXboxController driverControllerRumble = new CommandXboxController(2);
 
+  public static boolean alignForAmp = true;
+
   private static AutoSelector autoSelector;
 
   public RobotContainer() {
@@ -68,7 +71,7 @@ public class RobotContainer {
     Vision.getInstance();
     configureBindings();
     new SwerveAutoFollower();
-    autoSelector = new AutoSelector();
+    autoSelector = new AutoSelector(() -> PoseEstimator.getInstance().getEstimatedRobotPose());
     setUpAutoCommands();
     CommandScheduler.getInstance().setDefaultCommand(Arm.getInstance(), new ArmDeafultCommand());
     CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterDeafultCommand());
@@ -97,10 +100,19 @@ public class RobotContainer {
     autoSelector.setAutoOptions(
     new AutoOption[] {
       new AutoOption(new InstantCommand(), "None"),
-      new AutoOption("Close 3 Middle", "Middle3"),
-      new AutoOption("Midline 2 Amp", "Midline 2")
+      new AutoOption("Middle3", "Middle3"),
+      new AutoOption("Midline 2", "Midline 2"),
+      new AutoOption("Midline 3", "Midline 3")
     }  
     , true);
+  }
+
+  public void toggleAmpAlign() {
+    if (alignForAmp) {
+      alignForAmp = false;
+    } else {
+      alignForAmp = true;
+    }
   }
 
   public static void update() {
@@ -275,7 +287,10 @@ public class RobotContainer {
     //Update Offset
     new Trigger(() -> driverController.getHID().getTriangleButton()).onTrue(new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset()));
 
-    new Trigger(() -> oporatorController.getHID().getSquareButton()).onTrue(new InstantCommand(() -> AngleAdjustController.updateOffset()));
+    new Trigger(() -> oporatorController.getHID().getSquareButton()).onTrue(new InstantCommand(() -> AngleAdjustController.updateOffset())
+    .alongWith(new InstantCommand(() -> Vision.getInstance().resetHeading()).alongWith(
+      new InstantCommand(() -> SwerveSubsystem.getInstance().updateOffset(SwerveSubsystem.getInstance().getFusedHeading() + 180))
+    )));
 
     new Trigger(() -> driverController.getHID().getSquareButton() && Shooter.getInstance().getLeftSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT &&
     Shooter.getInstance().getRightSpeed() < ShooterConstants.SOURCE_INTAKE_SPEED_LIMIT && Feeder.getInstance().getTargetState() !=  FeederConstants.NOTE_ADJUSTING).onTrue(new InstantCommand(() -> setSOURCE_INTAKE()));
@@ -293,7 +308,7 @@ public class RobotContainer {
     new Trigger(() -> oporatorController.getHID().getR1Button()).onTrue(new InstantCommand(() -> Arm.getInstance().setTargetState(ArmConstants.AMP)));
     new Trigger(() -> oporatorController.getHID().getTouchpad()).onTrue(new InstantCommand(() -> setIDLE()));
   
-
+    new Trigger(() -> driverController.getHID().getOptionsButton()).onTrue(new InstantCommand(() -> toggleAmpAlign()));
     //new Trigger(() -> Math.abs(oporatorController.getHID().getRightY()) < 0.4).onTrue(new InstantCommand(() -> Arm.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
     //new Trigger(() -> oporatorController.getHID().getPOV() == 270 || oporatorController.getHID().getPOV() == 90).onTrue(new InstantCommand(() -> Feeder.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
     //new Trigger(() -> oporatorController.getHID().getPOV() == 0 || oporatorController.getHID().getPOV() == 180).onTrue(new InstantCommand(() -> Intake.getInstance().setSystemFunctionState(StatesConstants.MANUEL)));
@@ -310,8 +325,13 @@ public class RobotContainer {
     return autoSelector.getSelectedAuto().isPathPlannerAuto();
   }
 
+  public AutoOption getCurrentSelectedAutoOption() {
+    return autoSelector.getSelectedAuto();
+  }
+  
+
   public Command getAutonomousCommand() {
-    //return autoSelector.getSelectedAutoCommand();
-    return AutoBuilder.buildAuto("Midline 3");
+    return autoSelector.getSelectedAutoCommand();
+    //return AutoBuilder.buildAuto("Midline 3");
   }
 }

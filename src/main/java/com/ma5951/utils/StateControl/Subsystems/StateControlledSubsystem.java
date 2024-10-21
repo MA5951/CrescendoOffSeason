@@ -28,6 +28,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
     private LoggedString systemFunctionStateLog;
     private LoggedString targetStateLog;
     private LoggedBool systemCanMoveLog;
+    private String systemName;
     protected MAShuffleboard board;
 
 
@@ -39,7 +40,9 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
         targetStateLog = new LoggedString("/RobotControl/" + name + "/Target State");
         systemCanMoveLog = new LoggedBool("/RobotControl/" + name + "/Can Move");
         board = new MAShuffleboard(name);
-        board.addBoolean("Manuel", false);
+        systemName = name;
+        System.out.println(systemName + " Manuel");
+        board.addBoolean(systemName + " Manuel", false);
 
     }
 
@@ -87,7 +90,7 @@ public abstract class StateControlledSubsystem extends SubsystemBase {
        targetStateLog.update(getTargetState().getName());
        systemCanMoveLog.update(canMove());
 
-       if (board.getBoolean("Manuel")) {
+       if (board.getBoolean(systemName +" Manuel")) {
             setSystemFunctionState(StatesConstants.MANUEL);
        } else {
             setSystemFunctionState(StatesConstants.AUTOMATIC);

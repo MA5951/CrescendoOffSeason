@@ -94,6 +94,10 @@ public class Vision extends SubsystemBase {
     return vision;
   }
 
+  public void resetHeading() {
+    limelight.resetHeading();
+  }
+
   @Override
   public void periodic() {
     limelight.update();

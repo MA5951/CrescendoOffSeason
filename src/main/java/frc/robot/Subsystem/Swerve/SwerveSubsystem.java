@@ -115,6 +115,10 @@ SwerveSubsystem extends SubsystemBase {
     return offsetAngle;
   }
 
+  public void updateOffset(double offset) {
+    offsetAngle = offset;
+  }
+
   public void updateOffset() {
     offsetAngle = getFusedHeading();
   }

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.PortMap;
+import frc.robot.Robot;
 import frc.robot.RobotConstants;
 import frc.robot.RobotControl.SuperStructure;
 
@@ -84,15 +85,23 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
     //|| !isScoring
-    if (!isIntake && !isScoring) {
+    if (DriverStation.isDisabled()) {
+      if (Robot.isStartingPose && RobotConstants.SUPER_STRUCTURE.isNote()) {
+        Green();
+      } else {
+        Red();
+      }
+    } else {
+      if (!isIntake && !isScoring) {
       if (RobotConstants.SUPER_STRUCTURE.isNote() && RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < RobotConstants.DISTANCE_TO_SHOOT) {
         Green();
       } else {
         Red();
       }
-    } 
-    else if (isScoring) {
-      Blink();
+      } 
+      else if (isScoring && RobotConstants.SUPER_STRUCTURE.isNote()) {
+        Blink();
+      }
     }
   }
 }

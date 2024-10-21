@@ -96,7 +96,8 @@ public class TeleopSwerveController extends Command {
       robotSpeeds = new ChassisSpeeds(0 , 0, relativAngleAdjustControllerSpeeds.omegaRadiansPerSecond);
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Relativ Adjust");
-    } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING) {
+    } else if (RobotContainer.currentRobotState == RobotConstants.STATIONARY_SHOOTING || (RobotContainer.currentRobotState == RobotConstants.PRESET_SHOOTING
+    && RobotConstants.SUPER_STRUCTURE.getPRESETParameters().getArmAngle() == RobotConstants.FEEDING_SHOOTING_PARAMETERS.getArmAngle())) {
       xyControllerLog.update("Drive Controller");
       theathControllerLog.update("Odometry Adjust Speaker");
       if (RobotConstants.SUPER_STRUCTURE.getDistanceToTag() < 6) {//4.5
@@ -104,7 +105,7 @@ public class TeleopSwerveController extends Command {
       }
       robotSpeeds = new ChassisSpeeds(0 , 0, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
     } 
-    else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote()){
+    else if (RobotContainer.currentRobotState == RobotConstants.AMP && RobotConstants.SUPER_STRUCTURE.isNote() && RobotContainer.alignForAmp){
       robotSpeeds = new ChassisSpeeds(driveControllerSpeeds.vxMetersPerSecond * 0.5 , driveControllerSpeeds.vyMetersPerSecond * 0.5, angleAdjustControllerSpeeds.omegaRadiansPerSecond);
       driveCommand.updateAngleToLock();
       
