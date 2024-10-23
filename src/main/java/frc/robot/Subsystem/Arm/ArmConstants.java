@@ -19,7 +19,7 @@ import frc.robot.Subsystem.Arm.IOs.ArmIOSim;
 public class ArmConstants {
     public static final double INTAKE_POSE = 11.93;
     public static final double ZERO_POSE = INTAKE_POSE;
-    public static final double AMP_POSE = 131; //Comp - 131//Practic - 138
+    public static final double AMP_POSE = 133.5; //Comp - 131//Practic - 138
     public static final double SOURCE_INTAKE_POSE = 70;//70
 
     public static final double ARM_LENGTH = 0.35;

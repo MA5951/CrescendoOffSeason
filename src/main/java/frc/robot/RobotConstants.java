@@ -44,7 +44,7 @@ public class RobotConstants {
     public static final double DISTANCE_TO_SHOOT = 4.9;//4.5
     public static final double DISTANCE_TO_START_AUTO = 0.1;
 
-    public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(2700, 3800, 45, 0);
+    public static final ShootingParameters FEEDING_SHOOTING_PARAMETERS = new ShootingParameters(2550, 3650, 45, 0);
     public static final ShootingParameters SUBWOOF_SHOOTING_PARAMETERS = new ShootingParameters(2500, 4000, 63, 0);
     public static final ShootingParameters PODIUM_SHOOTING_PARAMETERS = new ShootingParameters(5500, 5500,  36.4 , 3.5);
 
